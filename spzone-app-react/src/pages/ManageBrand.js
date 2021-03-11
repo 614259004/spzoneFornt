@@ -4,6 +4,7 @@ import '../css/ManageBrand.css';
 import * as RiIcons from "react-icons/ri";
 import {Form,Input} from 'antd';
 import * as AiIcons from "react-icons/ai";
+import {storage} from "../firebase";
 import InputImage from '../UploadImageCustomer.js'
 import * as axiosData from '../service/Service';
 /*import logo from '../image/logo.png'*/   
@@ -11,7 +12,9 @@ import * as axiosData from '../service/Service';
 
 
 const ManageBrand = () => {
+    const [showBrand , setShowBrand] = useState([]);
     const [brandData , setBrandData] = useState([]);
+    
     const [brandMode , setBrandMode] = useState();
     const [brandImg , setBrandImg] = useState();
 
@@ -21,6 +24,27 @@ const ManageBrand = () => {
             modal.classList.add("show");
         } else if(status === "close"){
             modal.classList.remove("show");
+        }
+    }
+
+    const uploadFileToFirebase = (file) =>{
+
+        if(brandMode === "add"){
+        const timestamp = Math.floor(Date.now()/1000);
+        const newName = timestamp + "-JRY";
+        const uploadTask = storage.ref(`images/${newName}`).put(file);
+        uploadTask.on(
+            "state_changed",
+            () => {
+                storage.ref("images")
+                    .child(newName)
+                    .getDownloadURL()
+                    .then((url)=>{
+                    console.log(url);
+                    }
+                )
+            }
+        )
         }
     }
 
@@ -78,7 +102,7 @@ const ManageBrand = () => {
             <div id="Modal-Add-Cate" className="Modal-Add-Cate">
                 <div className="Modal-Add-Cate-body">
                     {brandMode === "add" ?<h1>เพิ่มแบรนด์</h1>:<h1>แก้ไขแบรนด์</h1>}
-                    <Form>
+                    <Form onFinish={uploadFileToFirebase}>
                         <div className="input-Cate-Add-img">
                             <img  src={brandImg} />
                             <Input required  type="file" accept="image/*" id="ImgFileBrand" onChange={selectFile} className="ImgAddBrand"/>
@@ -91,7 +115,7 @@ const ManageBrand = () => {
                         <a  className="Close-modal-x-Cate-Add" onClick={() => {manageModal("close")}}><RiIcons.RiCloseLine /></a>
                         <div className="button-Cate-group-Add">
                             <a  className="Close-modal-Cate-Add" onClick={() => {manageModal("close")}}>ยกเลิก</a>
-                            <button  className="Save-Cate-submit-Add">
+                            <button type="submit" className="Save-Cate-submit-Add">
                                 {brandMode==="add"?"เพิ่ม":"บันทึก"}
                             </button>
                         </div>

@@ -5,7 +5,7 @@ import * as RiIcons from "react-icons/ri";
 import {Form,Input} from 'antd';
 import * as AiIcons from "react-icons/ai";
 import {storage} from "../firebase";
-import InputImage from '../UploadImageCustomer.js'
+
 import * as axiosData from '../service/Service';
 /*import logo from '../image/logo.png'*/   
 
@@ -17,6 +17,18 @@ const ManageBrand = () => {
     
     const [brandMode , setBrandMode] = useState();
     const [brandImg , setBrandImg] = useState();
+
+    useEffect(initialValue,[]);
+    function initialValue(){
+        axiosData.showbrand().then(function (data){
+            console.log('test1'+data.sp_brand);
+            setShowBrand(data.sp_brand);
+            setBrandData('');
+            console.log('test2'+showBrand);
+        })
+    }
+
+
 
     const manageModal = (status) => {
         var modal = document.getElementsByClassName('Modal-Add-Cate')[0];
@@ -31,21 +43,36 @@ const ManageBrand = () => {
 
         if(brandMode === "add"){
         const timestamp = Math.floor(Date.now()/1000);
-        const newName = timestamp + "-JRY";
+        const newName = timestamp + "-SPzone";
         const uploadTask = storage.ref(`images/${newName}`).put(file);
+        
         uploadTask.on(
-            "state_changed",
-            () => {
+            
                 storage.ref("images")
                     .child(newName)
                     .getDownloadURL()
                     .then((url)=>{
-                    console.log(url);
+                        
+                        addBrand(url);
                     }
-                )
-            }
+                    )
+        
         )
         }
+    }
+
+    const addBrand = (url) => {
+        
+        var Bdata = {
+            B_name: brandData.B_name,
+            B_image: url
+        };
+
+        axiosData.addbrand(Bdata).then(function (data){
+            console.log(data);
+            manageModal("close");
+            initialValue();
+        })
     }
 
     const manageModalDelete = (status) => {
@@ -62,9 +89,9 @@ const ManageBrand = () => {
     }
 
     const handleChange = (e)=>{
-        console.log(e.target);
         e.persist();
-        setBrandData((prev) => ({ ...prev, [e.target.name]: e.target.value}));
+        setBrandData({...brandData,[e.target.name]: e.target.value});
+        console.log([e.target.name], e.target.value);
     };
 
     const triggerClick = () =>{
@@ -81,12 +108,11 @@ const ManageBrand = () => {
                     <a onClick={() => {setBrandMode("add");manageModal("show")}}><AiIcons.AiOutlinePlusCircle />เพิ่มเเบรนด์</a>
                 </div>
             </div><div className="Brand-card-layout">
-            {BrandData.map((item, index)=>{
-                return(
-                    
-                        <div className="Brand-card" key={index}>
-                            <img src={item.BrandImg} />
-                            <h5>{item.BrandName}</h5>
+            {showBrand!=undefined?showBrand.map((item)=>(
+                
+                        <div className="Brand-card" key={item.B_brandid}>
+                            <img src={item.B_image} />
+                            <h5>{item.B_name}</h5>
                             <div className="button-brand-group">
                                 <a  className="Brand-pen" onClick={() => {setBrandData(item);setBrandMode("edit");manageModal("show")}}><RiIcons.RiPencilFill/>แก้ไข</a>
                                 <a  className="Brand-bin" onClick={() => {setBrandData(item);;manageModalDelete("show")}}><RiIcons.RiDeleteBin7Fill/>ลบ</a>
@@ -94,8 +120,8 @@ const ManageBrand = () => {
                         </div>
 
                     
-                )
-            })} 
+            )):null} 
+
             </div> 
 
             {/*Add modal*/}
@@ -105,11 +131,11 @@ const ManageBrand = () => {
                     <Form onFinish={uploadFileToFirebase}>
                         <div className="input-Cate-Add-img">
                             <img  src={brandImg} />
-                            <Input required  type="file" accept="image/*" id="ImgFileBrand" onChange={selectFile} className="ImgAddBrand"/>
+                            <Input required  type="file" accept="image/*" id="ImgFileBrand" value={brandData.B_image} onChange={selectFile} className="ImgAddBrand" name="B_image"/>
                             <p className="p-name-img-brand" for="ImgFileBrand" onClick={() => {triggerClick()}}>เลือกภาพที่ต้องการ</p>
                         </div>
                         <div className="input-Cate-Add">
-                            <Input required  maxLength='18' onChange={handleChange}/>
+                            <Input required name="B_name" maxLength='18' value={brandData.B_image} onChange={(e)=> handleChange(e)}/>
                             <label>ชื่อ</label>
                         </div>
                         <a  className="Close-modal-x-Cate-Add" onClick={() => {manageModal("close")}}><RiIcons.RiCloseLine /></a>

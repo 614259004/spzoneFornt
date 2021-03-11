@@ -99,3 +99,27 @@ export function deletecate(params){
 
 //-------------------------------------------------------------------------
 //Brand
+
+export function showbrand(){
+    let path = '/brands/showbrand';
+    return axiosMethodGet(path);
+};
+
+export function addbrand(params){
+    console.log(params);
+    let path = '/brands/addbrand';
+    return axiosMethodPost(path,params);
+};
+
+export function updatebrand(params){
+    let path = '/brands/updatebrand/'+params.B_brandid;
+    return axiosMethodPut(path,params);
+};
+
+export function deletebrand(params){
+    let path = '/project/public/Brand/'+params.B_brandid;
+    return axiosMethodPut(path,params);
+};
+
+//-------------------------------------------------------------------------
+//Product

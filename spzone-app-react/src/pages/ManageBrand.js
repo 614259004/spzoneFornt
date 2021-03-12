@@ -12,8 +12,13 @@ import * as axiosData from '../service/Service';
 
 
 const ManageBrand = () => {
+    const initBrand ={
+        B_name:"",
+        B_image:"",
+        B_imageFile:""
+    }
     const [showBrand , setShowBrand] = useState([]);
-    const [brandData , setBrandData] = useState([]);
+    const [brandData , setBrandData] = useState(initBrand);
     
     const [brandMode , setBrandMode] = useState();
     const [brandImg , setBrandImg] = useState();
@@ -23,7 +28,7 @@ const ManageBrand = () => {
         axiosData.showbrand().then(function (data){
             console.log('test1'+data.sp_brand);
             setShowBrand(data.sp_brand);
-            setBrandData('');
+            setBrandData(initBrand);
             console.log('test2'+showBrand);
         })
     }
@@ -39,25 +44,37 @@ const ManageBrand = () => {
         }
     }
 
-    const uploadFileToFirebase = (file) =>{
+    const uploadFileToFirebase = (e) =>{
 
         if(brandMode === "add"){
-        const timestamp = Math.floor(Date.now()/1000);
-        const newName = timestamp + "-SPzone";
-        const uploadTask = storage.ref(`images/${newName}`).put(file);
-        
-        uploadTask.on(
+            const timestamp = Math.floor(Date.now()/1000);
+            const newName = timestamp + "-SPzone";
+            console.log(brandData);
+            const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
             
-                storage.ref("images")
-                    .child(newName)
-                    .getDownloadURL()
-                    .then((url)=>{
-                        
-                        addBrand(url);
-                    }
-                    )
-        
-        )
+            uploadTask.on(
+                "state_changed", 
+                (snapshop) => {
+                const progress = Math.round(
+                    (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                );
+                },
+                (error)=>{
+                    console.log(error);
+                },
+                () => {
+                
+                    storage.ref("images")
+                        .child(newName)
+                        .getDownloadURL()
+                        .then((url)=>{
+                            addBrand(url);
+                        }
+                        )
+                }            
+            )
+        }else if(brandMode === "edit"){
+
         }
     }
 
@@ -67,8 +84,8 @@ const ManageBrand = () => {
             B_name: brandData.B_name,
             B_image: url
         };
-
-        axiosData.addbrand(Bdata).then(function (data){
+        console.log(Bdata.B_image);
+        axiosData.addbrand(Bdata).then((data) =>{
             console.log(data);
             manageModal("close");
             initialValue();
@@ -85,7 +102,9 @@ const ManageBrand = () => {
     }
 
     const selectFile = (e) =>{
-        setBrandImg(URL.createObjectURL(e.target.files[0]))
+        setBrandData({...brandData,B_image:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
+
+        //setBrandData({...brandData,[e.target.name]: e.target.files[0]});
     }
 
     const handleChange = (e)=>{
@@ -128,20 +147,20 @@ const ManageBrand = () => {
             <div id="Modal-Add-Cate" className="Modal-Add-Cate">
                 <div className="Modal-Add-Cate-body">
                     {brandMode === "add" ?<h1>เพิ่มแบรนด์</h1>:<h1>แก้ไขแบรนด์</h1>}
-                    <Form onFinish={uploadFileToFirebase}>
+                    <Form >
                         <div className="input-Cate-Add-img">
-                            <img  src={brandImg} />
-                            <Input required  type="file" accept="image/*" id="ImgFileBrand" value={brandData.B_image} onChange={selectFile} className="ImgAddBrand" name="B_image"/>
+                            <img  src={brandData.B_image} />
+                            <Input required  type="file" accept="image/*" id="ImgFileBrand"  onChange={selectFile} className="ImgAddBrand" name="B_imageFile"/>
                             <p className="p-name-img-brand" for="ImgFileBrand" onClick={() => {triggerClick()}}>เลือกภาพที่ต้องการ</p>
                         </div>
                         <div className="input-Cate-Add">
-                            <Input required name="B_name" maxLength='18' value={brandData.B_image} onChange={(e)=> handleChange(e)}/>
+                            <Input required name="B_name" maxLength='18' value={brandData.B_name} onChange={(e)=> handleChange(e)}/>
                             <label>ชื่อ</label>
                         </div>
-                        <a  className="Close-modal-x-Cate-Add" onClick={() => {manageModal("close")}}><RiIcons.RiCloseLine /></a>
+                        <a  className="Close-modal-x-Cate-Add" onClick={() => {manageModal("close");initialValue()}}><RiIcons.RiCloseLine /></a>
                         <div className="button-Cate-group-Add">
-                            <a  className="Close-modal-Cate-Add" onClick={() => {manageModal("close")}}>ยกเลิก</a>
-                            <button type="submit" className="Save-Cate-submit-Add">
+                            <a  className="Close-modal-Cate-Add" onClick={() => {manageModal("close");initialValue()}}>ยกเลิก</a>
+                            <button type="submit" className="Save-Cate-submit-Add" onClick={(e)=>{uploadFileToFirebase(e)}}>
                                 {brandMode==="add"?"เพิ่ม":"บันทึก"}
                             </button>
                         </div>

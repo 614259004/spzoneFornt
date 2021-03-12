@@ -100,7 +100,7 @@ export function deletecate(params){
 //-------------------------------------------------------------------------
 //Brand
 
-export function showbrand(){
+export const showbrand = () => {
     let path = '/brands/showbrand';
     return axiosMethodGet(path);
 };
@@ -111,7 +111,7 @@ export function addbrand(params){
     return axiosMethodPost(path,params);
 };
 
-export function updatebrand(params){
+export const  updatebrand = (params)=>{
     let path = '/brands/updatebrand/'+params.B_brandid;
     return axiosMethodPut(path,params);
 };

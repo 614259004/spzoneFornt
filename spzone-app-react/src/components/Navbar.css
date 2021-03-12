@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+
+.navbar{
+    
+    height: 80px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.menu-bars-humberger{
+    margin-left: 4rem;
+    font-size: 1.5rem;
+    background: none;
+    color: rgb(34, 34, 34);
+}
+
+.menu-bars-x{
+    margin-left: 4rem;
+    font-size: 2rem;
+    background: none;
+    color: #fff;
+}
+
+.logo-img{
+    width: 120px;
+    margin-left: 500%;
+}
+
+.search-icon{
+    margin-left: 60%;
+    font-size: 1.5rem;
+}
+
+.eng-th{
+    margin-left: 4.5%;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 1s;
+    padding: 10px;
+}
+
+.eng-th:focus{
+    outline: none;
+}
+
+.eng-th option{
+    background-color: #060b26;
+    color: white;
+    opacity: 85%;
+   
+}
+
+#th{
+    font-family: 'Kanit', sans-serif;
+}
+
+.login{
+    margin-left: 4.5%;
+    text-decoration: none;
+    font-size: 18px;
+    color: rgb(34, 34, 34);
+    transition: 1s;
+}
+
+.login:hover{
+    border-bottom: 1px solid #060b26;
+}
+
+.nav-menu{
+    width: 300px;
+    background-color:rgb(34, 34, 34);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: 1s;
+}
+
+.nav-menu.active{
+    left: 0;
+    transition: 350ms;
+}
+
+.nav-text{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 8px 0px 8px 16px;
+    list-style: none;
+    height: 60px;
+}
+
+.nav-text a{
+    text-decoration: none;
+    color: #a1a1a1;
+    font-size: 20px;
+    width: 95%; 
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+    margin-left: 2rem;
+    transition: 0.1s;
+}
+
+.nav-text a:hover{
+    color: #f3f3f3;
+}
+
+.nav-menu-items {
+    width: 100%;
+}
+
+.nav-toggle {
+    background-color: #060b26;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+span{
+    margin-left: 16px;
+
+}
+
+.medie-facebook{
+    margin-left: 5rem;
+    font-size: 1.5rem;
+    background: none;
+    color: #fff;
+    transition: 0.5s;
+}
+
+.medie-ig{
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    background: none;
+    color: #fff;
+    transition: 0.5s;
+}
+
+.medie-facebook:hover,.medie-ig:hover{
+    color: #a1a1a1;
+}
+
+.info-spzone{
+    margin-left: 5rem;
+    list-style: none;
+    font-size: 16px;
+    color: #a1a1a1;
+}
+
+.info-spzone p{
+    padding: 8px 0px;
+    cursor: default;
+}
+
+.line{
+    color: #060b26;
+    border-bottom: 1px solid #a1a1a1;
+    width: 260px;
+    margin-left: 20px;
+}

@@ -10,3 +10,5 @@ export const jsonRegister ={
 export const jsonAddCategory={
     "Cg_name" : null
 }
+
+export const DefaultBrandImg="https://firebasestorage.googleapis.com/v0/b/spzone-fb1ee.appspot.com/o/images%2F1615569715-SPzone?alt=media&token=73f3d6d4-91da-4f44-b521-cf5295b22bac";

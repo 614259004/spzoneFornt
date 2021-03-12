@@ -106,7 +106,7 @@ export const showbrand = () => {
 };
 
 export function addbrand(params){
-    console.log(params);
+    
     let path = '/brands/addbrand';
     return axiosMethodPost(path,params);
 };

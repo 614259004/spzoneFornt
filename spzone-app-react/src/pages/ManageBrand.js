@@ -5,11 +5,10 @@ import * as RiIcons from "react-icons/ri";
 import {Form,Input} from 'antd';
 import * as AiIcons from "react-icons/ai";
 import {storage} from "../firebase";
+import {DefaultBrandImg} from "../const/AllData"
 
 import * as axiosData from '../service/Service';
 /*import logo from '../image/logo.png'*/   
-
-
 
 const ManageBrand = () => {
     const initBrand ={
@@ -26,10 +25,10 @@ const ManageBrand = () => {
     useEffect(initialValue,[]);
     function initialValue(){
         axiosData.showbrand().then(function (data){
-            console.log('test1'+data.sp_brand);
+            
             setShowBrand(data.sp_brand);
             setBrandData(initBrand);
-            console.log('test2'+showBrand);
+           
         })
     }
 
@@ -45,38 +44,69 @@ const ManageBrand = () => {
     }
 
     const uploadFileToFirebase = (e) =>{
-
+        //console.log(brandData.B_imageFile.name);
         if(brandMode === "add"){
-            const timestamp = Math.floor(Date.now()/1000);
-            const newName = timestamp + "-SPzone";
-            console.log(brandData);
-            const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
-            
-            uploadTask.on(
-                "state_changed", 
-                (snapshop) => {
-                const progress = Math.round(
-                    (snapshop.bytesTrans/snapshop.totalBytes) * 100
-                );
-                },
-                (error)=>{
-                    console.log(error);
-                },
-                () => {
+           
                 
-                    storage.ref("images")
-                        .child(newName)
-                        .getDownloadURL()
-                        .then((url)=>{
-                            addBrand(url);
-                        }
-                        )
-                }            
-            )
+                const timestamp = Math.floor(Date.now()/1000);
+                const newName = timestamp + "-SPzone";
+                
+                const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
+                
+                uploadTask.on(
+                    "state_changed", 
+                    (snapshop) => {
+                    const progress = Math.round(
+                        (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                    );
+                    },
+                    (error)=>{
+                        console.log(error);
+                    },
+                    () => {
+                    
+                        storage.ref("images")
+                            .child(newName)
+                            .getDownloadURL()
+                            .then((url)=>{
+                                addBrand(url);
+                            }
+                            )
+                    }            
+                )
+            
         }else if(brandMode === "edit"){
-
+            
+                const timestamp = Math.floor(Date.now()/1000);
+                const newName = timestamp + "-SPzone";
+                
+                const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
+                
+                uploadTask.on(
+                    "state_changed", 
+                    (snapshop) => {
+                    const progress = Math.round(
+                        (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                    );
+                    },
+                    (error)=>{
+                        console.log(error);
+                    },
+                    () => {
+                    
+                        storage.ref("images")
+                            .child(newName)
+                            .getDownloadURL()
+                            .then((url)=>{
+                                editBrand(url);
+                            }
+                            )
+                    }            
+                )
+            
         }
     }
+
 
     const addBrand = (url) => {
         
@@ -84,9 +114,22 @@ const ManageBrand = () => {
             B_name: brandData.B_name,
             B_image: url
         };
-        console.log(Bdata.B_image);
+        
         axiosData.addbrand(Bdata).then((data) =>{
-            console.log(data);
+            
+            manageModal("close");
+            initialValue();
+        })
+    }
+
+    const editBrand = () => {
+        var Bdata = {
+            B_brandid:brandData.B_brandid,
+            B_name: brandData.B_name,
+            B_image: brandData.B_image
+        };
+        axiosData.updatebrand(Bdata).then((data) =>{
+            
             manageModal("close");
             initialValue();
         })
@@ -103,19 +146,21 @@ const ManageBrand = () => {
 
     const selectFile = (e) =>{
         setBrandData({...brandData,B_image:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
-
+    
         //setBrandData({...brandData,[e.target.name]: e.target.files[0]});
     }
 
     const handleChange = (e)=>{
         e.persist();
         setBrandData({...brandData,[e.target.name]: e.target.value});
-        console.log([e.target.name], e.target.value);
+        
     };
 
     const triggerClick = () =>{
         document.querySelector('#ImgFileBrand').click();
     }
+
+    
 
     
     return (
@@ -147,7 +192,7 @@ const ManageBrand = () => {
             <div id="Modal-Add-Cate" className="Modal-Add-Cate">
                 <div className="Modal-Add-Cate-body">
                     {brandMode === "add" ?<h1>เพิ่มแบรนด์</h1>:<h1>แก้ไขแบรนด์</h1>}
-                    <Form >
+                    <Form novalidate>
                         <div className="input-Cate-Add-img">
                             <img  src={brandData.B_image} />
                             <Input required  type="file" accept="image/*" id="ImgFileBrand"  onChange={selectFile} className="ImgAddBrand" name="B_imageFile"/>

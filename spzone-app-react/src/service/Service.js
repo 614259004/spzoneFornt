@@ -117,9 +117,54 @@ export const  updatebrand = (params)=>{
 };
 
 export function deletebrand(params){
-    let path = '/project/public/Brand/'+params.B_brandid;
+    let path = '/brands/updatestatusbrand/'+params.B_brandid;
     return axiosMethodPut(path,params);
 };
 
 //-------------------------------------------------------------------------
 //Product
+
+export const showproduct = () => {
+    let path = '/products/showproduct';
+    return axiosMethodGet(path);
+};
+
+export const addproduct = (params) => {
+    let path = '/products/addproduct';
+    return axiosMethodPost(path,params);
+};
+
+export const editproduct = (params,id) => {
+    let path = '/products/updateproduct/'+id;
+    return axiosMethodPut(path,params);
+};
+
+//-------------------------------------------------------------------------
+//Product size
+export const showsize = (params) => {
+    let path = '/products/showproductandsize/'+params.P_productid;
+    return axiosMethodGet(path,params);
+};
+
+export const addsize = (params) => {
+    let path = '/products/addsize';
+    return axiosMethodPost(path,params);
+};
+
+export const showallsize = () => {
+    let path = '/products/showsize';
+    return axiosMethodGet(path);
+};
+
+export const updateamountsize = (params,id) => {
+    console.log(params);
+    let path = '/products/updatesize/'+id;
+    return axiosMethodPut(path,params);
+};
+
+export const deletesize = (params) => {
+    let path = '/products/deletesize';
+    return axiosMethodPost(path,params);
+};
+
+//-------------------------------------------------------------------------

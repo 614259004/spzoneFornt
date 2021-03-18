@@ -1,12 +1,9 @@
 import React,{useState , useEffect} from 'react';
-import {BrandData} from '../components/BrandData';
 import '../css/ManageBrand.css';
 import * as RiIcons from "react-icons/ri";
 import {Form,Input} from 'antd';
 import * as AiIcons from "react-icons/ai";
 import {storage} from "../firebase";
-import {DefaultBrandImg} from "../const/AllData"
-
 import * as axiosData from '../service/Service';
 /*import logo from '../image/logo.png'*/   
 
@@ -20,8 +17,8 @@ const ManageBrand = () => {
     const [brandData , setBrandData] = useState(initBrand);
     
     const [brandMode , setBrandMode] = useState();
-    const [brandImg , setBrandImg] = useState();
-
+    
+    
     useEffect(initialValue,[]);
     function initialValue(){
         axiosData.showbrand().then(function (data){
@@ -98,6 +95,7 @@ const ManageBrand = () => {
                             .child(newName)
                             .getDownloadURL()
                             .then((url)=>{
+                                
                                 editBrand(url);
                             }
                             )
@@ -122,11 +120,11 @@ const ManageBrand = () => {
         })
     }
 
-    const editBrand = () => {
+    const editBrand = (url) => {
         var Bdata = {
             B_brandid:brandData.B_brandid,
             B_name: brandData.B_name,
-            B_image: brandData.B_image
+            B_image: url
         };
         axiosData.updatebrand(Bdata).then((data) =>{
             
@@ -144,7 +142,19 @@ const ManageBrand = () => {
         }
     }
 
+    const onFinish01 = () => {
+
+        axiosData.deletebrand(brandData).then(function (data){
+            console.log(data);
+            manageModalDelete("close");
+            setBrandData('');
+            initialValue();
+        })
+    }
+
     const selectFile = (e) =>{
+        console.log(e.target.files[0]);
+        console.log(brandData.B_image);
         setBrandData({...brandData,B_image:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
     
         //setBrandData({...brandData,[e.target.name]: e.target.files[0]});
@@ -217,10 +227,10 @@ const ManageBrand = () => {
             {/*Delete modal*/}
             <div id="Modal-Delete-Cate" className="Modal-Delete-Cate">
                 <div className="Modal-Delete-Cate-body">
-                    <h4>คุณต้องการจะลบแบรนด์ใช่หรือไม่</h4>
+                    <h4>คุณต้องการจะลบแบรนด์ {brandData.B_name}  ใช่หรือไม่</h4>
                     <div className="button-Cate-group-Delete">
                             <a onClick={() => {manageModalDelete("close")}} className="Close-modal-Cate-Delete">ไม่ใช่</a>
-                            <button  className="Save-Cate-submit-Delete">
+                            <button  className="Save-Cate-submit-Delete" onClick={()=> {onFinish01()}}>
                                 ใช่
                             </button>
                     </div>

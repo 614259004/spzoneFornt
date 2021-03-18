@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400&display=swap');
 .brand-body-page{
     margin-left: 24%;
     margin-top: 5%;
@@ -346,6 +347,7 @@
     background: rgba(216, 216, 216, 0.75);
     display: block;
     opacity: 1;
+    transition: .5s;
 }
 
 #Modal-Add-Cate .Modal-Add-Cate-body{
@@ -494,6 +496,7 @@
 .Modal-Delete-Cate.show{
     display: block;
     opacity: 1;
+    transition: .5s;
 }
 
 
@@ -620,15 +623,17 @@
 }
 
 .Size-layout{
-    display: flex;
-    margin-left: -25px;
-    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+    width: 100%;
     cursor: default;
+    margin-top: 20px;
 }
 
 .size-product{
     text-align: center;
-    margin-left: 25px;
+   
 }
 
 .Product-card .Product-info-admin{
@@ -638,6 +643,7 @@
 .Product-card .Product-name-group{
     margin-left: 25px;
     text-align: left;
+    cursor: default;
 }
 
 .Product-card .Product-name-group h5{
@@ -712,103 +718,7 @@
     transition: .4s;
 }
 
-/* add product*/
-.Card-Add-Product{
-    width: 87%;
-    margin-top: 30px;
-    padding: 25px;
-    border-radius: 24px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-}
 
-.Card-Add-Product Form{
-    width: 100%;
-}
-
-.Card-Add-Product Form h1{
-    text-align: center;
-}
-
-.Card-Add-Product Form .form-input-add-product{
-    display: flex;
-    width: 100%;
-}
-
-.Card-Add-Product Form .form-input-add-product .page-add-product{
-    width: 33.33%;
-    padding: 25px;
-}
-
-.input-add-product{
-    margin-top: 15px;
-}
-
-.input-add-product label{
-    color: silver;
-}
-
-.input-add-product input{
-    width: 100%;
-    padding: 8px;
-    font-size: 20px;
-    border-radius: 24px;
-    border: 2px solid silver;
-}
-
-.input-add-product select{
-    width: 107%;
-    padding: 8px;
-    font-size: 18px;
-    border-radius: 24px;
-    border: 2px solid silver;
-}
-
-.input-add-product input:focus{
-    outline: none;
-}
-
-.input-add-product select:focus{
-    outline: none;
-}
-
-.Product-add-button-group{
-    width: 100%;
-    text-align: center;
-    margin-top: 3%;
-}
-
-.Product-add-button-group a{
-    cursor: pointer;
-    color: silver;
-    font-size: 16px;
-    transition: .4s;
-}
-
-.Product-add-button-group a:hover{
-    color: rgb(39, 39, 39);
-}
-
-.Product-add-button-group button{
-    background: none;
-    color: silver;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-family: 'Prompt', sans-serif;
-    margin-left: 50px;
-    padding: 10px;
-    transition: .4s;
-    border-radius: 24px;
-}
-
-.Product-add-button-group button:hover{
-    background: rgb(20, 20, 20);
-    color: white;
-    border-radius: 24px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-}
-
-/* add product*/
 
 
 /*input file Brand Img Add*/
@@ -833,3 +743,920 @@
 }
 
 /*input file Brand Img Add*/
+
+
+/*Product Modal*/
+.Modal-Add-Product{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: none;
+    opacity: 0;
+}
+
+.Modal-Add-Product.show{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+.Modal-Add-Product-body{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    width:600px;
+    background: #fff;
+    padding: 10px 20px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+    text-align: center;
+    border-radius: 24px;
+}
+
+.Add-From-Product{
+    margin-top: 20px;
+}
+
+.Add-From-Product input{
+    outline: none;
+}
+
+.Add-From-Product .NameAndPrice{
+    display: flex;
+    text-align: left;
+    width: 100%;
+    /*background: red;*/
+}
+
+.Add-From-Product .ProductInfo{
+    display: flex;
+    text-align: left;
+    width: 100%;
+}
+
+.Add-From-Product .CateAndBrand{
+    display: flex;
+    text-align: left;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.Add-From-Product .PromotionProduct{
+    display: flex;
+    text-align: left;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.Add-From-Product .PromotionProduct .Promo-From-add{
+    width: 80%;
+    margin-left: 7%;
+}
+
+.PromotionProduct .Promo-From-add input{
+    width: 100%;
+    border: 2px solid rgb(211, 211, 211);
+    font-size: 18px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    transition: .4s; 
+}
+
+.Promo-From-add input:focus,
+.Promo-From-add input:valid{
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.PromotionProduct .Promo-From-add p{
+    font-size: 14px;
+    background-color: white;
+    position: absolute; 
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    margin-top: -10px;   
+    color: rgb(39, 39, 39); 
+}
+
+.Add-From-Product .CateAndBrand .Cate-From-add{
+    width: 35%;
+    margin-left: 7%;
+}
+
+.Cate-From-add select{
+    width: 100%;
+    border: 2px solid rgb(211, 211, 211);
+    font-size: 18px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    transition: .4s;
+    font-family: 'Prompt', sans-serif;
+    cursor: pointer;
+}
+
+.Cate-From-add select:focus,
+.Cate-From-add select:valid{
+    outline: none;
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.Cate-From-add p{
+    font-size: 14px;
+    background-color: white;
+    position: absolute; 
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    margin-top: -10px;   
+    color: rgb(39, 39, 39); 
+}
+
+.Add-From-Product .CateAndBrand .Brand-From-add{
+    width: 33%;
+    margin-left: 15%;
+}
+
+.x-add-product-from{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: silver;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.x-add-product-from:hover{
+    color: rgb(39, 39, 39);
+}
+
+.Brand-From-add select{
+    width: 100%;
+    border: 2px solid rgb(211, 211, 211);
+    font-size: 18px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    transition: .4s;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+}
+
+.Brand-From-add select:focus,
+.Brand-From-add select:valid{
+    outline: none;
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.Brand-From-add p{
+    font-size: 14px;
+    background-color: white;
+    position: absolute; 
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    margin-top: -10px;   
+    color: rgb(39, 39, 39); 
+}
+
+.Add-From-Product .NameAndPrice .Product-from-add{
+    width: 50%;
+    margin-left: 7%;
+}
+
+.Add-From-Product .ProductInfo .Info-from-add{
+    width: 80%;
+    margin-left: 7%;
+    margin-top: 20px;
+}
+
+.Info-from-add input{
+    width: 100%;
+    border: 2px solid rgb(211, 211, 211);
+    font-size: 18px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    transition: .4s;    
+}
+
+.Info-from-add p{
+    font-size: 14px;
+    background-color: white;
+    position: absolute; 
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    margin-top: -10px;   
+    color: rgb(39, 39, 39);   
+}
+
+.Product-from-add input{
+    width: 100%;
+    border: 2px solid rgb(211, 211, 211);
+    font-size: 18px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    transition: .4s;
+}
+
+.Product-from-add input:focus,
+.Product-from-add input:valid{
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.Info-from-add input:focus,
+.Info-from-add input:valid{
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.Price-from-add input{
+    width: 100%;
+    border: 2px solid rgb(211, 211, 211);
+    font-size: 18px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 7px;
+    transition: .4s;
+}
+
+.Price-from-add input:focus,
+.Price-from-add input:valid{
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.Price-from-add p{
+    font-size: 14px;
+    background-color: white;
+    position: absolute; 
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    margin-top: -10px;   
+    color: rgb(39, 39, 39);
+}
+
+.Product-from-add p{
+    font-size: 14px;
+    background-color: white;
+    position: absolute; 
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    margin-top: -10px;   
+    color: rgb(39, 39, 39);
+}
+
+.Add-From-Product .NameAndPrice .Price-from-add{
+    width: 20%;
+    margin-left: 10%;
+}
+
+.Image-Product-Group{
+    display: flex;
+}
+
+.Image-Product-Group .Product-Img-Add{
+    width: 25%;
+    margin-left: 6%;
+    margin-top: 30px;
+}
+
+.Product-Img-Add input{
+    display: none;
+}
+
+.Product-Img-Add p{
+    border: 2px solid rgb(211, 211, 211);
+    cursor: pointer;
+    color: rgb(151, 151, 151);
+    padding: 10px;
+    border-radius: 7px;
+    transition: 0.4s;
+}
+
+.Product-Img-Add p:hover{
+    background-color: rgb(39, 39, 39);
+    border: 2px solid rgb(39, 39, 39);
+    color: white;
+}
+
+.Button-group-add-pro{
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    
+}
+
+.Button-group-add-pro .cancle-add-pro{
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 16px;
+    background: none;
+    border: none;
+    font-family: 'Prompt', sans-serif;
+    color: rgb(151, 151, 151);
+    transition: .4s;
+}
+
+.cancle-add-pro:hover{
+    color: rgb(39, 39, 39);
+    font-weight: 500;
+}
+
+.cancle-add-pro:focus,
+.Ok-add-pro:focus{
+    outline: none;
+}
+
+.Button-group-add-pro .Ok-add-pro{
+    margin-left: 50px;
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 16px;
+    background: none;
+    border: none;
+    color: rgb(151, 151, 151);
+    transition: .4s;
+    font-family: 'Prompt', sans-serif;
+    border-radius: 24px;
+}
+
+.Ok-add-pro:hover{
+    background-color: rgb(39, 39, 39);
+    border-radius: 24px;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.Product-Img-Add img{
+    width: 150px;
+}
+/*Product Modal*/
+
+
+/*Product Modal*/
+.Modal-Info-Pro{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: none;
+    opacity: 0;
+}
+
+.Modal-Info-Pro.show{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+.Modal-Info-Pro-body{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    width:800px;
+    background: rgb(247, 247, 247);
+    padding: 35px 20px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+    text-align: center;
+    border-radius: 24px;
+}
+
+.Info-Product-Box{
+    display: flex;
+}
+
+.Product-Group-layout{
+    width: 50%;
+}
+
+ .Product-Group-layout #firstImg{
+    width:350px;
+    height: 350px;
+    border-radius: 8px;
+    transition: .4s;
+    cursor: pointer;
+}
+
+.Product-Group-layout #firstImg:hover{
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+ .Product-Group-layout .Group-II-Img{
+    display: flex;
+   margin-left: 25px;
+   margin-top: 15px;
+}
+
+.Product-Group-layout .Group-II-Img img{
+    width: 70px;
+    height: 70px;
+    margin-left: 25px;
+    border-radius: 8px;
+    transition: .4s;
+    
+    cursor: pointer;
+}
+
+.Product-Group-layout .Group-II-Img img:hover{
+    
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.Product-Group-layout-II{
+    padding: 0px 20px;
+    text-align: left;
+    width: 50%;
+}
+
+.Product-Group-layout-II #Product-price{
+   font-size: 22px;
+   font-family: 'Oswald', sans-serif;
+}
+
+.BrandAndCate-InfoPro{
+    
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: rgb(141, 141, 141);
+    cursor: default;
+}
+
+.InfoPro-Cate{
+    display: flex; 
+}
+
+.InfoPro-Cate p{
+    margin-left: 15px;
+}
+
+.InfoPro-Brand{
+    display: flex;
+    margin-top: 10px;
+}
+
+.InfoPro-Brand p{
+    margin-left: 15px;
+}
+
+.Size-Pro-Info-group{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.Size-button-InfoPro{
+    text-align: center;
+    color: rgb(141, 141, 141);
+    cursor: pointer;
+    transition: .4s;
+    height: 60px;
+    width: 100%;
+}
+
+.Size-button-InfoPro label{
+    cursor: pointer;
+}
+
+.Size-button-InfoPro:hover{
+    color: rgb(32, 32, 32);
+}
+
+.button-InfoPro-Group{
+    width: 100%;
+}
+
+.button-InfoPro-Group button{
+    width: 100%;
+    font-family: 'Prompt', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    height: 40px;
+    color: rgb(141, 141, 141);
+    border-radius: 24px;
+    border: none;
+    background: none;
+    transition: .4s;
+}
+
+.button-InfoPro-Group button:hover{
+    background: rgb(32, 32, 32);
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.button-InfoPro-Group button:focus{
+    outline: none;
+}
+
+.Name-ProInfo-h1{
+    font-size: 40px;
+    cursor: default;
+}
+
+.Pid-ProInfo-lb{
+    color: rgb(141, 141, 141);
+}
+
+.Pdetail-ProInfo-p{
+    color: rgb(141, 141, 141);
+    cursor: default;
+}
+
+.Jamnun-ProInfo{
+    color: rgb(141, 141, 141);
+}
+
+.Add-Size-button-ProInfo{
+    width: 40%;
+    padding-right: 35px;
+    text-align: right;
+   padding-top: 10px;
+}
+
+.Add-Size-button-ProInfo a{
+    cursor: pointer;
+    color: rgb(141, 141, 141);
+    transition: .4s;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 24px;
+}
+
+.Add-Size-button-ProInfo a:hover{
+    color: white;
+    background-color: rgb(32, 32, 32);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.button-brand-group-product{
+    text-align: left;
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+.button-brand-group-product a{
+    color: rgb(179, 179, 179);
+    font-size: 14px;
+    cursor: pointer;
+    transition: .5s;
+    text-decoration: none;
+}
+
+.button-brand-group-product a:hover{
+    color: rgb(32, 32, 32);
+}
+/*Product Modal*/
+
+/*Size Add Modal*/
+.Modal-Add-Size-Product{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: none;
+    opacity: 0;
+}
+
+.Modal-Add-Size-Product.show{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+.Modal-Add-Size-Product-body{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    width: 300px;
+    background: #fff;
+    padding: 20px 20px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+    text-align: center;
+    border-radius: 24px;
+}
+
+.Modal-Add-Size-Product-body h1{
+    cursor: default;
+}
+
+.Modal-Add-Size-Product-body  .size-input-group{
+    width: 100%;
+    margin-top: 24px;
+}
+
+.Modal-Add-Size-Product-body  .size-input-group input{
+    width: 70%;
+    padding: 10px 20px;
+    font-size: 20px;
+    border: 1.5px solid silver;
+    border-radius: 7px;
+    transition: .4s;
+}
+
+.Modal-Add-Size-Product-body  .size-input-group input:focus,
+.Modal-Add-Size-Product-body  .size-input-group input:valid{
+    outline: none;
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.Modal-Add-Size-Product-body  .size-input-group input:focus ~ p,
+.Modal-Add-Size-Product-body  .size-input-group input:valid ~ p{
+    color: rgb(39, 39, 39);
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.Modal-Add-Size-Product-body  .size-input-group p{
+    position: absolute;
+    left: 63px;
+    pointer-events: none;
+    bottom: 108px;
+    font-size: 20px;
+    color: silver;
+    background: white;
+    transition: .4s;
+}
+
+#Size-input{
+    bottom: 165px;
+}
+
+#Size-input-amount{
+    bottom: 95px;
+}
+
+.size-button-group{
+    width: 100%;
+    margin-top: 25px;
+}
+
+.size-button-group a{
+    color: silver;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.size-button-group a:hover{
+    color: rgb(32, 32, 32);
+}
+
+.size-button-group button{
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+    font-size: 16px;
+    transition: .4s;
+    margin-left: 40px;
+    padding: 10px 20px;
+    border-radius: 24px;
+    color: silver;
+}
+.size-button-group button:focus{
+    outline: none;
+}
+
+.size-button-group button:hover{
+    background: rgb(39, 39, 39);
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.Add-size-amount{
+    margin-left: 20px;
+}
+
+.bin-in-size-Proinfo{
+    background-color: rgba(32, 32, 32, 0.836);
+    padding: 2px 6px;
+  width: 30%;
+    border-radius: 7px;
+    margin-left: 25%;
+    color: rgba(243, 243, 243, 0.877);
+    opacity: 0;
+    font-size: 14px;
+}
+
+.bin-in-size-Proinfo.show{
+    opacity: 1;
+    transition: .5s;
+}
+
+.Size-layout-ProInfo{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+    width: 100%;
+    row-gap: 12px;
+}
+
+/*Size Add Modal*/
+
+/*Size Del Modal*/
+.Modal-Delete-Size{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: none;
+    opacity: 0;
+}
+
+.Modal-Delete-Size.show{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+/*Size Del Modal*/
+/*Size Add amount Modal*/
+.Modal-Add-Amount-Size{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: none;
+    opacity: 0;
+}
+.Modal-Add-Amount-Size.show{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 216, 216, 0.75);
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+
+
+.Modal-Add-Amount-Size-body{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    width: 300px;
+    background: #fff;
+    padding: 20px 20px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+    text-align: center;
+    border-radius: 24px;
+}
+
+.Modal-Add-Amount-Size-body h1{
+    margin-bottom: 10px;
+}
+
+.inputdata-Add-amount-Proinfo{
+    width: 80%;
+    text-align: left;
+    margin-left: 10%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.inputdata-Add-amount-Proinfo select{
+    width: 100%;
+    height: 45px;
+    padding-left: 8px;
+    border: 2px solid rgb(211, 211, 211);
+    border-radius: 7px;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+}
+
+.inputdata-Add-amount-Proinfo select:focus,
+.inputdata-Add-amount-Proinfo input:focus{
+    outline: none;
+}
+
+.inputdata-Add-amount-Proinfo input{
+    width: 95%;
+    height: 40px;
+    padding-left: 8px;
+    border: 2px solid rgb(211, 211, 211);
+    border-radius: 7px;
+    font-size: 18px;
+    font-family: 'Prompt', sans-serif;
+}
+
+.inputdata-Add-amount-Proinfo input:focus,
+.inputdata-Add-amount-Proinfo input:valid,
+.inputdata-Add-amount-Proinfo select:focus,
+.inputdata-Add-amount-Proinfo select:valid{
+    border: 2px solid rgb(32, 32, 32);
+}
+
+.inputdata-Add-amount-Proinfo p{
+    margin-left: 8px;
+    position: absolute;
+    background-color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#select-size-Add-amount{
+    bottom: 178px;
+}
+
+#input-Pro-Add-amount{
+    bottom: 115px;
+}
+
+.button-Pro-group-Delete-Amount{
+    width: 100%;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.button-Pro-group-Delete-Amount a{
+    cursor: pointer;
+    color: rgb(211, 211, 211);
+    transition: .4s;
+}
+
+.button-Pro-group-Delete-Amount button{
+    margin-left: 20px;
+    padding: 4px 15px;
+    background: none;
+    border-radius: 24px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Prompt', sans-serif;
+    font-size: 16px;
+    color: rgb(211, 211, 211);
+    transition: .4s;
+}
+
+.button-Pro-group-Delete-Amount a:hover{
+    color:rgb(32, 32, 32) ;
+}
+
+.button-Pro-group-Delete-Amount button:hover{
+    background-color:rgb(32, 32, 32) ;
+    color: white;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+}
+/*Size Add amount Modal*/

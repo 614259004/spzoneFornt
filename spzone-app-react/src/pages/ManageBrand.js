@@ -3,9 +3,12 @@ import '../css/ManageBrand.css';
 import * as RiIcons from "react-icons/ri";
 import {Form,Input} from 'antd';
 import * as AiIcons from "react-icons/ai";
+import * as IoIcons5 from "react-icons/io5";
+import * as IoIcons from "react-icons/io";
 import {storage} from "../firebase";
 import * as axiosData from '../service/Service';
-/*import logo from '../image/logo.png'*/   
+/*import logo from '../image/logo.png'*/  
+import { Preloader, Puff } from 'react-preloader-icon'; 
 
 const ManageBrand = () => {
     const initBrand ={
@@ -15,8 +18,10 @@ const ManageBrand = () => {
     }
     const [showBrand , setShowBrand] = useState([]);
     const [brandData , setBrandData] = useState(initBrand);
-    
+    const [loading, setLoading] = useState(false);
+    const [buttonWork, setButtonWork] = useState(true);
     const [brandMode , setBrandMode] = useState();
+    const [brandUpdateStaffData , setBrandUpdateStaffData] = useState(initBrand);
     
     
     useEffect(initialValue,[]);
@@ -27,8 +32,14 @@ const ManageBrand = () => {
             setBrandData(initBrand);
            
         })
+        
     }
 
+
+    var textError = document.getElementsByClassName('CheckDuplicateCateName')[0];
+    var textError02 = document.getElementsByClassName('CheckDuplicateCateName02')[0];
+    var textError05 = document.getElementsByClassName('CheckDuplicateCateName05')[0];
+    var textError06 = document.getElementsByClassName('CheckDuplicateCateName06')[0];
 
 
     const manageModal = (status) => {
@@ -42,66 +53,79 @@ const ManageBrand = () => {
 
     const uploadFileToFirebase = (e) =>{
         //console.log(brandData.B_imageFile.name);
-        if(brandMode === "add"){
-           
-                
-                const timestamp = Math.floor(Date.now()/1000);
-                const newName = timestamp + "-SPzone";
-                
-                const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
-                
-                uploadTask.on(
-                    "state_changed", 
-                    (snapshop) => {
-                    const progress = Math.round(
-                        (snapshop.bytesTrans/snapshop.totalBytes) * 100
-                    );
-                    },
-                    (error)=>{
-                        console.log(error);
-                    },
-                    () => {
+        if(brandData === "" || brandData.B_name === "" || brandData.B_imageFile === ""){
+            if(brandData.B_name === ""){
+                textError06.classList.remove("Hide");
+            }
+            if(brandData.B_imageFile === "" ){
+                textError05.classList.remove("Hide");
+            }
+        }else{
+            if(brandMode === "add"){
+            
                     
-                        storage.ref("images")
-                            .child(newName)
-                            .getDownloadURL()
-                            .then((url)=>{
-                                addBrand(url);
-                            }
-                            )
-                    }            
-                )
-            
-        }else if(brandMode === "edit"){
-            
-                const timestamp = Math.floor(Date.now()/1000);
-                const newName = timestamp + "-SPzone";
-                
-                const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
-                
-                uploadTask.on(
-                    "state_changed", 
-                    (snapshop) => {
-                    const progress = Math.round(
-                        (snapshop.bytesTrans/snapshop.totalBytes) * 100
-                    );
-                    },
-                    (error)=>{
-                        console.log(error);
-                    },
-                    () => {
+                    const timestamp = Math.floor(Date.now()/1000);
+                    const newName = timestamp + "-SPzone";
                     
-                        storage.ref("images")
-                            .child(newName)
-                            .getDownloadURL()
-                            .then((url)=>{
-                                
-                                editBrand(url);
-                            }
-                            )
-                    }            
-                )
-            
+                    const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
+                    
+                    uploadTask.on(
+                        "state_changed", 
+                        (snapshop) => {
+                        const progress = Math.round(
+                            (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                        );
+                        },
+                        (error)=>{
+                            console.log(error);
+                        },
+                        () => {
+                        
+                            storage.ref("images")
+                                .child(newName)
+                                .getDownloadURL()
+                                .then((url)=>{
+                                    addBrand(url);
+                                }
+                                )
+                        }            
+                    )
+                
+            }else if(brandMode === "edit"){
+                if(brandData.B_image != brandUpdateStaffData.B_image){
+                    const timestamp = Math.floor(Date.now()/1000);
+                    const newName = timestamp + "-SPzone";
+                    
+                    const uploadTask = storage.ref(`images/${newName}`).put(brandData.B_imageFile);
+                    
+                    uploadTask.on(
+                        "state_changed", 
+                        (snapshop) => {
+                        const progress = Math.round(
+                            (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                        );
+                        },
+                        (error)=>{
+                            console.log(error);
+                        },
+                        () => {
+                        
+                            storage.ref("images")
+                                .child(newName)
+                                .getDownloadURL()
+                                .then((url)=>{
+                                    
+                                    editBrand(url);
+                                }
+                                )
+                        }            
+                    )
+                }else if(brandData.B_image === brandUpdateStaffData.B_image){
+                    editBrand(brandData.B_image);
+                    
+                }
+                
+            }
         }
     }
 
@@ -117,7 +141,15 @@ const ManageBrand = () => {
             
             manageModal("close");
             initialValue();
+            hideError();
         })
+    }
+
+    const hideError =()=>{
+        textError.classList.add("Hide");
+        textError02.classList.add("Hide");
+        textError05.classList.add("Hide");
+        textError06.classList.add("Hide");
     }
 
     const editBrand = (url) => {
@@ -126,12 +158,14 @@ const ManageBrand = () => {
             B_name: brandData.B_name,
             B_image: url
         };
-        axiosData.updatebrand(Bdata).then((data) =>{
+        axiosData.updatebrand(Bdata).then(() =>{
             
             manageModal("close");
             initialValue();
+            hideError();
         })
     }
+
 
     const manageModalDelete = (status) => {
         var modal = document.getElementsByClassName('Modal-Delete-Cate')[0];
@@ -141,6 +175,7 @@ const ManageBrand = () => {
             modal.classList.remove("show");
         }
     }
+    
 
     const onFinish01 = () => {
 
@@ -155,14 +190,76 @@ const ManageBrand = () => {
     const selectFile = (e) =>{
         console.log(e.target.files[0]);
         console.log(brandData.B_image);
+        textError05.classList.add("Hide");
         setBrandData({...brandData,B_image:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
-    
+        setButtonWork(true);
         //setBrandData({...brandData,[e.target.name]: e.target.files[0]});
     }
 
     const handleChange = (e)=>{
         e.persist();
         setBrandData({...brandData,[e.target.name]: e.target.value});
+
+        textError.classList.add("Hide");
+        textError02.classList.add("Hide");
+        
+        textError06.classList.add("Hide");
+        
+        if(brandMode === "add"){
+            if(e.target.value.length >= 3){
+
+                setLoading(true);
+                
+                    var cateRecheck = {
+                        name:e.target.value,
+                        table_name:"sp_brand"
+                    };
+                    axiosData.checkDataDuplicate(cateRecheck).then(function (ToF){
+                    
+                        const result = ToF
+                        console.log(result);
+                        
+                        if(result === true){
+                            setLoading(false);
+                            setButtonWork(false);
+                            textError.classList.remove("Hide");                 
+                        }else{
+                            setLoading(false);
+                            setButtonWork(true);
+                            textError02.classList.remove("Hide");
+                        }
+                    })
+                
+            }
+        }else{
+            if(e.target.value != brandData.B_name){
+                if(e.target.value.length >= 3){
+
+                    setLoading(true);
+                    
+                        var BrandRecheck = {
+                            name:e.target.value,
+                            table_name:"sp_brand"
+                        };
+                        axiosData.checkDataDuplicate(BrandRecheck).then(function (ToF){
+                        
+                            const result = ToF
+                            console.log(result);
+                            
+                            if(result === true){
+                                setLoading(false);
+                                setButtonWork(false);
+                                textError.classList.remove("Hide");                 
+                            }else{
+                                setLoading(false);
+                                setButtonWork(true);
+                                textError02.classList.remove("Hide");
+                            }
+                        })
+                    
+                }
+            }
+        }
         
     };
 
@@ -188,8 +285,8 @@ const ManageBrand = () => {
                             <img src={item.B_image} />
                             <h5>{item.B_name}</h5>
                             <div className="button-brand-group">
-                                <a  className="Brand-pen" onClick={() => {setBrandData(item);setBrandMode("edit");manageModal("show")}}><RiIcons.RiPencilFill/>แก้ไข</a>
-                                <a  className="Brand-bin" onClick={() => {setBrandData(item);;manageModalDelete("show")}}><RiIcons.RiDeleteBin7Fill/>ลบ</a>
+                                <a  className="Brand-pen" onClick={() => {setBrandData(item);setBrandUpdateStaffData(item);setBrandMode("edit");manageModal("show")}}><RiIcons.RiPencilFill/>แก้ไข</a>
+                                <a  className="Brand-bin" onClick={() => {setBrandData(item);manageModalDelete("show")}}><RiIcons.RiDeleteBin7Fill/>ลบ</a>
                             </div>
                         </div>
 
@@ -205,19 +302,43 @@ const ManageBrand = () => {
                     <Form novalidate>
                         <div className="input-Cate-Add-img">
                             <img  src={brandData.B_image} />
-                            <Input required  type="file" accept="image/*" id="ImgFileBrand"  onChange={selectFile} className="ImgAddBrand" name="B_imageFile"/>
+                            <Input   type="file" accept="image/*" id="ImgFileBrand"  onChange={selectFile} className="ImgAddBrand" name="B_imageFile"/>
                             <p className="p-name-img-brand" for="ImgFileBrand" onClick={() => {triggerClick()}}>เลือกภาพที่ต้องการ</p>
                         </div>
+                        
+                        <p className="CheckDuplicateCateName05 Hide"><IoIcons5.IoAlertCircleSharp />กรุณาเลือกรูปภาพ</p>
+
                         <div className="input-Cate-Add">
-                            <Input required name="B_name" maxLength='18' value={brandData.B_name} onChange={(e)=> handleChange(e)}/>
+                            <Input  name="B_name" maxLength='18' value={brandData.B_name} onChange={(e)=> handleChange(e)}/>
                             <label>ชื่อ</label>
                         </div>
-                        <a  className="Close-modal-x-Cate-Add" onClick={() => {manageModal("close");initialValue()}}><RiIcons.RiCloseLine /></a>
+
+                        {loading? 
+                            <Preloader
+                                use={Puff}
+                                size={20}
+                                strokeWidth={6}
+                                strokeColor="#262626"
+                                duration={2000}
+                                className="loadNamePro"
+                            />
+                        :null}
+
+                        <p className="CheckDuplicateCateName Hide"><IoIcons5.IoAlertCircleSharp />ชื่อแบรนด์นี้มีในระบบแล้ว</p>
+                        <p className="CheckDuplicateCateName02 Hide"><IoIcons.IoIosCheckmarkCircle />ชื่อแบรนด์นี้สามารถใช้ได้</p>
+                        <p className="CheckDuplicateCateName06 Hide"><IoIcons5.IoAlertCircleSharp />กรุณาใส่ชื่อแบรนด์</p>
+
+                        <a  className="Close-modal-x-Cate-Add" onClick={() => {manageModal("close");initialValue();hideError()}}><RiIcons.RiCloseLine /></a>
                         <div className="button-Cate-group-Add">
-                            <a  className="Close-modal-Cate-Add" onClick={() => {manageModal("close");initialValue()}}>ยกเลิก</a>
-                            <button type="submit" className="Save-Cate-submit-Add" onClick={(e)=>{uploadFileToFirebase(e)}}>
+                            <a  className="Close-modal-Cate-Add" onClick={() => {manageModal("close");initialValue();hideError()}}>ยกเลิก</a>
+                            {buttonWork === false ?
+                            <button type="submit" className="Save-Cate-submit-Add" onClick={(e)=>{uploadFileToFirebase(e)}} disabled>
                                 {brandMode==="add"?"เพิ่ม":"บันทึก"}
-                            </button>
+                            </button>:
+                            <button type="submit" className="Save-Cate-submit-Add" onClick={(e)=>{uploadFileToFirebase(e)}}>
+                            {brandMode==="add"?"เพิ่ม":"บันทึก"}
+                        </button>
+                            }   
                         </div>
                     </Form>
                 </div>

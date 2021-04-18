@@ -168,3 +168,16 @@ export const deletesize = (params) => {
 };
 
 //-------------------------------------------------------------------------
+
+//Check Product Check size
+export const checkDataDuplicate = (params) => {
+    let path = '/recheck/checkduplicatename';
+    return axiosMethodPost(path,params);
+};
+
+export const checkSizeDataDuplicate = (params) => {
+    
+    let path = '/recheck/checkSize';
+    return axiosMethodPost(path,params);
+};
+//-------------------------------------------------------------------------

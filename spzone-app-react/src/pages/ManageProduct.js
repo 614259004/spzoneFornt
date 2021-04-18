@@ -3,9 +3,12 @@ import '../css/ManageBrand.css';
 import * as RiIcons from "react-icons/ri";
 import {Form,Input,Tooltip} from 'antd';
 import * as AiIcons from "react-icons/ai";
+import * as IoIcons5 from "react-icons/io5";
+import * as IoIcons from "react-icons/io";
 import {storage} from "../firebase";
 import * as axiosData from '../service/Service';
 import {jsonUrl} from '../const/AllData';
+import { Preloader, Puff } from 'react-preloader-icon'; 
 
 
 const ManageProduct = () => {
@@ -32,10 +35,14 @@ const ManageProduct = () => {
     
 
     const [productData , setProductData] = useState(initProduct);
+    const [productUpdateStaffData , setProductUpdateStaffData] = useState(initProduct);
     const [showProduct , setShowProduct] = useState([]);
     const [showBrand , setShowBrand] = useState([]);
     const [showCate , setShowCate] = useState([]);
     const [firstImg , setFirstImg] = useState();
+
+    const [loading, setLoading] = useState(false);
+    const [buttonWork, setButtonWork] = useState(true);
 
     const [showSize, setShowSize] = useState([]);
     const [sizeAdd, setSizeAdd] = useState(sizeData);
@@ -69,7 +76,7 @@ const ManageProduct = () => {
             setAllSize(data.sp_size);
            
         })
-
+        setButtonWork(true);
     }
 
     const HoverDelete =(index)=>{
@@ -139,34 +146,135 @@ const ManageProduct = () => {
         
         /*console.log(productData.P_image1);*/
         setProductData({...productData,P_image1:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
-        
+        textError11.classList.add("Hide");
         
     }
     const selectFile02 = (e) =>{
         
         setProductData({...productData,P_image2:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
-        
+        textError12.classList.add("Hide");
     }
     const selectFile03 = (e) =>{
         
         setProductData({...productData,P_image3:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
-        
+        textError13.classList.add("Hide");
     }
 
-    const handleChange = (e)=>{
+    // add product
+        // name
+            var textError = document.getElementsByClassName('CheckDuplicateCateName')[0];
+            var textError02 = document.getElementsByClassName('CheckDuplicateCateName02')[0];
+            var textError05 = document.getElementsByClassName('CheckDuplicateCateName05')[0];
+        // price
+            var textError07 = document.getElementsByClassName('CheckDuplicateCateName07')[0];
+        // info
+            var textError08 = document.getElementsByClassName('CheckDuplicateCateName08')[0];
+        // cate
+            var textError09 = document.getElementsByClassName('CheckDuplicateCateName09')[0];
+        //brand
+            var textError10 = document.getElementsByClassName('CheckDuplicateCateName10')[0];
+        //img1
+            var textError11 = document.getElementsByClassName('CheckDuplicateCateName11')[0];
+        //img2
+            var textError12 = document.getElementsByClassName('CheckDuplicateCateName12')[0];
+        //img3
+            var textError13 = document.getElementsByClassName('CheckDuplicateCateName13')[0];
+
+    // add size
+    var textError03 = document.getElementsByClassName('CheckDuplicateCateName03')[0];
+    var textError04 = document.getElementsByClassName('CheckDuplicateCateName04')[0];
+
+    const handleChange = (e,num)=>{
+        if(num === 7){
+            textError07.classList.add("Hide");
+        }else if(num === 8){
+            textError08.classList.add("Hide");
+        }else if(num === 9){
+            textError09.classList.add("Hide");
+        }else if(num === 10){
+            textError10.classList.add("Hide");
+        }
         e.persist();
         setProductData({...productData,[e.target.name]: e.target.value});
+    };
+    const handleChangeName = (e)=>{
+        e.persist();
+        setProductData({...productData,[e.target.name]: e.target.value});
+
+        textError.classList.add("Hide");
+        textError02.classList.add("Hide");
+        textError05.classList.add("Hide");
+
+        if(e.target.value.length >= 3){
+
+            setLoading(true);
+            
+                var productRecheck = {
+                    name:e.target.value,
+                    table_name:"sp_product"
+                };
+                axiosData.checkDataDuplicate(productRecheck).then(function (ToF){
+                
+                    const result = ToF
+                    console.log(result);
+                    
+                    if(result === true){
+                        setLoading(false);
+                        setButtonWork(false);
+                        textError.classList.remove("Hide");                 
+                    }else{
+                        setLoading(false);
+                        setButtonWork(true);
+                        textError02.classList.remove("Hide");
+                    }
+                })
+            
+        }
     };
 
     const handleChangeSize = (e)=>{
         e.persist();
         setSizeAdd({...sizeAdd,[e.target.name]: e.target.value});
+
+        textError03.classList.add("Hide");
+        textError04.classList.add("Hide");
+
+        if(e.target.value.length >= 1){
+            setLoading(true);
+                    var Szdata ={
+                        P_productid:productData.P_productid,
+                        P_size:e.target.value
+                    }
+                   
+                    
+                    axiosData.checkSizeDataDuplicate(Szdata).then(function (ToF){
+                    
+                        const result = ToF
+                        console.log("size "+result);
+                        
+                        if(result === true){
+                            setLoading(false);
+                            setButtonWork(false);
+                            textError03.classList.remove("Hide");                 
+                        }else{
+                            setLoading(false);
+                            setButtonWork(true);
+                            textError04.classList.remove("Hide");
+                        }
+                    })
+        }
     };
+
+    const handleChangeSizeandAmount = (e)=>{
+        e.persist();
+        setSizeAdd({...sizeAdd,[e.target.name]: e.target.value});
+    }
 
     const handleChangeAddSize = (e) =>{
         e.persist();
         setAddAmountSize({...addAmountSize,[e.target.name]: e.target.value});
         
+        setButtonWork(true);
     }
 
     const updateStockSize = (id) => {
@@ -200,6 +308,36 @@ const ManageProduct = () => {
 
 
    const  uploadFileToFirebase =  (e) =>{
+
+        if(productData === "" || productData.P_name === "" || productData.P_price === "" || productData.P_detail === ""
+        || productData.B_brandid === "" || productData.Cg_categoryid === "" || productData.P_image1 === "" || productData.P_image2 === ""
+        || productData.P_image3 === ""){
+           
+            if(productData.P_name === ""){
+                textError05.classList.remove("Hide");
+            }
+            if(productData.P_price === ""){
+                textError07.classList.remove("Hide");
+            }
+            if(productData.P_detail === ""){
+                textError08.classList.remove("Hide");
+            }
+            if(productData.B_brandid === ""){
+                textError09.classList.remove("Hide");
+            }
+            if(productData.Cg_categoryid === ""){
+                textError10.classList.remove("Hide");
+            }
+            if(productData.P_image1 === ""){
+                textError11.classList.remove("Hide");
+            }
+            if(productData.P_image2 === ""){
+                textError12.classList.remove("Hide");
+            }
+            if(productData.P_image3 === ""){
+                textError13.classList.remove("Hide");
+            }
+        }else{
         
                 const timestamp = Math.floor(Date.now()/1000);
                 const newName = timestamp + "-SPzone-Product-img1";
@@ -210,73 +348,104 @@ const ManageProduct = () => {
                 const uploadTask = storage.ref(`imagesProduct/${newName}`).put(productData.P_image1File);
                 const uploadTask02 = storage.ref(`imagesProduct/${newName02}`).put(productData.P_image2File);
                 const uploadTask03 = storage.ref(`imagesProduct/${newName03}`).put(productData.P_image3File);
-                 uploadTask.on(
-                    "state_changed", 
-                    (snapshop) => {
-                    const progress = Math.round(
-                        (snapshop.bytesTrans/snapshop.totalBytes) * 100
-                    );
-                    },
-                    (error)=>{
-                        console.log(error);
-                    },
-                    () => {
-                    
-                        storage.ref("imagesProduct")
-                            .child(newName)
-                            .getDownloadURL()
-                            .then((url01)=>{
-                                addProductInfo(url01);
-                            }
-                            )
-                    }            
-                )
-                
-                    uploadTask02.on(
-                    "state_changed", 
-                    (snapshop) => {
-                    const progress = Math.round(
-                        (snapshop.bytesTrans/snapshop.totalBytes) * 100
-                    );
-                    },
-                    (error)=>{
-                        console.log(error);
-                    },
-                    () => {
-                    
-                        storage.ref("imagesProduct")
-                            .child(newName02)
-                            .getDownloadURL()
-                            .then((url02)=>{
-                                addProductInfo(url02);
-                            }
-                            )
-                    }            
-                )
-
-                  uploadTask03.on(
-                    "state_changed", 
-                    (snapshop) => {
-                    const progress = Math.round(
-                        (snapshop.bytesTrans/snapshop.totalBytes) * 100
-                    );
-                    },
-                    (error)=>{
-                        console.log(error);
-                    },
-                     ()  => {
-                    
+                if(productData.P_image1 != productUpdateStaffData.P_image1){
+                    uploadTask.on(
+                        "state_changed", 
+                        (snapshop) => {
+                        const progress = Math.round(
+                            (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                        );
+                        },
+                        (error)=>{
+                            console.log(error);
+                        },
+                        () => {
+                        
                             storage.ref("imagesProduct")
-                            .child(newName03)
-                            .getDownloadURL()
-                            .then((url03)=>{
-                                addProductInfo(url03);
-                            }
-                            )
-                    }            
-                )
+                                .child(newName)
+                                .getDownloadURL()
+                                .then((url01)=>{
+                                    addProductInfo(url01);
+                                }
+                                )
+                        }            
+                    )
+                }else if(productData.P_image1 === productUpdateStaffData.P_image1){
+                    addProductInfo(productData.P_image1);
+                }
+
+                if(productData.P_image2 != productUpdateStaffData.P_image2){
+                    uploadTask02.on(
+                        "state_changed", 
+                        (snapshop) => {
+                        const progress = Math.round(
+                            (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                        );
+                        },
+                        (error)=>{
+                            console.log(error);
+                        },
+                        () => {
+                        
+                            storage.ref("imagesProduct")
+                                .child(newName02)
+                                .getDownloadURL()
+                                .then((url02)=>{
+                                    addProductInfo(url02);
+                                }
+                                )
+                        }            
+                    )
+                }else if(productData.P_image2 === productUpdateStaffData.P_image2){
+                    addProductInfo(productData.P_image2);
+                }
+
+                if(productData.P_image3 != productUpdateStaffData.P_image3){
+                    uploadTask03.on(
+                        "state_changed", 
+                        (snapshop) => {
+                        const progress = Math.round(
+                            (snapshop.bytesTrans/snapshop.totalBytes) * 100
+                        );
+                        },
+                        (error)=>{
+                            console.log(error);
+                        },
+                        ()  => {
+                        
+                                storage.ref("imagesProduct")
+                                .child(newName03)
+                                .getDownloadURL()
+                                .then((url03)=>{
+                                    addProductInfo(url03);
+                                }
+                                )
+                        }            
+                    )
+                }else if(productData.P_image3 === productUpdateStaffData.P_image3){
+                    addProductInfo(productData.P_image3);
+                }
+        }
                 
                       
+        }
+
+        const hideError =()=>{
+            textError.classList.add("Hide");
+            textError02.classList.add("Hide");
+            textError05.classList.add("Hide");
+            textError07.classList.add("Hide");
+            textError08.classList.add("Hide");
+            textError09.classList.add("Hide");
+            textError10.classList.add("Hide");
+            textError11.classList.add("Hide");
+            textError12.classList.add("Hide");
+            textError13.classList.add("Hide");
+        }
+
+        const hideError02 =()=>{
+            textError03.classList.add("Hide");
+            textError04.classList.add("Hide");
         }
     
         const addProductInfo = (url) => {
@@ -303,6 +472,7 @@ const ManageProduct = () => {
                     console.log(data);
                     manageAddModal("close");
                     initialValue();
+                    hideError()
                     jsonUrl.splice(0,jsonUrl.length);
                 })
                 } else if(productMode === "edit"){
@@ -311,6 +481,7 @@ const ManageProduct = () => {
                         console.log(data);
                         manageAddModal("close");
                         initialValue();
+                        hideError()
                         jsonUrl.splice(0,jsonUrl.length);
                    })
                 }
@@ -332,6 +503,7 @@ const ManageProduct = () => {
                     manageInfoModal("close");
                     setSizeAdd(sizeData)
                     initialValue();
+                    hideError02();
                 })
         }
         
@@ -407,28 +579,52 @@ const ManageProduct = () => {
             <div className="Modal-Add-Product">
                 <div className="Modal-Add-Product-body">
                     <h1>{productMode==="add"?"เพิ่มสินค้า":"แก้ไขสินค้า"}</h1>
-                    <a className="x-add-product-from" onClick={()=>{manageAddModal("close");initialValue()}}><RiIcons.RiCloseLine /></a>
+                    <a className="x-add-product-from" onClick={()=>{manageAddModal("close");initialValue();hideError()}}><RiIcons.RiCloseLine /></a>
                     <div className="Add-From-Product">
                         <div className="NameAndPrice">
                             <div className="Product-from-add">
                                 <p>ชื่อสินค้า</p>
-                                <Input required name="P_name" value={productData.P_name} onChange={(e)=> handleChange(e)}/>
+                                <Input  name="P_name" value={productData.P_name} onChange={(e)=> handleChangeName(e)}/>
                             </div>
+
+                            {loading? 
+                            <div className="loadingProduct">
+                                <Preloader
+                                    use={Puff}
+                                    size={20}
+                                    strokeWidth={6}
+                                    strokeColor="#262626"
+                                    duration={2000}
+                                />
+                            </div>
+                            :null}
+
                             <div className="Price-from-add">
                                 <p>ราคาสินค้า</p>
-                                <Input required name="P_price" value={productData.P_price} onChange={(e)=> handleChange(e)}/>
+                                <Input  name="P_price" value={productData.P_price} onChange={(e)=> handleChange(e,7)}/>
                             </div>
+
+                            
                         </div>
+
+                        <p className="CheckDuplicateCateName Hide"><IoIcons5.IoAlertCircleSharp />ชื่อสินค้านี้มีในระบบแล้ว</p>
+                        <p className="CheckDuplicateCateName02 Hide"><IoIcons.IoIosCheckmarkCircle />ชื่อสินค้านี้สามารถใช้ได้</p>
+                        <p className="CheckDuplicateCateName05 Hide"><IoIcons5.IoAlertCircleSharp />กรุณาใส่ชื่อสินค้า</p>
+                        <p className="CheckDuplicateCateName07 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาใส่ราคาสินค้า</p>
+
                         <div className="ProductInfo">
                             <div className="Info-from-add">
                                 <p>รายละเอียด</p>
-                                <Input required name="P_detail" value={productData.P_detail} onChange={(e)=> handleChange(e)}/>
+                                <Input  name="P_detail" value={productData.P_detail} onChange={(e)=> handleChange(e,8)}/>
                             </div>
                         </div>
+
+                        <p className="CheckDuplicateCateName08 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาใส่รายละเอียดสินค้า</p>
+
                         <div className="CateAndBrand">
                             <div className="Cate-From-add">
                                 <p>หมวดหมู่</p>
-                                <select name="Cg_categoryid" value={productData.Cg_categoryid} required onChange={(e)=> handleChange(e)}>
+                                <select name="Cg_categoryid" value={productData.Cg_categoryid}  onChange={(e)=> handleChange(e,9)}>
                                         <option  value=""></option> 
                                     {showCate.map((Cate)=>(
                                        
@@ -438,7 +634,7 @@ const ManageProduct = () => {
                             </div>
                             <div className="Brand-From-add">
                                 <p>แบรนด์</p>
-                                <select name="B_brandid" value={productData.B_brandid} required onChange={(e)=> handleChange(e)}>
+                                <select name="B_brandid" value={productData.B_brandid}  onChange={(e)=> handleChange(e,10)}>
                                     <option  value=""></option> 
                                     {showBrand.map((brand)=>(
                                        
@@ -447,6 +643,8 @@ const ManageProduct = () => {
                                 </select>
                             </div>
                         </div>
+                        <p className="CheckDuplicateCateName09 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกหมวดหมู่สินค้า</p>
+                        <p className="CheckDuplicateCateName10 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกแบรนด์สินค้า</p>
                         {/* <div className="PromotionProduct">
                             <div className="Promo-From-add">
                                 <p>โปรโมชัน</p>
@@ -456,23 +654,32 @@ const ManageProduct = () => {
                         <div className="Image-Product-Group">
                             <div className="Product-Img-Add">
                                 <img src={productData.P_image1} />
-                                <Input required id="ImgFileProduct01"   type="file" accept="image/*" className="" name="P_image1File" onChange={selectFile01} />
+                                <Input  id="ImgFileProduct01"   type="file" accept="image/*" className="" name="P_image1File" onChange={selectFile01} />
                                 <p onClick={() => {triggerClick01()}}>เลือกรูปภาพที่1</p>
                             </div>
                             <div className="Product-Img-Add">
                                 <img src={productData.P_image2} />
-                                <Input required id="ImgFileProduct02"    type="file" accept="image/*" className="" name="P_image2File" onChange={selectFile02}/>
+                                <Input  id="ImgFileProduct02"    type="file" accept="image/*" className="" name="P_image2File" onChange={selectFile02}/>
                                 <p onClick={() => {triggerClick02()}}>เลือกรูปภาพที่2</p>
                             </div>
                             <div className="Product-Img-Add">
                                 <img src={productData.P_image3} />
-                                <Input required id="ImgFileProduct03"    type="file" accept="image/*" className="" name="P_image3File" onChange={selectFile03}/>
+                                <Input  id="ImgFileProduct03"    type="file" accept="image/*" className="" name="P_image3File" onChange={selectFile03}/>
                                 <p onClick={() => {triggerClick03()}}>เลือกรูปภาพที่3</p>
                             </div>
                         </div>
+
+                        <p className="CheckDuplicateCateName11 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกรูปภาพ</p>
+                        <p className="CheckDuplicateCateName12 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกรูปภาพ</p>
+                        <p className="CheckDuplicateCateName13 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกรูปภาพ</p>
+                        
                         <div className="Button-group-add-pro">
-                            <button className="cancle-add-pro" onClick={()=>{manageAddModal("close");initialValue()}}>ยกเลิก</button>
-                            <button className="Ok-add-pro" onClick={(e)=>{uploadFileToFirebase(e)}}>{productMode==="add"?"เพิ่ม":"บันทึก"}</button>
+                            <button className="cancle-add-pro" onClick={()=>{manageAddModal("close");initialValue();hideError()}}>ยกเลิก</button>
+                            {buttonWork === false ?
+                                <button className="Ok-add-pro" disabled onClick={(e)=>{uploadFileToFirebase(e)}}>{productMode==="add"?"เพิ่ม":"บันทึก"}</button>
+                                :
+                                <button className="Ok-add-pro" onClick={(e)=>{uploadFileToFirebase(e)}}>{productMode==="add"?"เพิ่ม":"บันทึก"}</button>
+                            }  
                         </div>
                     </div>
                     
@@ -534,7 +741,7 @@ const ManageProduct = () => {
                                </div>
                            </div>
                            <div className="button-InfoPro-Group">
-                               <button  onClick={()=>{setProductMode("edit");manageAddModal("show");manageInfoModal("close")}}>แก้ไขสินค้า</button>
+                               <button  onClick={()=>{setProductMode("edit");manageAddModal("show");manageInfoModal("close");setProductUpdateStaffData(productData)}}>แก้ไขสินค้า</button>
                            </div>
 
                        </div>
@@ -550,20 +757,38 @@ const ManageProduct = () => {
             {/*Add Size modal*/}
             <div  className="Modal-Add-Size-Product">
                 <div className="Modal-Add-Size-Product-body">
-                    <a className="x-add-product-from" onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);}}><RiIcons.RiCloseLine /></a>
+                    <a className="x-add-product-from" onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);hideError02();setButtonWork(false);}}><RiIcons.RiCloseLine /></a>
                     <h1>เพิ่มไซส์</h1>
                     <div className="Size-From-group">
                         <div className="size-input-group">
                             <Input name="P_size" value={sizeAdd.P_size} required onChange={(e)=> handleChangeSize(e)}/>
                             <p id="Size-input">ไซส์</p>
                         </div>
+
+                        {loading? 
+                            <Preloader
+                                use={Puff}
+                                size={20}
+                                strokeWidth={6}
+                                strokeColor="#262626"
+                                duration={2000}
+                            />
+                        :null}
+                        
+                        <p className="CheckDuplicateCateName03 Hide">ไซส์นี้มีในระบบแล้ว</p>
+                        <p className="CheckDuplicateCateName04 Hide">ไซส์นี้สามารถใช้ได้</p>
+                        
                         <div className="size-input-group">
-                            <Input required name="P_size_amount" value={sizeAdd.P_size_amount}  onChange={(e)=> handleChangeSize(e)}/>
+                            <Input required name="P_size_amount" value={sizeAdd.P_size_amount} type="number" min="0"  onChange={(e)=> handleChangeSizeandAmount(e)}/>
                             <p id="Size-input-amount">จำนวน(ตัว)</p>
                         </div>
                         <div className="size-button-group">
-                            <a onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);}}>ยกเลิก</a>
+                            <a onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);hideError02();setButtonWork(false);}}>ยกเลิก</a>
+                            {buttonWork === false ?
+                            <button onClick={()=>{addProductSize()}} disabled>เพิ่ม</button>
+                            :
                             <button onClick={()=>{addProductSize()}}>เพิ่ม</button>
+                            }
                         </div>
                     </div>
                 </div>    
@@ -588,7 +813,7 @@ const ManageProduct = () => {
             <div  className="Modal-Add-Amount-Size">
                 <div className="Modal-Add-Amount-Size-body">
                     <h1>เพิ่มจำนวนสินค้า</h1>
-                    <a className="x-add-product-from" onClick={()=>{manageAddAmountModal("close");setAddAmountSize(sizeData)}}><RiIcons.RiCloseLine /></a>
+                    <a className="x-add-product-from" onClick={()=>{manageAddAmountModal("close");setAddAmountSize(sizeData);setButtonWork(false);}}><RiIcons.RiCloseLine /></a>
                     <div className="inputdata-Add-amount-Proinfo">
                         <p id="select-size-Add-amount">เลือกไซส์</p>
                         <select name="P_size" value={addAmountSize.P_size} required onChange={(e)=> handleChangeAddSize(e)}>
@@ -606,10 +831,16 @@ const ManageProduct = () => {
                         <Input required name="P_size_amount" value={addAmountSize.P_size_amount} onChange={(e)=> handleChangeAddSize(e)}/>
                     </div>
                     <div className="button-Pro-group-Delete-Amount">
-                            <a onClick={() => {manageAddAmountModal("close");setAddAmountSize(sizeData);}} >ไม่ใช่</a>
+                            <a onClick={() => {manageAddAmountModal("close");setAddAmountSize(sizeData);setButtonWork(false);}} >ไม่ใช่</a>
+                            {buttonWork === false ?
+                            <button  className="Save-Cate-submit-Delete" onClick={()=>{updateStockSize(productData.P_productid)}} disabled>
+                                ใช่
+                            </button>
+                            :
                             <button  className="Save-Cate-submit-Delete" onClick={()=>{updateStockSize(productData.P_productid)}}>
                                 ใช่
                             </button>
+                            }   
                     </div>
                 </div>    
             </div>

@@ -373,8 +373,9 @@
 
 .Modal-Add-Cate-body .ant-form .input-Cate-Add{
     width: 100%;
-    margin-top: 24px;
+    margin-top: 35px;
 }
+
 
 .Modal-Add-Cate-body .ant-form .input-Cate-Add input{
     width: 70%;
@@ -394,7 +395,7 @@
 .Modal-Add-Cate-body .ant-form .input-Cate-Add input:focus ~ label,
 .Modal-Add-Cate-body .ant-form .input-Cate-Add input:valid ~ label{
     color: rgb(39, 39, 39);
-    bottom: 140px;
+    bottom: 150px;
     font-size: 14px;
 }
 
@@ -402,7 +403,7 @@
     position: absolute;
     left: 63px;
     pointer-events: none;
-    bottom: 108px;
+    bottom: 120px;
     font-size: 20px;
     color: silver;
     background: white;
@@ -426,7 +427,7 @@
 
 .Modal-Add-Cate-body .ant-form .button-Cate-group-Add{
     width: 100%;
-    margin-top: 30px;
+    margin-top: 40px;
     margin-bottom: 20px;
 }
 
@@ -801,12 +802,13 @@
     display: flex;
     text-align: left;
     width: 100%;
+    margin-top: 20px;
 }
 
 .Add-From-Product .CateAndBrand{
     display: flex;
     text-align: left;
-    margin-top: 20px;
+    margin-top: 50px;
     width: 100%;
 }
 
@@ -1052,9 +1054,9 @@
 }
 
 .Product-Img-Add p{
-    border: 2px solid rgb(211, 211, 211);
+    border: 2px solid rgb(39, 39, 39);
     cursor: pointer;
-    color: rgb(151, 151, 151);
+    color: rgb(39, 39, 39);
     padding: 10px;
     border-radius: 7px;
     transition: 0.4s;
@@ -1068,7 +1070,7 @@
 
 .Button-group-add-pro{
     width: 100%;
-    margin-top: 25px;
+    margin-top: 38px;
     margin-bottom: 10px;
     
 }
@@ -1390,7 +1392,7 @@
 
 .Modal-Add-Size-Product-body  .size-input-group{
     width: 100%;
-    margin-top: 24px;
+    margin-top: 35px;
 }
 
 .Modal-Add-Size-Product-body  .size-input-group input{
@@ -1427,7 +1429,7 @@
 }
 
 #Size-input{
-    bottom: 165px;
+    bottom: 177px;
 }
 
 #Size-input-amount{
@@ -1660,3 +1662,106 @@
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
 }
 /*Size Add amount Modal*/
+
+.CheckDuplicateCateName{
+    position: absolute;
+    cursor: default;
+    margin-left: 8.5%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(209, 17, 4);
+    transition: .4s;
+}
+
+.CheckDuplicateCateName03,.CheckDuplicateCateName05,
+.CheckDuplicateCateName06,.CheckDuplicateCateName08,
+.CheckDuplicateCateName09,.CheckDuplicateCateName11{
+    position: absolute;
+    cursor: default;
+    margin-left: 8.5%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(209, 17, 4);
+    transition: .4s;
+}
+
+.CheckDuplicateCateName07{
+    position: absolute;
+    cursor: default;
+    margin-left: 65%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(209, 17, 4);
+    transition: .4s;
+}
+
+.CheckDuplicateCateName10{
+    position: absolute;
+    cursor: default;
+    margin-left: 56%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(209, 17, 4);
+    transition: .4s;
+}
+
+.CheckDuplicateCateName12{
+    position: absolute;
+    cursor: default;
+    margin-left: 37%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(209, 17, 4);
+    transition: .4s;
+}
+
+.CheckDuplicateCateName13{
+    position: absolute;
+    cursor: default;
+    margin-left: 66.5%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(209, 17, 4);
+    transition: .4s;
+}
+
+.CheckDuplicateCateName02{
+    position: absolute;
+    cursor: default;
+    margin-left: 8.5%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(4, 201, 46);
+    transition: .4s;
+}
+
+.CheckDuplicateCateName04{
+    position: absolute;
+    cursor: default;
+    margin-left: 8.5%;
+    font-size: 13px;
+    margin-top:6px ;
+    color: rgb(4, 201, 46);
+    transition: .4s;
+}
+
+.Hide{
+    opacity: 0;
+}
+
+.preloader-icon{
+    
+    position: absolute;
+    margin-left: 82%;
+    margin-top:-34px ;
+}
+
+.loadingProduct{
+    position: absolute;
+    margin-left: 57%;
+    margin-top: 44px ;
+}
+
+.redBox{
+    border: 2px solid rgb(209, 17, 4);
+}

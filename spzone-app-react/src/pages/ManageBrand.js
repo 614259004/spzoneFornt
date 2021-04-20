@@ -326,7 +326,7 @@ const ManageBrand = () => {
 
                         <p className="CheckDuplicateCateName Hide"><IoIcons5.IoAlertCircleSharp />ชื่อแบรนด์นี้มีในระบบแล้ว</p>
                         <p className="CheckDuplicateCateName02 Hide"><IoIcons.IoIosCheckmarkCircle />ชื่อแบรนด์นี้สามารถใช้ได้</p>
-                        <p className="CheckDuplicateCateName06 Hide"><IoIcons5.IoAlertCircleSharp />กรุณาใส่ชื่อแบรนด์</p>
+                        <p className="CheckDuplicateCateName06 Hide"><IoIcons5.IoAlertCircleSharp />กรุณากรอกชื่อแบรนด์</p>
 
                         <a  className="Close-modal-x-Cate-Add" onClick={() => {manageModal("close");initialValue();hideError()}}><RiIcons.RiCloseLine /></a>
                         <div className="button-Cate-group-Add">

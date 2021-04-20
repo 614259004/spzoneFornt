@@ -203,7 +203,7 @@ const ManageCategory = () => {
                         
                         <p className="CheckDuplicateCateName Hide"><IoIcons5.IoAlertCircleSharp />ชื่อหมวดหมู่นี้มีในระบบแล้ว</p>
                         <p className="CheckDuplicateCateName02 Hide"><IoIcons.IoIosCheckmarkCircle />ชื่อหมวดหมู่นี้สามารถใช้ได้</p>
-                        <p className="CheckDuplicateCateName05 Hide"><IoIcons5.IoAlertCircleSharp />กรุณาใส่ชื่อหมวดหมู่</p>
+                        <p className="CheckDuplicateCateName05 Hide"><IoIcons5.IoAlertCircleSharp />กรุณากรอกชื่อหมวดหมู่</p>
                         <a  className="Close-modal-x-Cate-Add" onClick={()=> {setCateData('');manageModal("close");hideError()}}><RiIcons.RiCloseLine /></a>
                         <div className="button-Cate-group-Add">
                             <a  className="Close-modal-Cate-Add" onClick={()=> {setCateData('');manageModal("close");hideError()}}>ยกเลิก</a>

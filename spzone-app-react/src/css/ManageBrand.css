@@ -1399,7 +1399,7 @@
     width: 70%;
     padding: 10px 20px;
     font-size: 20px;
-    border: 1.5px solid silver;
+    border: 2px solid rgb(39, 39, 39);
     border-radius: 7px;
     transition: .4s;
 }
@@ -1421,24 +1421,24 @@
     position: absolute;
     left: 63px;
     pointer-events: none;
-    bottom: 108px;
-    font-size: 20px;
-    color: silver;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: rgb(39, 39, 39);
     background: white;
     transition: .4s;
 }
 
 #Size-input{
-    bottom: 177px;
+    bottom: 197px;
 }
 
 #Size-input-amount{
-    bottom: 95px;
+    bottom: 115px;
 }
 
 .size-button-group{
     width: 100%;
-    margin-top: 25px;
+    margin-top: 45px;
 }
 
 .size-button-group a{
@@ -1574,8 +1574,8 @@
     width: 80%;
     text-align: left;
     margin-left: 10%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 20px;
+    
 }
 
 .inputdata-Add-amount-Proinfo select{
@@ -1598,7 +1598,7 @@
     width: 95%;
     height: 40px;
     padding-left: 8px;
-    border: 2px solid rgb(211, 211, 211);
+    border: 2px solid rgb(32, 32, 32);
     border-radius: 7px;
     font-size: 18px;
     font-family: 'Prompt', sans-serif;
@@ -1620,16 +1620,16 @@
 }
 
 #select-size-Add-amount{
-    bottom: 178px;
+    bottom: 215px;
 }
 
 #input-Pro-Add-amount{
-    bottom: 115px;
+    bottom: 128px;
 }
 
 .button-Pro-group-Delete-Amount{
     width: 100%;
-    margin-top: 20px;
+    margin-top: 42px;
     font-size: 16px;
 }
 
@@ -1675,7 +1675,11 @@
 
 .CheckDuplicateCateName03,.CheckDuplicateCateName05,
 .CheckDuplicateCateName06,.CheckDuplicateCateName08,
-.CheckDuplicateCateName09,.CheckDuplicateCateName11{
+.CheckDuplicateCateName09,.CheckDuplicateCateName11,
+.CheckDuplicateCateName14,.CheckDuplicateCateName15,
+.CheckDuplicateCateName16,.CheckDuplicateCateName17,
+.CheckDuplicateCateName19,.CheckDuplicateCateName20,
+.CheckDuplicateCateName21,.CheckDuplicateCateName22{
     position: absolute;
     cursor: default;
     margin-left: 8.5%;
@@ -1735,7 +1739,9 @@
     transition: .4s;
 }
 
-.CheckDuplicateCateName04{
+.CheckDuplicateCateName04,
+.CheckDuplicateCateName18,
+.CheckDuplicateCateName23{
     position: absolute;
     cursor: default;
     margin-left: 8.5%;

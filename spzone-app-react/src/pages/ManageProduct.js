@@ -33,6 +33,7 @@ const ManageProduct = () => {
     }
 
     
+    
 
     const [productData , setProductData] = useState(initProduct);
     const [productUpdateStaffData , setProductUpdateStaffData] = useState(initProduct);
@@ -132,7 +133,7 @@ const ManageProduct = () => {
             modal.classList.remove("show");
         }
     }
-
+    
     const manageAddAmountModal = (status) =>{
         var modal = document.getElementsByClassName('Modal-Add-Amount-Size')[0];
         if(status === "show"){
@@ -181,8 +182,24 @@ const ManageProduct = () => {
             var textError13 = document.getElementsByClassName('CheckDuplicateCateName13')[0];
 
     // add size
-    var textError03 = document.getElementsByClassName('CheckDuplicateCateName03')[0];
-    var textError04 = document.getElementsByClassName('CheckDuplicateCateName04')[0];
+        // name
+            var textError03 = document.getElementsByClassName('CheckDuplicateCateName03')[0];
+            var textError04 = document.getElementsByClassName('CheckDuplicateCateName04')[0];
+            var textError14 = document.getElementsByClassName('CheckDuplicateCateName14')[0];
+        // amount
+            var textError15 = document.getElementsByClassName('CheckDuplicateCateName15')[0];
+            var textError16 = document.getElementsByClassName('CheckDuplicateCateName16')[0];
+            var textError17 = document.getElementsByClassName('CheckDuplicateCateName17')[0];
+            var textError18 = document.getElementsByClassName('CheckDuplicateCateName18')[0];
+
+    // add size amount
+        //name
+            var textError19 = document.getElementsByClassName('CheckDuplicateCateName19')[0];
+        // amount
+            var textError20 = document.getElementsByClassName('CheckDuplicateCateName20')[0];
+            var textError21 = document.getElementsByClassName('CheckDuplicateCateName21')[0];
+            var textError22 = document.getElementsByClassName('CheckDuplicateCateName22')[0];
+            var textError23 = document.getElementsByClassName('CheckDuplicateCateName23')[0];
 
     const handleChange = (e,num)=>{
         if(num === 7){
@@ -238,6 +255,7 @@ const ManageProduct = () => {
 
         textError03.classList.add("Hide");
         textError04.classList.add("Hide");
+        textError14.classList.add("Hide");
 
         if(e.target.value.length >= 1){
             setLoading(true);
@@ -266,42 +284,92 @@ const ManageProduct = () => {
     };
 
     const handleChangeSizeandAmount = (e)=>{
+        textError15.classList.add("Hide");
+        textError16.classList.add("Hide");
+        textError17.classList.add("Hide");
+        textError18.classList.add("Hide");
+
+        console.log(e.target.value);
         e.persist();
         setSizeAdd({...sizeAdd,[e.target.name]: e.target.value});
+
+        if(e.target.value < 0){
+            textError16.classList.remove("Hide");
+        }else if(e.target.value > 599){
+            textError15.classList.remove("Hide");
+        }else if(e.target.value === ""){
+            textError18.classList.add("Hide");
+        }else{
+            textError18.classList.remove("Hide");
+        }
+        console.log(buttonWork);
     }
 
     const handleChangeAddSize = (e) =>{
+        textError19.classList.add("Hide");
+
         e.persist();
         setAddAmountSize({...addAmountSize,[e.target.name]: e.target.value});
         
         setButtonWork(true);
     }
 
-    const updateStockSize = (id) => {
+    const handleChangeAddSize02 = (e) =>{
+        textError20.classList.add("Hide");
+        textError21.classList.add("Hide");
+        textError22.classList.add("Hide");
+        textError23.classList.add("Hide");
         
-     const sizeAmount = allSize.map(AmountS => {
-            if(AmountS.P_size === addAmountSize.P_size && AmountS.P_productid === id){
-               return parseInt(addAmountSize.P_size_amount)+parseInt(AmountS.P_size_amount);
+        e.persist();
+        setAddAmountSize({...addAmountSize,[e.target.name]: e.target.value});
+
+        if(e.target.value < 0){
+            textError21.classList.remove("Hide");
+        }else if(e.target.value > 599){
+            textError20.classList.remove("Hide");
+        }else if(e.target.value === ""){
+            textError23.classList.add("Hide");
+        }else{
+            textError23.classList.remove("Hide");
+        }
+        
+        setButtonWork(true);
+    }
+
+    const updateStockSize = (id) => {
+        if(addAmountSize === "" || addAmountSize.P_size === "" || addAmountSize.P_size_amount === ""){
+            if(addAmountSize.P_size === ""){
+                textError19.classList.remove("Hide");
             }
-        }  
-        )
-        console.log(sizeAmount);
-        sizeAmount.map(jojo => {
-            if(jojo !== undefined){
-                const A_S ={
-                    P_size:addAmountSize.P_size,
-                    P_size_amount:jojo
-                }
+            if(addAmountSize.P_size_amount === ""){
+                textError22.classList.remove("Hide");
+            }
+        }else{
+        
+            const sizeAmount = allSize.map(AmountS => {
+                    if(AmountS.P_size === addAmountSize.P_size && AmountS.P_productid === id){
+                    return parseInt(addAmountSize.P_size_amount)+parseInt(AmountS.P_size_amount);
+                    }
+                }  
+                )
+                console.log(sizeAmount);
+                sizeAmount.map(jojo => {
+                    if(jojo !== undefined){
+                        const A_S ={
+                            P_size:addAmountSize.P_size,
+                            P_size_amount:jojo
+                        }
 
-                axiosData.updateamountsize(A_S, id).then(function (data){
-           
-                    initialValue()
-                    manageAddAmountModal("close")
+                        axiosData.updateamountsize(A_S, id).then(function (data){
+                
+                            initialValue()
+                            manageAddAmountModal("close")
 
-                   
+                        
+                        })
+                    }
                 })
-            }
-        })
+        }
 
     }
     
@@ -441,11 +509,25 @@ const ManageProduct = () => {
             textError11.classList.add("Hide");
             textError12.classList.add("Hide");
             textError13.classList.add("Hide");
+            
         }
 
         const hideError02 =()=>{
             textError03.classList.add("Hide");
             textError04.classList.add("Hide");
+            textError14.classList.add("Hide");
+            textError15.classList.add("Hide");
+            textError16.classList.add("Hide");
+            textError17.classList.add("Hide");
+            textError18.classList.add("Hide");
+        }
+
+        const hideError03=()=>{
+            textError19.classList.add("Hide");
+            textError20.classList.add("Hide");
+            textError21.classList.add("Hide");
+            textError22.classList.add("Hide");
+            textError23.classList.add("Hide");
         }
     
         const addProductInfo = (url) => {
@@ -488,23 +570,31 @@ const ManageProduct = () => {
             }
         }
         const addProductSize = () => {
-            
-           
-                var Szdata ={
-                    P_productid:productData.P_productid,
-                    P_size:sizeAdd.P_size,
-                    P_size_amount:sizeAdd.P_size_amount
+            if(sizeAdd === "" || sizeAdd.P_size === "" || sizeAdd.P_size_amount === ""){
+                if(sizeAdd.P_size === ""){
+                    textError14.classList.remove("Hide");
                 }
-                console.log(Szdata);
+                if(sizeAdd.P_size_amount === ""){
+                    textError17.classList.remove("Hide");
+                }
+            }else{
+           
+                    var Szdata ={
+                        P_productid:productData.P_productid,
+                        P_size:sizeAdd.P_size,
+                        P_size_amount:sizeAdd.P_size_amount
+                    }
+                    
 
-                axiosData.addsize(Szdata).then((data) =>{
-                    console.log(data);
-                    manageAddSizeModal("close");
-                    manageInfoModal("close");
-                    setSizeAdd(sizeData)
-                    initialValue();
-                    hideError02();
-                })
+                    axiosData.addsize(Szdata).then((data) =>{
+                        console.log(data);
+                        manageAddSizeModal("close");
+                        manageInfoModal("close");
+                        setSizeAdd(sizeData)
+                        initialValue();
+                        hideError02();
+                    })
+            }
         }
         
         const deleteSize =(Szdata)=>{
@@ -533,6 +623,8 @@ const ManageProduct = () => {
     const triggerClick03 = () =>{
         document.querySelector('#ImgFileProduct03').click();
     }
+
+    console.log(buttonWork);
     return (
         <div className="brand-body-page">
             <div className="Head-brand">
@@ -609,8 +701,8 @@ const ManageProduct = () => {
 
                         <p className="CheckDuplicateCateName Hide"><IoIcons5.IoAlertCircleSharp />ชื่อสินค้านี้มีในระบบแล้ว</p>
                         <p className="CheckDuplicateCateName02 Hide"><IoIcons.IoIosCheckmarkCircle />ชื่อสินค้านี้สามารถใช้ได้</p>
-                        <p className="CheckDuplicateCateName05 Hide"><IoIcons5.IoAlertCircleSharp />กรุณาใส่ชื่อสินค้า</p>
-                        <p className="CheckDuplicateCateName07 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาใส่ราคาสินค้า</p>
+                        <p className="CheckDuplicateCateName05 Hide"><IoIcons5.IoAlertCircleSharp />กรุณากรอกชื่อสินค้า</p>
+                        <p className="CheckDuplicateCateName07 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณากรอกราคาสินค้า</p>
 
                         <div className="ProductInfo">
                             <div className="Info-from-add">
@@ -619,7 +711,7 @@ const ManageProduct = () => {
                             </div>
                         </div>
 
-                        <p className="CheckDuplicateCateName08 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาใส่รายละเอียดสินค้า</p>
+                        <p className="CheckDuplicateCateName08 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณากรอกรายละเอียดสินค้า</p>
 
                         <div className="CateAndBrand">
                             <div className="Cate-From-add">
@@ -757,11 +849,11 @@ const ManageProduct = () => {
             {/*Add Size modal*/}
             <div  className="Modal-Add-Size-Product">
                 <div className="Modal-Add-Size-Product-body">
-                    <a className="x-add-product-from" onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);hideError02();setButtonWork(false);}}><RiIcons.RiCloseLine /></a>
+                    <a className="x-add-product-from" onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);hideError02();}}><RiIcons.RiCloseLine /></a>
                     <h1>เพิ่มไซส์</h1>
                     <div className="Size-From-group">
                         <div className="size-input-group">
-                            <Input name="P_size" value={sizeAdd.P_size} required onChange={(e)=> handleChangeSize(e)}/>
+                            <Input name="P_size" value={sizeAdd.P_size}   onChange={(e)=> handleChangeSize(e)}/>
                             <p id="Size-input">ไซส์</p>
                         </div>
 
@@ -775,15 +867,23 @@ const ManageProduct = () => {
                             />
                         :null}
                         
-                        <p className="CheckDuplicateCateName03 Hide">ไซส์นี้มีในระบบแล้ว</p>
-                        <p className="CheckDuplicateCateName04 Hide">ไซส์นี้สามารถใช้ได้</p>
+                        <p className="CheckDuplicateCateName03 Hide"><IoIcons5.IoAlertCircleSharp />ไซส์นี้มีในระบบแล้ว</p>
+                        <p className="CheckDuplicateCateName04 Hide"><IoIcons.IoIosCheckmarkCircle />ไซส์นี้สามารถใช้ได้</p>
+                        <p className="CheckDuplicateCateName14 Hide"><IoIcons5.IoAlertCircleSharp />กรุณากรอกชื่อไซส์</p>
                         
                         <div className="size-input-group">
-                            <Input required name="P_size_amount" value={sizeAdd.P_size_amount} type="number" min="0"  onChange={(e)=> handleChangeSizeandAmount(e)}/>
+                            <Input name="P_size_amount" value={sizeAdd.P_size_amount}  type="number" min="0" max="599"  onChange={(e)=> handleChangeSizeandAmount(e)}/>
                             <p id="Size-input-amount">จำนวน(ตัว)</p>
                         </div>
+
+                        <p className="CheckDuplicateCateName15 Hide"><IoIcons5.IoAlertCircleSharp />จำนวนสินค้ามากเกินไป</p>
+                        <p className="CheckDuplicateCateName16 Hide"><IoIcons5.IoAlertCircleSharp />ไม่สามารถกรอกจำนวนลบได้</p>
+                        <p className="CheckDuplicateCateName17 Hide"><IoIcons5.IoAlertCircleSharp />กรุณากรอกจำนวนสินค้า</p>
+                        <p className="CheckDuplicateCateName18 Hide"><IoIcons.IoIosCheckmarkCircle />จำนวนสินค้าสามารถใช้ได้</p>
+
+
                         <div className="size-button-group">
-                            <a onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);hideError02();setButtonWork(false);}}>ยกเลิก</a>
+                            <a onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);hideError02();}}>ยกเลิก</a>
                             {buttonWork === false ?
                             <button onClick={()=>{addProductSize()}} disabled>เพิ่ม</button>
                             :
@@ -813,10 +913,10 @@ const ManageProduct = () => {
             <div  className="Modal-Add-Amount-Size">
                 <div className="Modal-Add-Amount-Size-body">
                     <h1>เพิ่มจำนวนสินค้า</h1>
-                    <a className="x-add-product-from" onClick={()=>{manageAddAmountModal("close");setAddAmountSize(sizeData);setButtonWork(false);}}><RiIcons.RiCloseLine /></a>
+                    <a className="x-add-product-from" onClick={()=>{manageAddAmountModal("close");setAddAmountSize(sizeData);hideError03();}}><RiIcons.RiCloseLine /></a>
                     <div className="inputdata-Add-amount-Proinfo">
                         <p id="select-size-Add-amount">เลือกไซส์</p>
-                        <select name="P_size" value={addAmountSize.P_size} required onChange={(e)=> handleChangeAddSize(e)}>
+                        <select name="P_size" value={addAmountSize.P_size}  onChange={(e)=> handleChangeAddSize(e)}>
                             <option></option>
                             {Object.keys(allSize).length !== 0 ?
                                     allSize.filter(aSize => aSize.P_productid === productData.P_productid).map(AmountS => (
@@ -826,12 +926,23 @@ const ManageProduct = () => {
                                     )):null}
                         </select>
                     </div>
+
+                    <p className="CheckDuplicateCateName19 Hide"><IoIcons5.IoAlertCircleSharp />กรุณาเลือกไซส์</p>
+
+                    <br></br>
                     <div className="inputdata-Add-amount-Proinfo">
                         <p id="input-Pro-Add-amount">จำนวน</p>
-                        <Input required name="P_size_amount" value={addAmountSize.P_size_amount} onChange={(e)=> handleChangeAddSize(e)}/>
+                        <Input  name="P_size_amount" type="number" min="0" max="599" value={addAmountSize.P_size_amount} onChange={(e)=> handleChangeAddSize02(e)}/>
                     </div>
+
+                        <p className="CheckDuplicateCateName20 Hide"><IoIcons5.IoAlertCircleSharp />จำนวนสินค้ามากเกินไป</p>
+                        <p className="CheckDuplicateCateName21 Hide"><IoIcons5.IoAlertCircleSharp />ไม่สามารถกรอกจำนวนลบได้</p>
+                        <p className="CheckDuplicateCateName22 Hide"><IoIcons5.IoAlertCircleSharp />กรุณากรอกจำนวนสินค้า</p>
+                        <p className="CheckDuplicateCateName23 Hide"><IoIcons.IoIosCheckmarkCircle />จำนวนสินค้าสามารถใช้ได้</p>
+                
+
                     <div className="button-Pro-group-Delete-Amount">
-                            <a onClick={() => {manageAddAmountModal("close");setAddAmountSize(sizeData);setButtonWork(false);}} >ไม่ใช่</a>
+                            <a onClick={() => {manageAddAmountModal("close");setAddAmountSize(sizeData);hideError03();}} >ไม่ใช่</a>
                             {buttonWork === false ?
                             <button  className="Save-Cate-submit-Delete" onClick={()=>{updateStockSize(productData.P_productid)}} disabled>
                                 ใช่

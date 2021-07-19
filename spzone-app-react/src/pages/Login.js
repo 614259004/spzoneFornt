@@ -1,33 +1,63 @@
-import React from 'react';
-//import '../css/login.css';
+import React,{useState, useEffect} from 'react';
+import * as BiIcons from "react-icons/bi";
+import * as AiIcons from "react-icons/ai";
+import * as axiosData from '../service/Service';
+import { useHistory } from 'react-router-dom';
+import '../css/login.css';
 
 
 function Login() {
-    return (
-        <div>
-            <div className="login-box">
-                <div className="welcome-box">
-                    <p id="welcome-p"> Welcome To </p>  
-                    <p id="spzone-p"> SP Zone </p> 
-                </div>
+    const history = useHistory();
 
-                <form action="#" method="POST">
-                    <h2 id="spzone-h2"> Sp Zone </h2>
-                    <h4 id="login-h4"> login account </h4> <br/>
-                    <p id="username-p"> Username </p>
-                    <input type="text" /> <br/> <br />
-                    <p id="password-p"> Password </p>
-                    <input type="password" id="input-pass" /> <br/> 
-                    <a href="#" className="forget-a"> Forget your password? </a> <br/><br/>
-                    
-                    <input type="submit" value="login" /> 
-                    
-                <br/><br/><br/><br/><br/><br/><br/><br/>
-                    <a href="/NewRegister" className="create-a"> New Create your account </a>
-                </form>
-                <div className="button-div">
-                    <a href="/"><button> cancle </button></a>
+    const dataLogin={
+        L_email:"",
+        L_password:""
+    }
+
+
+    const [logInData, setLogInData] = useState(dataLogin);
+    
+
+
+    const handleChange = (e) =>{
+        e.persist();
+        setLogInData({...logInData,[e.target.name]: e.target.value});
+    }
+
+    const checkLogIn = () => {
+        axiosData.logIn(logInData).then(function (data){
+            const datacus = data[0];
+            localStorage.setItem('UserId',datacus.C_customerid);
+            
+            if(datacus.S_statusid == 2){
+                history.push("/Home");
+            } else if(datacus.S_statusid == 1){
+                history.push("/Admin");
+            }
+        })
+    }
+
+
+    return (
+        <div className="body-login">
+            <div className="loginform">
+                <div className="login-back-home">
+                    <a href="/"><AiIcons.AiOutlineClose /></a>
                 </div>
+                <div className="login-header-logo">
+                    <h5>LOGIN</h5>
+                </div>
+                <div className="input-email-login-group">
+                    <input type="text" placeholder="Email" name="L_email" onChange={(e)=> handleChange(e)}></input>
+                </div>
+                <div className="input-password-login-group">
+                    <input type="password" placeholder="Password" name="L_password" onChange={(e)=> handleChange(e)}></input>
+                    <h6 className="forgot-password-login">forgot password?</h6>
+                </div>
+                <div className="input-submit-login">
+                    <input type="submit" value="Login" onClick={()=>{checkLogIn();}}></input>
+                </div>
+                <a href="/NewRegister" className="create-account-a"><h6 className="create-account-h6">create new account</h6></a>
             </div>
         </div>
     )

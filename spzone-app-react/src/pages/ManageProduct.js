@@ -9,9 +9,13 @@ import {storage} from "../firebase";
 import * as axiosData from '../service/Service';
 import {jsonUrl} from '../const/AllData';
 import { Preloader, Puff } from 'react-preloader-icon'; 
+import Order  from 'react-order'; 
+
 
 
 const ManageProduct = () => {
+
+    
 
     const initProduct ={
         P_name:"",
@@ -49,11 +53,13 @@ const ManageProduct = () => {
     const [sizeAdd, setSizeAdd] = useState(sizeData);
     const [allSize, setAllSize] = useState([]);
     const [removeSize, setRemoveSize] = useState([]);
+    
 
     const [productMode, setProductMode] = useState();
     const [addAmountSize , setAddAmountSize] = useState(sizeData);
     
-    
+    var clothSize = ["XS","S","M","L","XL","XXL"];
+    var shoeSize = [4,5,6,7,8,9,10,11,12,13,14,15];
     
     useEffect(initialValue,[]);
     function initialValue(){
@@ -74,14 +80,27 @@ const ManageProduct = () => {
         })
         axiosData.showallsize().then(function (data){
            
-            setAllSize(data.sp_size);
+           
+            
+           const size = [];
+
+          for(let i =0 ; i<clothSize.length ; i++){
+            data.sp_size.filter(x=> x.P_size == clothSize[i]).map(y=> {size.push(y)   })
+          }
+
+          
+            setAllSize(size);
+            
            
         })
         setButtonWork(true);
+        
     }
 
+    
+
     const HoverDelete =(index)=>{
-        console.log("testDS");
+        
         var buttonSize = document.getElementsByClassName('bin-in-size-Proinfo')[index];
         buttonSize.classList.add("show");
     }
@@ -120,8 +139,14 @@ const ManageProduct = () => {
 
     const callSize = (id) => {
          axiosData.showsize(id).then(function (data){
-            
-            setShowSize(data);
+
+            const size = [];
+
+            for(let i =0 ; i< clothSize.length ; i++){
+                data.filter(x=> x.P_size == clothSize[i]).map(y=> {size.push(y)   })
+              }
+              
+            setShowSize(size);
         })
     }
 
@@ -268,12 +293,13 @@ const ManageProduct = () => {
                     axiosData.checkSizeDataDuplicate(Szdata).then(function (ToF){
                     
                         const result = ToF
-                        console.log("size "+result);
+                        
                         
                         if(result === true){
                             setLoading(false);
                             setButtonWork(false);
-                            textError03.classList.remove("Hide");                 
+                            textError03.classList.remove("Hide");  
+                            console.log("size "+buttonWork);               
                         }else{
                             setLoading(false);
                             setButtonWork(true);
@@ -288,21 +314,27 @@ const ManageProduct = () => {
         textError16.classList.add("Hide");
         textError17.classList.add("Hide");
         textError18.classList.add("Hide");
-
-        console.log(e.target.value);
-        e.persist();
-        setSizeAdd({...sizeAdd,[e.target.name]: e.target.value});
+        
 
         if(e.target.value < 0){
+            setButtonWork(false);
             textError16.classList.remove("Hide");
         }else if(e.target.value > 599){
+            setButtonWork(false);
             textError15.classList.remove("Hide");
         }else if(e.target.value === ""){
+            setButtonWork(true);
             textError18.classList.add("Hide");
         }else{
+            setButtonWork(true);
             textError18.classList.remove("Hide");
         }
         console.log(buttonWork);
+        
+        e.persist();
+        setSizeAdd({...sizeAdd,[e.target.name]: e.target.value});
+
+        
     }
 
     const handleChangeAddSize = (e) =>{
@@ -311,7 +343,7 @@ const ManageProduct = () => {
         e.persist();
         setAddAmountSize({...addAmountSize,[e.target.name]: e.target.value});
         
-        setButtonWork(true);
+        
     }
 
     const handleChangeAddSize02 = (e) =>{
@@ -319,21 +351,30 @@ const ManageProduct = () => {
         textError21.classList.add("Hide");
         textError22.classList.add("Hide");
         textError23.classList.add("Hide");
+        console.log(e.target.value);
+
+        if(e.target.value < 0){
+            setButtonWork(false);
+            textError21.classList.remove("Hide");
+            console.log(buttonWork);
+            
+        }else if(e.target.value > 599){
+            setButtonWork(false);
+            textError20.classList.remove("Hide");
+        }else if(e.target.value === ""){
+            setButtonWork(true);
+            textError23.classList.add("Hide");
+        }else{
+            setButtonWork(true);
+            textError23.classList.remove("Hide");
+        }
         
         e.persist();
         setAddAmountSize({...addAmountSize,[e.target.name]: e.target.value});
 
-        if(e.target.value < 0){
-            textError21.classList.remove("Hide");
-        }else if(e.target.value > 599){
-            textError20.classList.remove("Hide");
-        }else if(e.target.value === ""){
-            textError23.classList.add("Hide");
-        }else{
-            textError23.classList.remove("Hide");
-        }
         
-        setButtonWork(true);
+        
+        
     }
 
     const updateStockSize = (id) => {
@@ -364,8 +405,8 @@ const ManageProduct = () => {
                 
                             initialValue()
                             manageAddAmountModal("close")
-
-                        
+                            setAddAmountSize(sizeData);
+                            hideError03();
                         })
                     }
                 })
@@ -578,25 +619,47 @@ const ManageProduct = () => {
                     textError17.classList.remove("Hide");
                 }
             }else{
-           
+                if(sizeAdd){
                     var Szdata ={
                         P_productid:productData.P_productid,
-                        P_size:sizeAdd.P_size,
-                        P_size_amount:sizeAdd.P_size_amount
+                        P_size:sizeAdd.P_size
                     }
-                    
 
-                    axiosData.addsize(Szdata).then((data) =>{
-                        console.log(data);
-                        manageAddSizeModal("close");
-                        manageInfoModal("close");
-                        setSizeAdd(sizeData)
-                        initialValue();
-                        hideError02();
+                    axiosData.checkSizeDataDuplicate(Szdata).then(function (ToF){
+                    
+                        const result = ToF
+                        
+                        
+                        if(result === true){
+                            
+                            setButtonWork(false);
+                            textError03.classList.remove("Hide");  
+                            console.log("size02 "+buttonWork);               
+                        }else{
+                            var Szdata ={
+                                P_productid:productData.P_productid,
+                                P_size:sizeAdd.P_size,
+                                P_size_amount:sizeAdd.P_size_amount
+                            }
+                            
+        
+                            axiosData.addsize(Szdata).then((data) =>{
+                                console.log(data);
+                                manageAddSizeModal("close");
+                                manageInfoModal("close");
+                                setSizeAdd(sizeData)
+                                initialValue();
+                                hideError02();
+                            })
+                        }
                     })
+
+                }
+           
+                    
             }
         }
-        
+       
         const deleteSize =(Szdata)=>{
             var Sidata={
                 P_productid:Szdata.P_productid,
@@ -624,7 +687,8 @@ const ManageProduct = () => {
         document.querySelector('#ImgFileProduct03').click();
     }
 
-    console.log(buttonWork);
+   
+
     return (
         <div className="brand-body-page">
             <div className="Head-brand">
@@ -646,15 +710,15 @@ const ManageProduct = () => {
                                     <h5>{item.P_name}</h5>
                                     <h6>{item.P_productid}</h6>
                                     <div className="Size-layout">
-                                    {Object.keys(allSize).length !== 0 ?
-                                    allSize.filter(aSize => aSize.P_productid === item.P_productid).map(allS => (
-                                        
-                                            <div className="size-product">
-                                                <h6>{allS.P_size}</h6>
-                                                <h6>{allS.P_size_amount}</h6>
-                                            </div>
-                                       
-                                    )):null}
+                                        {Object.keys(allSize).length !== 0 ?
+                                        allSize.filter(aSize => aSize.P_productid === item.P_productid).map(allS => (
+                                            
+                                                <div className="size-product" key={allS.P_size}>
+                                                    <h6 >{allS.P_size}</h6>
+                                                    <h6>{allS.P_size_amount}</h6>
+                                               </div>
+                                            
+                                        )):null}
                                     </div>
                                 </div>
                                 <div className="button-brand-group-product">
@@ -853,7 +917,9 @@ const ManageProduct = () => {
                     <h1>เพิ่มไซส์</h1>
                     <div className="Size-From-group">
                         <div className="size-input-group">
+                            
                             <Input name="P_size" value={sizeAdd.P_size}   onChange={(e)=> handleChangeSize(e)}/>
+                            
                             <p id="Size-input">ไซส์</p>
                         </div>
 

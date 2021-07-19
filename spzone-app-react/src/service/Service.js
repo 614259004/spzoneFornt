@@ -42,8 +42,8 @@ async function axiosMethodGet(path){
 // Customer
 
 export function sendDataRegister(params){
-    let path = '/Customer/addCustomer';
-    console.log(params);
+    let path = '/customer/addCustomer';
+    
     return axiosMethodPost(path,params);
 };
 
@@ -72,6 +72,12 @@ export function updateaddress(params){
     return axiosMethodPost(path,params);
 };
 
+export function logIn(params){
+    let path = '/customers/login';
+    
+    return axiosMethodPost(path,params);
+}
+
 //-------------------------------------------------------------------------
 //Category
 
@@ -96,6 +102,7 @@ export function deletecate(params){
     console.log(path);
     return axiosMethodPut(path,params);
 };
+
 
 //-------------------------------------------------------------------------
 //Brand
@@ -157,7 +164,7 @@ export const showallsize = () => {
 };
 
 export const updateamountsize = (params,id) => {
-    console.log(params);
+    
     let path = '/products/updatesize/'+id;
     return axiosMethodPut(path,params);
 };
@@ -180,4 +187,42 @@ export const checkSizeDataDuplicate = (params) => {
     let path = '/recheck/checkSize';
     return axiosMethodPost(path,params);
 };
+//-------------------------------------------------------------------------
+//Cart
+
+export const addCart = (params) => {
+    let path = '/carts/addcart';
+    return axiosMethodPost(path,params);
+};
+
+export const getCart = (params) => {
+    let path = '/carts/showcartbyid';
+    return axiosMethodPost(path,params);
+};
+
+export const delCart = (params) => {
+    let path = '/carts/deletecartbyid';
+    return axiosMethodPost(path,params);
+};
+
+
+//-------------------------------------------------------------------------
+//Address
+
+export const getAddress = (params) => {
+    let path = '/customers/getaddress';
+    return axiosMethodPost(path,params);
+};
+
+
+
+
+//-------------------------------------------------------------------------
+//Orders
+export const addOrders = (params) => {
+    let path = '/orders/addorder';
+    return axiosMethodPost(path,params);
+};
+
+
 //-------------------------------------------------------------------------

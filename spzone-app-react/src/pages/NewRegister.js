@@ -1,7 +1,9 @@
 import React,{useState} from 'react';
 import * as AiIcons from "react-icons/ai";
 import * as HiIcons from "react-icons/hi";
+import * as BiIcons from "react-icons/bi";
 import * as RiIcons from "react-icons/ri";
+import * as MdIcons from "react-icons/md";
 import '../css/Newregister.css';
 import {Form,Input} from 'antd';
 import * as d from '../const/AllData';
@@ -14,22 +16,21 @@ const NewRegister = () => {
     const [eye01, setEye01] = useState(false);
     const [register, setRegister] = useState(d.jsonRegister);
     const[form01] = Form.useForm();
+
+    
     
     const onFinish = () => {
-        setRegister({
-            "C_name" : register.C_name,
-            "C_lastname" : register.C_lastname,
-            "C_tel" : register.C_tel,
-            "C_image" : 'test',
-            "L_email" : register.L_email,
-            "L_password" : register.L_password
-        })
         
         
+        console.log(register);
 
         axiosData.sendDataRegister(register).then(function (data){
-            console.log(data);
+            
+            localStorage.setItem('UserId',data);
+            
         })
+
+       
     }
     const handleChange = (e)=>{
         e.persist();
@@ -55,12 +56,7 @@ const NewRegister = () => {
                 else if(i === 1){
                     slidePage.style.marginLeft="-50%";
                 }
-                else if(i === 2){
-                    setTimeout(function(){
-                        alert("You're successfully register");
-                        
-                    },800)
-                }
+               
             }
         }
 }
@@ -91,14 +87,29 @@ const test01 = (index) => {
         }
     }
 }
+
+    const mangeModal = (status) =>{
+        var modal = document.getElementsByClassName('fn-regis-modal')[0];
+        if(status === "show"){
+            modal.classList.add("show");
+        } else if(status === "close"){
+            modal.classList.remove("show");
+        }
+    }
+
+
+
     return (
         
         <div className="register-body">
             <div className="Register-contrainer">
-                <h2 >Register</h2>
+                <div className="Register-back-home-icon">
+                    <a href="/"><AiIcons.AiOutlineClose /></a>
+                </div>
+                <h2 >REGISTER</h2>
                 <div className="Register-progress-bar">
                     <div className="Register-step">
-                        <div className="Register-bullet">
+                        <div className="Register-bullet ">
                             <p className='Regis-progress-p'> <HiIcons.HiUser/></p>
                             <div className="Register-check "><AiIcons.AiOutlineCheck /></div>
                         </div>
@@ -115,39 +126,29 @@ const test01 = (index) => {
                             <div className="Register-check"><AiIcons.AiOutlineCheck /></div>
                         </div>
                     </div>
+
                 </div>
                 <div className="Register-layout-form">
-                    <Form onFinish={onFinish} form={form01} className="Register-form">
+                    <Form onFinish={()=>{onFinish();mangeModal("show")}} form={form01} className="Register-form">
                         <div className="Register-page slidepage">
                             <div className="Register-field">
                                 
                                 {/*input*/}
                                 <div className="Regis-input">
-                                        <Input required name="C_name" onChange={(e)=> handleChange(e)}/>
-                                        <div className="Regis-underline"></div>
-                                        <label className="Regis-input-label">Name</label> 
+                                        <Input  name="C_name" onChange={(e)=> handleChange(e)} placeholder="Name" />
+                                         
                                 </div>
                                 <br />
                                 <div className="Regis-input">
-                                        <Input required name="C_lastname" onChange={(e)=> handleChange(e)}/>
-                                        <div className="Regis-underline"></div>
-                                        <label>Lastname</label>
+                                        <Input  name="C_lastname" onChange={(e)=> handleChange(e)} placeholder="Lastname" />
+                                
                                 </div>
                                 <div className="Register-button">
-                                    <Form.Item
-                                        name="Cancle"
-                                    >
-                                        <a href="/Login" className="Back-button-regis01">
-                                            Cancle
-                                        </a>
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="next01"
-                                    >
+                                    
                                         <a  onClick={() => {test(0);}} className="Next-button-regis01">
-                                            Next
+                                            next <MdIcons.MdKeyboardArrowRight className="Next02-button-icon-regis" />
                                         </a>
-                                    </Form.Item>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -159,35 +160,27 @@ const test01 = (index) => {
 
                                 {/*input*/}
                                 <div className="Regis-input">
-                                        <Input required name="L_email" onChange={(e)=> handleChange(e)}/>
-                                        <div className="Regis-underline"></div>
-                                        <label className="Regis-input-label">Email</label> 
+                                        <Input  name="L_email" onChange={(e)=> handleChange(e)} placeholder="Email"/>                                      
                                 </div>
                                 <br />
                                 <div className="Regis-input">
-                                        <Input required  maxLength='10' name="C_tel" onChange={(e)=> handleChange(e)}/>
-                                        <div className="Regis-underline"></div>
-                                        <label>Phone</label>
+                                        <Input   maxLength='10' name="C_tel" onChange={(e)=> handleChange(e)} placeholder="Phone"/>                                
                                 </div>
                                 <div className="Register-button">
-                                    <Form.Item
-                                        name="previous01"
-                                    >
-                                        <a type="primary" htmlType="submit"
+                                    
+                                        <a 
                                             onClick={() => {test01(0);}}
                                             className="Back-button-regis01"
                                         >
-                                            Previous
+                                            <MdIcons.MdKeyboardArrowLeft className="back01-button-icon-regis" />back
                                         </a>
-                                    </Form.Item>
+                                    
                                     <br /><br />
-                                    <Form.Item
-                                        name="next02"
-                                    >
-                                        <a onClick={() => {test(1);}} className="Next-button-regis01">
-                                            Next
+                                    
+                                        <a onClick={() => {test(1);}} className="Next-button-regis04">
+                                            next<MdIcons.MdKeyboardArrowRight className="Next02-button-icon-regis" />
                                         </a>
-                                    </Form.Item>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -198,44 +191,60 @@ const test01 = (index) => {
 
                                     {/*input*/}
                                 <div className="Regis-input">
-                                    <Input required type={eye01 ? "text":"password"} maxLength='15' name="L_password" onChange={(e)=> handleChange(e)}/>
-                                    <div className="Regis-underline"></div>
-                                    <label className="Regis-input-label">Password</label> 
+                                    <Input  type={eye01 ? "text":"password"} maxLength='15' name="L_password" onChange={(e)=> handleChange(e)} placeholder="Password"/>
+                                    
+                                    
                                     {eye01 ? <a onClick={() => {setEye01(false);}}><AiIcons.AiOutlineEye /></a>:<a onClick={() => {setEye01(true);}}><AiIcons.AiOutlineEyeInvisible /></a>}
                                 </div>
                                 <br />
                                 <div className="Regis-input" >
-                                    <Input required type={eye ? "text":"password"} maxLength='15' onChange={(e)=> handleChange(e)}/>
-                                    <div className="Regis-underline"></div>
-                                    <label>Comfirm Password</label>
+                                    <Input  type={eye ? "text":"password"} maxLength='15' onChange={(e)=> handleChange(e)} placeholder="Comfirm Password"/>
+                                    
+                                    
                                     {eye ? <a onClick={() => {setEye(false);}}><AiIcons.AiOutlineEye /> </a>:<a onClick={() => {setEye(true);}}><AiIcons.AiOutlineEyeInvisible /></a>}
                                    
                                 </div>
                                 
                                 <div className="Register-button">
-                                    <Form.Item
-                                        name="previous03"
-                                    >
-                                        <a type="primary" htmlType="submit"
+                                    
+                                        <a  
                                             onClick={() => {test01(1);}}
                                             className="Back-button-regis01"
                                         >
-                                            Previous
+                                            <MdIcons.MdKeyboardArrowLeft className="back01-button-icon-regis" />back
                                         </a>
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="submit"
-                                    >
-                                        <button onClick={() => {test(2);}} className="Next-button-regis02">
-                                            Submit
+
+                                        <br /><br />
+                                    
+                                        <button onClick={() => {test(2);}} className="Next-button-regis03">
+                                            submit <BiIcons.BiCheck className="Next01-button-icon-regis" />
                                         </button>
-                                    </Form.Item>
+                                    
                                 </div>
                             </div>
                         </div>
                     </Form>
                 </div>
             </div>
+
+
+            {/*Delete modal*/}
+            <div id="fn-regis-modal" className="fn-regis-modal">
+                <div className="fn-regis-modal-body">
+                    <h4>You're successfully register</h4>
+                    <div className="button-fn-regis-group">
+                        <a href="/Home">confrim</a>
+                    </div>
+                                
+                </div>    
+            </div>
+
+            {/*Delete modal*/}
+
+
+
+
+
         </div>
     )
 }

@@ -5,15 +5,18 @@ import Login from './pages/Login';
 import NewRegister from './pages/NewRegister';  
 import Admin from './pages/Admin'; 
 
+
+
 function App() {   
   return (     
     <>          
     <Router>      
       <Switch>         
-        <Route path='/' exact component={Home}/>         
+        <Route path='/' exact   component={Home}/>  
+        <Route path='/Home'   component={Home}/>         
         <Route path='/Login' exact component={Login}/>        
-        <Route path='/NewRegister' component={NewRegister}/> 
-        <Route path='/Admin'  component={Admin}/>     
+        <Route path='/NewRegister' exact component={NewRegister}/> 
+        <Route path='/Admin' exact  component={Admin}/>     
       </Switch>     
     </Router>       
     </>   

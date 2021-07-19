@@ -188,8 +188,6 @@ const ManageBrand = () => {
     }
 
     const selectFile = (e) =>{
-        console.log(e.target.files[0]);
-        console.log(brandData.B_image);
         textError05.classList.add("Hide");
         setBrandData({...brandData,B_image:URL.createObjectURL(e.target.files[0]),[e.target.name]: e.target.files[0]});
         setButtonWork(true);

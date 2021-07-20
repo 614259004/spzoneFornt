@@ -138,7 +138,9 @@
 }
 
 .address_payment_group:hover{
-    color: rgb(44, 44, 44);
+    background: rgb(44, 44, 44);
+    color: white;
+    border-bottom: 2px solid rgb(44, 44, 44);
 }
 
 .black_address{
@@ -269,6 +271,7 @@
 
 .bank_data{
     margin-left: 20px;
+    margin-right: 20px;
 }
 
 .ImgFileOrder{
@@ -281,7 +284,7 @@
     border-radius: 7px;
     cursor: pointer;
     transition: .5s;
-    width: 60%;
+    width: 73%;
     margin-left: 13%;
 }
 
@@ -293,7 +296,7 @@
 .bill_img{
     width: 100px;
     height: 116px;
-    margin-left: 35%;
+    margin-left: 42%;
     margin-top: 5%;
     margin-bottom: 5%;
 }
@@ -373,3 +376,161 @@
     position: absolute;
     
 }
+
+.AddNewAddress_Payment{
+    color: silver;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.AddNewAddress_Payment:hover{
+    color: rgb(44, 44, 44);
+}
+
+
+
+/* model Add Address Payment*/
+.Modal_Add_Address_Payment{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 26, 0.842);
+    display: none;
+    opacity: 0;
+}
+
+.Modal_Add_Address_Payment_body{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    width: 450px;
+    background: #fff;
+    padding: 30px 30px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.Modal_Add_Address_Payment_body h2{
+    cursor: default;
+}
+
+.Modal_Add_Address_Payment.show{
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+
+.input_Address_Payment_Name,
+.input_Address_Payment_Province,
+.input_Address_Payment_PostCode,
+.button_Address_Payment_add{
+    width: 100%;
+    margin-top: 22px;
+}
+
+.input_Address_Payment_Name input,
+.input_Address_Payment_Province input,
+.input_Address_Payment_PostCode input{
+    width: 80%;
+    padding: 10px 20px;
+    border-radius: 24px;
+    border: 2px solid gray;
+    background: transparent;
+    font-family: 'Prompt', sans-serif;
+    transition: .3s;
+    outline: none;
+    font-size: 16px;
+}
+
+.button_Address_Payment_add button{
+    height: 45px;
+    width: 90%;
+    background: rgb(44, 44, 44);
+    border: none;
+    font-family: 'Prompt', sans-serif;
+    color: white;
+    font-size: 16px;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: .3s;
+    outline: none;
+}
+
+.button_Address_Payment_add button:hover{
+    background-color: rgb(32, 32, 32);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.input_Address_Payment_Name input:hover,
+.input_Address_Payment_Name input:focus,
+.input_Address_Payment_Province input:hover,
+.input_Address_Payment_Province input:focus,
+.input_Address_Payment_PostCode input:hover,
+.input_Address_Payment_PostCode input:focus{
+    border: 2px solid rgb(32, 32, 32);
+}
+
+
+.input_Address_Payment_No_moo{
+    width: 100%;
+    margin-top: 18px;
+}
+
+.input_Address_Payment_No,
+.input_Address_Payment_canton{
+    width: 32.5%;
+    padding: 10px 20px;
+    border-radius: 24px;
+    border: 2px solid gray;
+    background: transparent;
+    font-family: 'Prompt', sans-serif;
+    transition: .3s;
+    outline: none;
+    font-size: 16px;
+}
+
+.input_Address_Payment_Moo,
+.input_Address_Payment_district{
+    width: 32.5%;
+    padding: 10px 20px;
+    border-radius: 24px;
+    border: 2px solid gray;
+    background: transparent;
+    font-family: 'Prompt', sans-serif;
+    transition: .3s;
+    outline: none;
+    font-size: 16px;
+    margin-left: 4%;
+}
+
+.input_Address_Payment_Moo:hover,
+.input_Address_Payment_No:hover,
+.input_Address_Payment_Moo:focus,
+.input_Address_Payment_No:focus,
+.input_Address_Payment_district:hover,
+.input_Address_Payment_district:focus,
+.input_Address_Payment_canton:hover,
+.input_Address_Payment_canton:focus{
+    border: 2px solid rgb(32, 32, 32);
+}
+
+
+.input_Address_Payment_canton_district{
+    width: 100%;
+    margin-top: 18px;
+}
+
+.Close_Modal_Add_Address_Payment{
+    position: absolute;
+    cursor: pointer;
+    margin-left: 40%;
+    margin-top: -9%;
+}
+
+/* model Add Address Payment*/

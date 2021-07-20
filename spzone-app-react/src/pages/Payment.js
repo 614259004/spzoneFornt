@@ -16,37 +16,73 @@ const Payment = () => {
         Or_imgpaymentFile:""
     }
 
+    const initNewAdd ={
+        A_homenumber:"",
+        A_moo:"",
+        A_canton:"",
+        A_district:"",
+        A_province:"",
+        A_postal_code:"",
+        A_receive_name:"",
+        C_customerid:localStorage.getItem('UserId')
+    }
+
+  
     const [addressShow,setAddressShow] = useState([]);
     const [cartShow,setCartShow] = useState([]);
     const [headPayment,setHeadPayment] = useState('Address');
-    const [totalShow,setTotalShow] = useState();
+    const [totalShow,setTotalShow] = useState(0);
     const [billData , setBillData] = useState(initPayment);
     const [selectAdd , setSelectAdd] = useState('');
+    const [newAddress, setNewAddress] = useState(initNewAdd)
 
-    const [addFunction , setAddFunction] = useState(false);
+    
 
     
     
 
     const C_id = {C_customerid:localStorage.getItem('UserId')};
 
-    useEffect(initialValue,[]);
+    useEffect(initialValue,[addressShow]);
     function initialValue(){
+
         axiosData.getAddress(C_id).then(function (data){
             setAddressShow(data)
             
         })
         axiosData.getCart(C_id).then(function (data){
             setCartShow(data)
-            var total = 0
-            for(var i =0 ; i< cartShow.length ; i++){
-                var sum = cartShow[i].P_price * cartShow[i].Ca_amount;
-                
-                 total = total + parseInt(sum);
-                 setTotalShow(total+50);
-            }
-        })
+            
+        }) 
+        
     }
+
+    const deleteBg =()=>{
+        var sal = document.getElementsByClassName('address_payment_group');
+        
+        if(sal.length != null){
+            var bg = document.getElementsByClassName('address_payment_group  black_address');
+            
+            if(bg.length != 0){
+                for(let i = 0 ; i<=bg.length;i++){
+                    var salw = bg[i];
+                    salw.classList.remove("black_address");
+                }
+            }
+        }
+    }
+
+    const findTotal = () => {
+        var total = 0
+        for(var i =0 ; i< cartShow.length ; i++){
+            var sum = cartShow[i].P_price * cartShow[i].Ca_amount;
+            
+             total = total + parseInt(sum);
+             setTotalShow(total+50);
+        }
+    }
+
+    useEffect(findTotal,[cartShow]);
 
     const selectFile = (e) =>{
         
@@ -54,11 +90,18 @@ const Payment = () => {
         
     }
 
-    const selectAddress = (index,id) => {
 
+    const handleChangeNewAddress = (e) =>{
+        e.persist();
+        setNewAddress({...newAddress,[e.target.name]: e.target.value});
+
+        
+    }
+
+    const selectAddress = (index,id) => {
+        deleteBg();
         var sa = document.getElementsByClassName('address_payment_group')[index];
-        
-        
+        sa.classList.add("black_address");
         
     }
 
@@ -85,6 +128,16 @@ const Payment = () => {
 
     }
 
+    const manageModalAddAddress = (status) => {
+        var modal = document.getElementsByClassName('Modal_Add_Address_Payment')[0];
+        if(status === "show"){
+            modal.classList.add("show");
+        } else if(status === "close"){
+            modal.classList.remove("show");
+            setNewAddress(initNewAdd);
+        }
+    }
+
     const backSlide = (index) => {
         var s = document.getElementsByClassName('Payment_step');
         for(let i = 0 ; i < s.length ; i++){
@@ -103,6 +156,14 @@ const Payment = () => {
                 
             }
         }
+    }
+
+    const addNewAddress = () =>{
+        
+        axiosData.addAddress(newAddress).then(function (data){
+            initialValue();
+            manageModalAddAddress("close")
+        })
     }
 
     const triggerClick = () =>{
@@ -188,7 +249,7 @@ const Payment = () => {
                         <div className="payment_field">
                             {Object.keys(addressShow).length !== 0 ?
                                 addressShow.map((item,index) => (
-                                    <div className={addFunction === true ? "address_payment_group black_address" : "address_payment_group "} onClick={()=>{selectAddress(index,item.A_addressid);setSelectAdd(item.A_addressid)}}>
+                                    <div className="address_payment_group " onClick={()=>{selectAddress(index);setSelectAdd(item.A_addressid)}}>
                                         <h4>{item.A_receive_name}</h4>
                                         <h5>
                                             {item.A_homenumber}  {item.A_moo} {item.A_canton} {item.A_district} {item.	A_province} {item.A_postal_code}
@@ -196,7 +257,7 @@ const Payment = () => {
                                 
                                     </div>
                             )):null}
-                            <h5>+ add new address</h5>
+                            <h5 className="AddNewAddress_Payment" onClick={()=>{manageModalAddAddress("show")}}>+ add new address</h5>
                             <button className="Payment_button_next" onClick={()=>{slidePayment(0);setHeadPayment('Payment')}}>next<MdIcons.MdKeyboardArrowRight className="arrow_next_payment"/></button>
                         </div>
                     </div>
@@ -238,6 +299,7 @@ const Payment = () => {
                                             <h4>024-3-89951-6</h4>
                                             <h4>นาย จิรายุค แซ่ลิ้ม</h4>
                                         </div>
+                                        <img src="/assets/image/qrbank.jpg" />
                                     </div>
                                     <div className="input_add_img_payment">
                                         <div className="bill_img">
@@ -264,6 +326,40 @@ const Payment = () => {
 
                 </div>
             </div>
+
+            {/* ADD Address */}
+                <div id="Modal_Add_Address_Payment" className="Modal_Add_Address_Payment">
+                    <div className="Modal_Add_Address_Payment_body">
+                        <h2>Add Address</h2>
+                        <h4 onClick={()=>{manageModalAddAddress("close")}}><AiIcons.AiOutlineClose className="Close_Modal_Add_Address_Payment"/></h4>
+                        <div className="input_Address_Payment_Name" >
+                            <input placeholder="Recipient Name" name="A_receive_name" value={newAddress.A_receive_name} onChange={(e)=> handleChangeNewAddress(e)}/>
+                        </div>
+                        <div className="input_Address_Payment_No_moo">
+                            <input className="input_Address_Payment_No" name="A_homenumber" placeholder="House No." value={newAddress.A_homenumber} onChange={(e)=> handleChangeNewAddress(e)}/>
+                            <input className="input_Address_Payment_Moo" name="A_moo" value={newAddress.A_moo} placeholder="Village No." onChange={(e)=> handleChangeNewAddress(e)}/>
+                        </div>
+                        <div className="input_Address_Payment_canton_district">
+                            <input className="input_Address_Payment_canton" name="A_canton" value={newAddress.A_canton} placeholder="Sub-district" onChange={(e)=> handleChangeNewAddress(e)}/>
+                            <input className="input_Address_Payment_district" name="A_district" value={newAddress.A_district} placeholder="District" onChange={(e)=> handleChangeNewAddress(e)}/>
+                        </div>
+                        <div className="input_Address_Payment_Province"  >
+                            <input placeholder="Province" name="A_province" value={newAddress.A_province}  onChange={(e)=> handleChangeNewAddress(e)}/>
+                        </div>
+                        <div className="input_Address_Payment_PostCode"  >
+                            <input placeholder="Postal Code" name="A_postal_code" value={newAddress.A_postal_code} onChange={(e)=> handleChangeNewAddress(e)}/>
+                        </div>
+
+                        <div className="button_Address_Payment_add">
+                            <button onClick={()=>{addNewAddress()}}>submit</button>
+                        </div>         
+                    </div>    
+                </div>
+
+            {/* ADD Address */}
+
+
+
         </div>
     )
 }

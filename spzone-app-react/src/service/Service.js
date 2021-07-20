@@ -214,6 +214,11 @@ export const getAddress = (params) => {
     return axiosMethodPost(path,params);
 };
 
+export const addAddress = (params) => {
+    let path = '/customers/addaddress';
+    return axiosMethodPost(path,params);
+};
+
 
 
 

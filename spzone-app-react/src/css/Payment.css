@@ -534,3 +534,78 @@
 }
 
 /* model Add Address Payment*/
+
+
+
+.Modal_Finish_cart{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 26, 0.842);
+    display: none;
+    opacity: 0;
+}
+
+.Modal_Finish_cart.show{
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+
+.Modal_Finish_cart_body{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    width: 450px;
+    background: #fff;
+    padding: 30px 30px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.Modal_Finish_cart_body {
+    cursor: default;
+}
+
+.Button_group_modal_fn_cart{
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    
+}
+
+.Button_Back_to_shopping{
+    width: 30%;
+    height: 40px;
+    font-family: 'Prompt', sans-serif;
+    cursor: pointer;
+    margin-right: 10%;
+    border: none;
+    background: rgb(44,44,44);
+    transition: .5s;
+    color: white;
+    border-radius: 24px;
+}
+
+.Button_go_home{
+    width: 30%;
+    height: 40px;
+    font-family: 'Prompt', sans-serif;
+    cursor: pointer;    
+    border: none;
+    background: rgb(44,44,44);
+    transition: .5s;
+    color: white;
+    border-radius: 24px;
+}
+
+.Button_Back_to_shopping:hover,
+.Button_go_home:hover{
+    background-color: rgb(32, 32, 32);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}

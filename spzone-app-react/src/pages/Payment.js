@@ -7,10 +7,11 @@ import * as GoIcons from "react-icons/go";
 import * as MdIcons from "react-icons/md";
 import * as BsIcons from "react-icons/bs";
 import {storage} from "../firebase";
+import {  useHistory } from 'react-router-dom';
 
 
 const Payment = () => {
-
+    const history = useHistory();
     const initPayment ={
         Or_imgpayment:"",
         Or_imgpaymentFile:""
@@ -24,6 +25,7 @@ const Payment = () => {
         A_province:"",
         A_postal_code:"",
         A_receive_name:"",
+        A_phone:"",
         C_customerid:localStorage.getItem('UserId')
     }
 
@@ -34,7 +36,8 @@ const Payment = () => {
     const [totalShow,setTotalShow] = useState(0);
     const [billData , setBillData] = useState(initPayment);
     const [selectAdd , setSelectAdd] = useState('');
-    const [newAddress, setNewAddress] = useState(initNewAdd)
+    const [newAddress, setNewAddress] = useState(initNewAdd);
+    const [fnOrdermodal,setFnOrdermodal] = useState('close');
 
     
 
@@ -45,7 +48,7 @@ const Payment = () => {
 
     useEffect(initialValue,[addressShow]);
     function initialValue(){
-
+        ManageModalFnOrder();
         axiosData.getAddress(C_id).then(function (data){
             setAddressShow(data)
             
@@ -70,6 +73,19 @@ const Payment = () => {
                 }
             }
         }
+    }
+
+
+    const goShop =()=>{
+        history.push("/Home/Product");
+            
+        window.location.reload();
+    }
+
+    const goHome =()=>{
+        history.push("/Home");
+            
+        window.location.reload();
     }
 
     const findTotal = () => {
@@ -200,21 +216,29 @@ const Payment = () => {
 
     }
 
+    const ManageModalFnOrder = () =>{
+        var modal = document.getElementsByClassName('Modal_Finish_cart')[0];
+
+        if(fnOrdermodal === "show"){
+            modal.classList.add("show");
+        } else if(fnOrdermodal === "close"){
+            modal.classList.remove("show");
+        
+        }
+    }
+
     const addOrders = (url) =>{
         var Or_data={
-            Or_price:2000,
+            Or_price:totalShow,
             Or_order_code:'test',
             C_customerid:localStorage.getItem('UserId'),
             A_addressid:selectAdd,
             Or_imgpayment:url
         }
-        
-
-
-        console.log(Or_data);
-
+        setFnOrdermodal('show');
         axiosData.addOrders(Or_data).then((data) =>{
-            
+
+            ManageModalFnOrder();
             
         })
     }
@@ -250,7 +274,7 @@ const Payment = () => {
                             {Object.keys(addressShow).length !== 0 ?
                                 addressShow.map((item,index) => (
                                     <div className="address_payment_group " onClick={()=>{selectAddress(index);setSelectAdd(item.A_addressid)}}>
-                                        <h4>{item.A_receive_name}</h4>
+                                        <h4>{item.A_receive_name}  {item.A_phone}</h4>
                                         <h5>
                                             {item.A_homenumber}  {item.A_moo} {item.A_canton} {item.A_district} {item.	A_province} {item.A_postal_code}
                                         </h5>
@@ -335,6 +359,9 @@ const Payment = () => {
                         <div className="input_Address_Payment_Name" >
                             <input placeholder="Recipient Name" name="A_receive_name" value={newAddress.A_receive_name} onChange={(e)=> handleChangeNewAddress(e)}/>
                         </div>
+                        <div className="input_Address_Payment_Name" >
+                            <input placeholder="Phone number" name="A_phone" value={newAddress.A_phone} onChange={(e)=> handleChangeNewAddress(e)}/>
+                        </div>
                         <div className="input_Address_Payment_No_moo">
                             <input className="input_Address_Payment_No" name="A_homenumber" placeholder="House No." value={newAddress.A_homenumber} onChange={(e)=> handleChangeNewAddress(e)}/>
                             <input className="input_Address_Payment_Moo" name="A_moo" value={newAddress.A_moo} placeholder="Village No." onChange={(e)=> handleChangeNewAddress(e)}/>
@@ -357,6 +384,22 @@ const Payment = () => {
                 </div>
 
             {/* ADD Address */}
+            
+
+            {/* finite Orders */}
+
+            <div id="Modal_Finish_cart" className="Modal_Finish_cart">
+                <div className="Modal_Finish_cart_body">
+                    <h1>Successful purchase</h1>
+                    <div className="Button_group_modal_fn_cart">
+                        <button onClick={()=>{setFnOrdermodal('close');goShop()}} className="Button_Back_to_shopping">Back to shopping</button>    
+                        <button onClick={()=>{setFnOrdermodal('close');goHome()}} className="Button_go_home">home</button>                          
+                    </div>                            
+                </div>    
+            </div>
+
+
+            {/* finite Orders */}
 
 
 

@@ -175,7 +175,7 @@ const ProductInfo = (props) => {
                     </div>
                     <div className="plus_minus_group">          
                                 <button className="minusButtonProFont " onClick={()=>{minusAmount()}}>-</button>
-                                <input type="text" value={amountOfPro} id="amount_ProInFo" name="Cart_amount"   disabled></input>
+                                <input type="text" value={amountOfPro}  id="amount_ProInFo" name="Cart_amount"   disabled></input>
                                 <button className="plusButtonProFont" onClick={()=>{plusAmount()}}>+</button>
                     </div>
                     <div className="buy_group">

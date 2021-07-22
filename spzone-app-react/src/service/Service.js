@@ -229,5 +229,31 @@ export const addOrders = (params) => {
     return axiosMethodPost(path,params);
 };
 
+export const getOrders = () => {
+    let path = '/orders/showorder';
+    return axiosMethodGet(path);
+};
+
+export const getOrdersById = (params) => {
+    let path = '/orders/showoderbyid';
+    return axiosMethodPost(path,params);
+};
+
+export const comfirmOrder = (id) => {
+    let path = '/orders/confirmorder/'+id;
+    console.log(path);
+    return axiosMethodPut(path);
+};
+
+export const getOrdersDetail = (params) => {
+    let path = '/orders/showOrderdetailbyid';
+    return axiosMethodPost(path,params);
+};
+
+export const cancleOrder = (id) => {
+    let path = '/orders/cancleorder/'+id;
+    return axiosMethodPut(path);
+};
+
 
 //-------------------------------------------------------------------------

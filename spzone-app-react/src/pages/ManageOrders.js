@@ -24,12 +24,14 @@ const ManageOrders = () => {
     const [orderShow,setOrderShow] = useState([]);
     const [orderData,setOrderData] = useState(initOrder);
     const [orderDetailData,setOrderDetailData] = useState([]);
+    const [orderCancle,setOrderCancle] = useState();
     
 
 
     useEffect(initialValue,[]);
     function initialValue(){
         ManageModalOrdersInfo('close')
+        ManageModalOrdersInfoComfirm('close');
         axiosData.getOrders().then(function (data){
             
             setOrderShow(data)
@@ -74,6 +76,15 @@ const ManageOrders = () => {
 
     const ManageModalOrdersInfo = (status) => {
         var modal = document.getElementsByClassName('ModalInfoOrderPageAdmin')[0];
+        if(status === "show"){
+            modal.classList.add("show");
+        } else if(status === "close"){
+            modal.classList.remove("show");
+        }
+    }
+
+    const ManageModalOrdersInfoComfirm = (status) =>{
+        var modal = document.getElementsByClassName('ModalInfoOrderPageAdminComfirm')[0];
         if(status === "show"){
             modal.classList.add("show");
         } else if(status === "close"){
@@ -176,7 +187,7 @@ const ManageOrders = () => {
                             {orderData.OS_statusid == 5 ?
                             <div>
                                 <button onClick={()=>{YesMoneyOrder(orderData.Or_orderid)}} className="Button_yes_money">ยืนยันการชำระเงิน</button>
-                                <button onClick={()=>{CancleOrderbutton(orderData.Or_orderid)}} className="Button_No_money">ยกเลิกคำสั่งซื้อ</button>
+                                <button onClick={()=>{setOrderCancle(orderData.Or_orderid);ManageModalOrdersInfoComfirm('show');}} className="Button_No_money">ยกเลิกคำสั่งซื้อ</button>
                            </div> 
                            :null
                             }
@@ -189,6 +200,24 @@ const ManageOrders = () => {
             </div>
 
             {/* Modal InFo Orders */}
+
+            {/* Modal InFo Orders Comfirm*/}
+            <div id="ModalInfoOrderPageAdminComfirm" className="ModalInfoOrderPageAdminComfirm">
+                <div className="ModalInfoOrderPageAdminComfirm_body">
+                    <h5 onClick={()=>{ManageModalOrdersInfoComfirm('close');}}><AiIcons.AiOutlineClose className="CloseModelInfoOrder"/></h5>
+                    <p>คุณต้องการยกเลิกคำสั่งซื้อใช่หรือไม่</p>
+                    <div className="button_group_comfirmCancle">
+                        <button className="NoCancleOrderButton" onClick={()=>{ManageModalOrdersInfoComfirm('close');}}>ไม่ใช่</button>
+                        <button className="YesCancleOrderButton" onClick={()=>{CancleOrderbutton(orderCancle);}}>ใช่</button>
+                    </div>
+                    
+                    
+                    
+                </div>    
+            </div>
+
+
+            {/* Modal InFo Orders Comfirm*/}
                
         </div>
     )

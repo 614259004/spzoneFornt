@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';    
 import NewRegister from './pages/NewRegister';  
 import Admin from './pages/Admin'; 
+import Profile from './pages/Profile'; 
 
 
 
@@ -16,7 +17,8 @@ function App() {
         <Route path='/Home'   component={Home}/>         
         <Route path='/Login' exact component={Login}/>        
         <Route path='/NewRegister' exact component={NewRegister}/> 
-        <Route path='/Admin' exact  component={Admin}/>     
+        <Route path='/Admin' exact  component={Admin}/>
+        <Route path='/Profile' exact  component={Profile}/>       
       </Switch>     
     </Router>       
     </>   

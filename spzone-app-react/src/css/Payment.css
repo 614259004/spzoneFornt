@@ -183,7 +183,7 @@
 
 .payment_bill{
     width: 50%;
-    
+    cursor: default;
 }
 
 .pay_data_group{
@@ -197,7 +197,7 @@
     font-size: 14px;
     color: silver;
     padding-bottom: 3px;
-    border-bottom: 2px solid silver;
+    border-bottom: 2px solid rgb(165, 165, 165);
 }
 
 .payData_02{
@@ -212,7 +212,7 @@
     display: flex;
     font-size: 14px;
     color: silver;
-    border-top: 2px solid silver;
+    border-top: 2px solid rgb(165, 165, 165);
     padding-top: 8px;
 }
 
@@ -242,6 +242,7 @@
 .head_payment_price_02{
     width: 20%;
     text-align: right;
+    color: rgb(44, 44, 44);
 }
 
 .total_name_payment{
@@ -255,6 +256,7 @@
     text-align: right;
     font-weight: bold;
     font-size: 16px;
+    color: rgb(44, 44, 44);
 }
 
 .bank_admin_group{
@@ -262,6 +264,7 @@
     cursor: default;
     align-items: center;
     width: 100%;
+    margin-top: -12%;
     margin-left: 20%;
 }
 
@@ -278,32 +281,37 @@
     display: none;
 }
 
-.p_payment_bill_select{
-    border: 2px solid rgb(44, 44, 44);
-    padding: 10px 20px;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: .5s;
-    width: 73%;
-    margin-left: 13%;
-}
 
-.p_payment_bill_select:hover{
-    background-color: rgb(44, 44, 44);
-    color: white;
-}
 
 .bill_img{
-    width: 100px;
-    height: 116px;
-    margin-left: 42%;
+    width: 55%;
+    height: 232px;
+    margin-left: 29%;
     margin-top: 5%;
-    margin-bottom: 5%;
+    margin-bottom: 1.5%;
+    cursor: pointer;
+    transition: .5s;
+    border: 2px solid rgb(44, 44, 44);
+    border-radius: 24px;
+}
+
+.bill_img:hover{
+    background: rgb(44,44,44);
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.bill_img p {
+    width: 100%;
+    margin-top: 40%;
+    cursor: pointer;
+    text-align: center;
 }
 
 .bill_img img{
-    width: 100px;
-    height: 116px;
+    width: 100%;
+    border-radius: 24px;
+   
 }
 
 .input_add_img_payment{

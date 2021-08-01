@@ -140,7 +140,11 @@ const Cart = () => {
                         </div>
                 </div>
                 <div className="cart_Info_checkout">
-                    <a href="/Home/Payment">Checkout</a>
+                    {cartShow != '' ?
+                    <a  href="/Home/Payment">Checkout</a>
+                    :
+                    <a  href="">Checkout</a>
+                    }
                 </div>
             </div>
         </div>

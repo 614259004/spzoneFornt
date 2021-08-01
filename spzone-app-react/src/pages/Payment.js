@@ -123,22 +123,23 @@ const Payment = () => {
 
     const slidePayment =(index)=>{
         var s = document.getElementsByClassName('Payment_step');
-
-        for(let i = 0 ; i < s.length ; i++){
-            if( i === index){
-                var x = document.getElementsByClassName('Payment_bullet')[index];
-                var y = document.getElementsByClassName('Payment_check')[index];
-                var z = document.getElementsByClassName('Payment_progress_p')[index];
-                const slidePage = document.querySelector(".slidepage");
-                
-                x.classList.add("active");
-                y.classList.add("active");
-                z.classList.add("active");
-                if(i === 0){
+        if(selectAdd != ''){
+            for(let i = 0 ; i < s.length ; i++){
+                if( i === index){
+                    var x = document.getElementsByClassName('Payment_bullet')[index];
+                    var y = document.getElementsByClassName('Payment_check')[index];
+                    var z = document.getElementsByClassName('Payment_progress_p')[index];
+                    const slidePage = document.querySelector(".slidepage");
                     
-                    slidePage.style.marginLeft="-55%";
+                    x.classList.add("active");
+                    y.classList.add("active");
+                    z.classList.add("active");
+                    if(i === 0){
+                        
+                        slidePage.style.marginLeft="-55%";
+                    }
+                
                 }
-               
             }
         }
 
@@ -156,6 +157,7 @@ const Payment = () => {
 
     const backSlide = (index) => {
         var s = document.getElementsByClassName('Payment_step');
+
         for(let i = 0 ; i < s.length ; i++){
             if(i === index){
                 var x = document.getElementsByClassName('Payment_bullet')[index];
@@ -282,7 +284,11 @@ const Payment = () => {
                                     </div>
                             )):null}
                             <h5 className="AddNewAddress_Payment" onClick={()=>{manageModalAddAddress("show")}}>+ add new address</h5>
+                            {selectAdd != '' ?
                             <button className="Payment_button_next" onClick={()=>{slidePayment(0);setHeadPayment('Payment')}}>next<MdIcons.MdKeyboardArrowRight className="arrow_next_payment"/></button>
+                            :
+                            <button className="Payment_button_next">next<MdIcons.MdKeyboardArrowRight className="arrow_next_payment"/></button>
+                            }
                         </div>
                     </div>
 
@@ -326,11 +332,13 @@ const Payment = () => {
                                         <img src="/assets/image/qrbank.jpg" />
                                     </div>
                                     <div className="input_add_img_payment">
-                                        <div className="bill_img">
+                                        <div className="bill_img" for="ImgFileOrder" onClick={()=>{triggerClick()}}>
                                             <img  src={billData.Or_imgpayment} />
+                                            {billData.Or_imgpayment === "" ?
+                                            <p>select Image</p> : null}
                                         </div>
                                         <input type="file" accept="image/*" id="ImgFileOrder" onChange={selectFile}   className="ImgFileOrder" name="Or_imgpaymentFile"/>
-                                        <p className="p_payment_bill_select" for="ImgFileOrder" onClick={()=>{triggerClick()}} >กรุณาแนบหลักฐานการชำระเงิน</p>
+                                        
                                     </div>
                                 </div>
 
@@ -341,9 +349,15 @@ const Payment = () => {
                                 <button className="button_group_payment_back" onClick={() => {backSlide(0);setHeadPayment('Address')}} >
                                     <MdIcons.MdKeyboardArrowLeft className="button_group_payment_back_icon" />back
                                 </button>
-                                <button className="button_group_payment_next" onClick={(e)=>{slidePayment(1);uploadFileToFirebase(e)}}>
-                                    submit<BsIcons.BsCheck className="button_group_payment_next_icon"/>
-                                </button>
+                                {billData.Or_imgpayment != '' ?
+                                    <button className="button_group_payment_next" onClick={(e)=>{slidePayment(1);uploadFileToFirebase(e)}}>
+                                        submit<BsIcons.BsCheck className="button_group_payment_next_icon"/>
+                                    </button>
+                                :
+                                    <button className="button_group_payment_next" >
+                                        submit<BsIcons.BsCheck className="button_group_payment_next_icon"/>
+                                    </button>
+                                }
                             </div>
                         </div>
                     </div>
@@ -378,6 +392,7 @@ const Payment = () => {
                         </div>
 
                         <div className="button_Address_Payment_add">
+                            
                             <button onClick={()=>{addNewAddress()}}>submit</button>
                         </div>         
                     </div>    

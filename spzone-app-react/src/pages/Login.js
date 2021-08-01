@@ -25,16 +25,20 @@ function Login() {
     }
 
     const checkLogIn = () => {
-        axiosData.logIn(logInData).then(function (data){
-            const datacus = data[0];
-            localStorage.setItem('UserId',datacus.C_customerid);
-            
-            if(datacus.S_statusid == 2){
-                history.push("/Home");
-            } else if(datacus.S_statusid == 1){
-                history.push("/Admin");
-            }
-        })
+        if(logInData.L_email === '' || logInData.L_password === ''){
+
+        }else{
+            axiosData.logIn(logInData).then(function (data){
+                const datacus = data[0];
+                localStorage.setItem('UserId',datacus.C_customerid);
+                
+                if(datacus.S_statusid == 2){
+                    history.push("/Home");
+                } else if(datacus.S_statusid == 1){
+                    history.push("/Admin");
+                }
+            })
+        }
     }
 
 

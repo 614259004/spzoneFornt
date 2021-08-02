@@ -231,3 +231,10 @@ export const addOrders = (params) => {
 
 
 //-------------------------------------------------------------------------
+//Promotion
+export const getPromotion = () => {
+    let path = '/promotions/showPromotion';
+    return axiosMethodGet(path);
+}
+
+//-------------------------------------------------------------------------

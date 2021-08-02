@@ -4,7 +4,9 @@ import '../css/Profile.css';
 const Profile = () => {
     return (
         <div>
-            
+            <div>
+                
+            </div>
         </div>
     )
 }

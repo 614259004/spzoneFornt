@@ -26,9 +26,7 @@ function Promotion() {
                             <p> หมดอายุ {proItem.Pr_time_out} </p>
                         <br />
                     <div>
-                        {/* <a href="#" className="button">
-                            Buy now
-                        </a> */}
+                        
                         <a href="#" className="button">
                             Add to cart
                         </a>

@@ -644,7 +644,7 @@ const ManageProduct = () => {
                             
         
                             axiosData.addsize(Szdata).then((data) =>{
-                                console.log(data);
+                                
                                 manageAddSizeModal("close");
                                 manageInfoModal("close");
                                 setSizeAdd(sizeData)

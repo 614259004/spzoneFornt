@@ -28,7 +28,7 @@ export const SidebarData = [
     },
     {
         title: 'PROMOTION',
-        path: '/Promotion',
+        path: '/Home/Promotion',
         cName: 'nav-text'
     }
 ]

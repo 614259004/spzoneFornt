@@ -257,3 +257,10 @@ export const cancleOrder = (id) => {
 
 
 //-------------------------------------------------------------------------
+//Promotion
+export const getPromotion = () => {
+    let path = '/promotions/showPromotion';
+    return axiosMethodGet(path);
+}
+
+//-------------------------------------------------------------------------

@@ -8,10 +8,12 @@ import * as FaIcons from "react-icons/fa";
 import {SidebarData} from './Sidebardata';
 import * as axiosData from '../service/Service';
 import { Sling as Hamburger } from 'hamburger-react'
+import { Redirect, useHistory } from 'react-router-dom';
 
 
 
 function Navbar() {
+    const history = useHistory();
 
     const cusData ={
         C_customerid:'',
@@ -30,6 +32,7 @@ function Navbar() {
     const [userData, setUserData] = useState(cusData)
     const [useNavbar, setUseNavbar] = useState(false)
     const [cartData, setCartData] = useState([])
+    const [profileModal, setProfileModal] = useState('close')
 
     const userId = {C_customerid:localStorage.getItem('UserId')};
     
@@ -58,14 +61,39 @@ function Navbar() {
         }
     }
 
-
+    const ManageModalProfileLogout = (status) => {
+        var modal = document.getElementsByClassName('Modal-Profile-Nuvbar')[0];
+        if(status === "show"){
+            modal.classList.add("show");
+        } else if(status === "close"){
+            modal.classList.remove("show");
+        }
+    }
    
+    const LogOut = () =>{
+        localStorage.removeItem('UserId');
+        window.location.reload();
+    }
 
+    const GoToProfile = () => {
+        history.push("/Profile");
+        window.location.reload();
+    }
 
 
 
   return (
     <>
+    {/*Profile modal*/}
+    <div id="Modal-Profile-Nuvbar" onClick={()=>{ManageModalProfileLogout('close')}} className="Modal-Profile-Nuvbar">
+        <div className="Modal-Profile-Nuvbar-body">
+            <h4 onClick={()=>{GoToProfile()}}>Profile</h4>
+            <h4>History</h4>
+            <h4 onClick={()=>{LogOut()}}>Log out</h4>     
+        </div>    
+    </div>
+
+    {/*Profile modal*/}
 
     <div className="navbarSPZ">
 
@@ -111,14 +139,27 @@ function Navbar() {
                             </div>
                         :null}
                     </div>
-                    <div className="img-user-nuvbar">
+                    { profileModal == 'close' ?
+
+                    <div className="img-user-nuvbar" onClick={()=>{ManageModalProfileLogout('show');setProfileModal('show')}}>
                         
-                        <div className="inblock-img-C-name">
-                            <img src="/assets/image/logojone.png" />
+                        <span className="Username-text-home">
+                            <img src={userData.C_image} />
                             <h5>{userData.C_name}</h5>
-                        </div>
+                        </span>
                        
                     </div>
+                    :
+                    <div className="img-user-nuvbar" onClick={()=>{ManageModalProfileLogout('close');setProfileModal('close')}}>
+                        
+                        <span className="Username-text-home">
+                            <img src="/assets/image/logojone.png" />
+                            <h5>{userData.C_name}</h5>
+                        </span>
+                       
+                    </div>
+
+                    }
                 </div>
                 }
                 
@@ -150,6 +191,8 @@ function Navbar() {
             </div>
         </div>
     </div>
+
+
     <div className="Hamburger-group">
                 <Hamburger color={colorHum} size={20} duration={0.8} onToggle={toggled => {
                     const slidebar001 = document.querySelector('.slidebarHome');
@@ -176,6 +219,10 @@ function Navbar() {
                 }} />
             </div>
     </div>
+
+
+
+
     </>
   );
 }

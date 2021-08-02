@@ -14,21 +14,24 @@ import * as axiosData from '../service/Service';
 const NewRegister = () => {
     const [eye, setEye] = useState(false);
     const [eye01, setEye01] = useState(false);
+    const [emptyCheck , setEmptyCheck] = useState(false);
     const [register, setRegister] = useState(d.jsonRegister);
-    const[form01] = Form.useForm();
+    const [form01] = Form.useForm();
 
     
     
+   
     const onFinish = () => {
-        
-        
-        console.log(register);
-
-        axiosData.sendDataRegister(register).then(function (data){
-            
-            localStorage.setItem('UserId',data);
-            
-        })
+        if(register.L_password === null || register.L_password === ''){
+            setEmptyCheck(false)
+        }else{
+            axiosData.sendDataRegister(register).then(function (data){
+                 
+                localStorage.setItem('UserId',data);
+                setEmptyCheck(true)
+                mangeModal('show')
+            })
+        }
 
        
     }
@@ -38,27 +41,38 @@ const NewRegister = () => {
     };
     const  test = (index) => {
         var w = document.getElementsByClassName('Register-step');
-        
-        for(let i = 0 ; i < w.length ; i++){
-            if( i === index){
-                var x = document.getElementsByClassName('Register-bullet')[index];
-                var y = document.getElementsByClassName('Register-check')[index];
-                var z = document.getElementsByClassName('Regis-progress-p')[index];
-                const slidePage = document.querySelector(".slidepage");
-                
-                x.classList.add("active");
-                y.classList.add("active");
-                z.classList.add("active");
-                if(i === 0){
+            for(let i = 0 ; i < w.length ; i++){
+                if( i === index){
+                    var x = document.getElementsByClassName('Register-bullet')[index];
+                    var y = document.getElementsByClassName('Register-check')[index];
+                    var z = document.getElementsByClassName('Regis-progress-p')[index];
+                    const slidePage = document.querySelector(".slidepage");
                     
-                    slidePage.style.marginLeft="-25%";
+                   
+                    if(i === 0){
+                        if(register.C_name ===null || register.C_lastname === null ||register.C_name === ''|| register.C_lastname === ''){
+
+                        }else{
+                            x.classList.add("active");
+                            y.classList.add("active");
+                            z.classList.add("active");
+                            slidePage.style.marginLeft="-25%";
+                        }
+                    }
+                    else if(i === 1){
+                        if(register.L_email === null || register.L_email === '' || register.C_tel === null ||  register.C_tel === ''){
+
+                        }else{
+                            x.classList.add("active");
+                            y.classList.add("active");
+                            z.classList.add("active");
+                            slidePage.style.marginLeft="-50%";
+                        }
+                    }
+                
                 }
-                else if(i === 1){
-                    slidePage.style.marginLeft="-50%";
-                }
-               
             }
-        }
+        
 }
 const test01 = (index) => {
     var w = document.getElementsByClassName('Register-step');
@@ -129,7 +143,7 @@ const test01 = (index) => {
 
                 </div>
                 <div className="Register-layout-form">
-                    <Form onFinish={()=>{onFinish();mangeModal("show")}} form={form01} className="Register-form">
+                    <Form  form={form01} className="Register-form">
                         <div className="Register-page slidepage">
                             <div className="Register-field">
                                 
@@ -216,10 +230,10 @@ const test01 = (index) => {
 
                                         <br /><br />
                                     
-                                        <button onClick={() => {test(2);}} className="Next-button-regis03">
+                                        <button onClick={() => {test(2);onFinish();}} className="Next-button-regis03">
                                             submit <BiIcons.BiCheck className="Next01-button-icon-regis" />
                                         </button>
-                                    
+                                   
                                 </div>
                             </div>
                         </div>

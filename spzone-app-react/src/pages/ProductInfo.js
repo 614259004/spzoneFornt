@@ -16,6 +16,7 @@ const ProductInfo = (props) => {
     const [nameSize,setNameSize]=useState();
     const [amountOfPro,setAmountOfPro] =useState(1);
     
+    
 
     var clothSize = ["XS","S","M","L","XL","XXL"];
     
@@ -65,11 +66,20 @@ const ProductInfo = (props) => {
             document.querySelector(".minusButtonProFont").classList.remove("disabled");
         }
 
+        if(valueAmount >= selectSize){
+            document.querySelector(".plusButtonProFont").setAttribute("disabled", "disabled");
+        }
+        if(valueAmount < selectSize){
+            document.querySelector(".plusButtonProFont").removeAttribute("disabled");
+            document.querySelector(".plusButtonProFont").classList.remove("disabled");
+        }
+
         
         setAmountOfPro(valueAmount);
         
 
     } 
+
 
 
     const minusAmount = () => {
@@ -83,11 +93,19 @@ const ProductInfo = (props) => {
         if(valueAmount ==1){
             document.querySelector(".minusButtonProFont").setAttribute("disabled", "disabled");
         }
+        if(valueAmount < selectSize){
+            document.querySelector(".plusButtonProFont").removeAttribute("disabled");
+            document.querySelector(".plusButtonProFont").classList.remove("disabled");
+        }
         
         setAmountOfPro(valueAmount);
     } 
 
     const handelchangeRadeo = (item) => {
+        setAmountOfPro(1);
+        document.querySelector(".plusButtonProFont").removeAttribute("disabled");
+        document.querySelector(".plusButtonProFont").classList.remove("disabled");
+        document.querySelector(".minusButtonProFont").setAttribute("disabled", "disabled");
         setNameSize(item.P_size);
         setSelectSize(item.P_size_amount);
     }
@@ -102,6 +120,10 @@ const ProductInfo = (props) => {
                 P_size:nameSize,
                 Ca_amount:amountOfPro
             }
+            axiosData.addCart(prodetail).then(function (data){
+                history.push("/Home/Payment");
+                window.location.reload();
+            })
 
             
         }
@@ -164,7 +186,7 @@ const ProductInfo = (props) => {
                             <div className="radio-input-group-proInfo">
                                 
                                     <input type="radio" checked={radioSelect === ProSize.P_size} name="radio_size_select_info" id={ProSize.P_size} onClick={()=>{handelchangeRadeo(ProSize)}}></input>
-                                    <label for={ProSize.P_size} onClick={()=>{setRadioSelect(ProSize.P_size)}}>
+                                    <label for={ProSize.P_size} onClick={()=>{setRadioSelect(ProSize.P_size);}}>
                                         <span>{ProSize.P_size}</span>
                                     </label>
                     
@@ -175,7 +197,7 @@ const ProductInfo = (props) => {
                     </div>
                     <div className="plus_minus_group">          
                                 <button className="minusButtonProFont " onClick={()=>{minusAmount()}}>-</button>
-                                <input type="text" value={amountOfPro} id="amount_ProInFo" name="Cart_amount"   disabled></input>
+                                <input type="text" value={amountOfPro}  id="amount_ProInFo" name="Cart_amount"   disabled></input>
                                 <button className="plusButtonProFont" onClick={()=>{plusAmount()}}>+</button>
                     </div>
                     <div className="buy_group">

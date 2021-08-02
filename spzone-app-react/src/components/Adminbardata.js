@@ -13,7 +13,7 @@ export  const Adminbardata = [
     {
         title: 'รายการสั่งซื้อ',
         icon:<RiIcons.RiFilePaper2Fill className="Admin-sidebar-icon"/>,
-        path: '/Admin/Orders',
+        path: '/Admin/ManageOrders',
         cName: 'nav-text-admin'
     },
     {

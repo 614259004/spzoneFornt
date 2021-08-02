@@ -1,10 +1,39 @@
-import React, {useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import './AdminSidebar.css';
 import { Link } from 'react-router-dom'
 import {Adminbardata} from './Adminbardata';
+import * as axiosData from '../service/Service';
 
 
 function AdminSidebar() {
+
+  const cusData ={
+    C_customerid:'',
+    C_name:'',
+    C_lastname:'',
+    C_tel:'',
+    C_image:'',
+    S_statusid:'',
+    L_email:'',
+    L_password:''
+}
+
+  const userId = {C_customerid:localStorage.getItem('UserId')};
+  const [userData , setUserData] = useState(cusData);
+
+
+  useEffect(initialValue,[]);
+    function initialValue(){
+        
+      axiosData.getprofile(userId).then(function (data){
+        setUserData(data[0]);
+        
+    })
+        
+    }
+
+
+
   return (
     <div className="Navbar-admin">
      
@@ -28,7 +57,7 @@ function AdminSidebar() {
       </div> 
       <div className="Admin-Profile">
         <a href="">
-          Admin name
+          {userData.C_name}
         </a>
       </div>
     </div>

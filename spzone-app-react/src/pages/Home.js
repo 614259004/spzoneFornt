@@ -6,6 +6,7 @@ import ProductInfo from './ProductInfo';
 import Navbar from "../components/Navbar";
 import Cart from './Cart';
 import Payment from './Payment';
+import Promotion from './Promotion';
 
 
 function Home() {
@@ -18,7 +19,8 @@ function Home() {
                     <Route path='/Home/Preorder'  component={Preorder} />
                     <Route path='/Home/ProductInfo'  component={ProductInfo} />
                     <Route path='/Home/Cart'   component={Cart}/> 
-                    <Route path='/Home/Payment'   component={Payment}/>  
+                    <Route path='/Home/Payment'   component={Payment}/>
+                    <Route path='/Home/Promotion'  component={Promotion} />
                 </Switch>
             </Router>
         </>

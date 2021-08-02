@@ -644,7 +644,7 @@ const ManageProduct = () => {
                             
         
                             axiosData.addsize(Szdata).then((data) =>{
-                                console.log(data);
+                                
                                 manageAddSizeModal("close");
                                 manageInfoModal("close");
                                 setSizeAdd(sizeData)
@@ -666,7 +666,7 @@ const ManageProduct = () => {
                 P_size:Szdata.P_size
             }
             
-
+            
             axiosData.deletesize(Sidata).then((data) =>{
                
                 ManageModelSizeDelete("close");

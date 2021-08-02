@@ -15,6 +15,7 @@ function Product() {
     function initialValue(){
         axiosData.showproduct().then(function (data){
             setShowProduct(data);
+            console.log(data);
         })
     }
     

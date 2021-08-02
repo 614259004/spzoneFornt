@@ -28,7 +28,7 @@ const Cart = () => {
      
 
     const findTotal = () => {
-        if(cartShow !== null){
+        if(cartShow.length !== 0 ){
             let total = 0
             for( var i = 0 ; i < cartShow.length ; i++){
                 var sum = cartShow[i].P_price * cartShow[i].Ca_amount;
@@ -38,6 +38,9 @@ const Cart = () => {
                  
             }
             //  console.log(totalShow);
+        }else{
+            setTotalShow(0);
+            
         }
     }
 

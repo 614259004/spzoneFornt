@@ -666,7 +666,7 @@ const ManageProduct = () => {
                 P_size:Szdata.P_size
             }
             
-
+            
             axiosData.deletesize(Sidata).then((data) =>{
                
                 ManageModelSizeDelete("close");

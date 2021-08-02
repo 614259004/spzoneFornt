@@ -29,7 +29,7 @@ const NewRegister = () => {
                  
                 localStorage.setItem('UserId',data);
                 setEmptyCheck(true)
-                
+                mangeModal('show')
             })
         }
 
@@ -230,7 +230,7 @@ const test01 = (index) => {
 
                                         <br /><br />
                                     
-                                        <button onClick={() => {test(2);onFinish();mangeModal('show')}} className="Next-button-regis03">
+                                        <button onClick={() => {test(2);onFinish();}} className="Next-button-regis03">
                                             submit <BiIcons.BiCheck className="Next01-button-icon-regis" />
                                         </button>
                                    

@@ -33,6 +33,7 @@ const ProductInfo = (props) => {
         
         var Pid =props.location.state
         document.querySelector(".minusButtonProFont").setAttribute("disabled", "disabled");
+        document.querySelector(".plusButtonProFont").setAttribute("disabled", "disabled");
         
 
 

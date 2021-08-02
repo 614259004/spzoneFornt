@@ -72,4 +72,9 @@
     border-left:1px solid #6098FF;
     border-right:1px solid #6098FF;
 }
+
+.body-card h3,
+.body-card p{
+    cursor: default;
+}
   

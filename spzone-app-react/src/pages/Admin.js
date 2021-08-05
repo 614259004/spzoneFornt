@@ -5,6 +5,7 @@ import ManageBrand from './ManageBrand';
 import Fade from 'react-reveal/Fade';
 import ManageCategory from './ManageCategory';
 import ManageOrders from './ManageOrders';
+import ManagePromotion from './ManagePromotion';
 import AdminSidebar from "../components/AdminSidebar";
 import '../css/AdminHome.css';
 
@@ -20,6 +21,7 @@ function Admin() {
                     <Route path='/Admin/ManageBrand'   component={ManageBrand} />
                     <Route path='/Admin/ManageCategory'  component={ManageCategory} />
                     <Route path='/Admin/ManageOrders'  component={ManageOrders} />
+                    <Route path='/Admin/ManagePromotion'  component={ManagePromotion} />
                 </Switch>
             </Router>
             </Fade>

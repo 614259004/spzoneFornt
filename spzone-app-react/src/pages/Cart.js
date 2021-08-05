@@ -20,8 +20,6 @@ const Cart = () => {
     function initialValue(){
         axiosData.getCart(UserId).then(function (data){
             setCartShow(data)
-           
-    
         })
 
      }   

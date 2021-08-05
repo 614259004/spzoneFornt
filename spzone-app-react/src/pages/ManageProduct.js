@@ -82,7 +82,7 @@ const ManageProduct = () => {
            
            
             
-           const size = [];
+        const size = [];
 
           for(let i =0 ; i<clothSize.length ; i++){
             data.sp_size.filter(x=> x.P_size == clothSize[i]).map(y=> {size.push(y)   })
@@ -801,12 +801,6 @@ const ManageProduct = () => {
                         </div>
                         <p className="CheckDuplicateCateName09 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกหมวดหมู่สินค้า</p>
                         <p className="CheckDuplicateCateName10 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกแบรนด์สินค้า</p>
-                        {/* <div className="PromotionProduct">
-                            <div className="Promo-From-add">
-                                <p>โปรโมชัน</p>
-                                <Input required onChange={(e)=> handleChange(e)} value={productData.Pr_promotion_code} name="Pr_promotion_code"/>
-                            </div>
-                        </div> */}
                         <div className="Image-Product-Group">
                             <div className="Product-Img-Add">
                                 <img src={productData.P_image1} />

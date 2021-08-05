@@ -44,6 +44,7 @@ function Login() {
 
     return (
         <div className="body-login">
+
             <div className="loginform">
                 <div className="login-back-home">
                     <a href="/"><AiIcons.AiOutlineClose /></a>
@@ -63,6 +64,7 @@ function Login() {
                 </div>
                 <a href="/NewRegister" className="create-account-a"><h6 className="create-account-h6">create new account</h6></a>
             </div>
+
         </div>
     )
 }

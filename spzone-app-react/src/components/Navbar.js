@@ -153,7 +153,7 @@ function Navbar() {
                     <div className="img-user-nuvbar" onClick={()=>{ManageModalProfileLogout('close');setProfileModal('close')}}>
                         
                         <span className="Username-text-home">
-                            <img src="/assets/image/logojone.png" />
+                            <img src={userData.C_image} />
                             <h5>{userData.C_name}</h5>
                         </span>
                        

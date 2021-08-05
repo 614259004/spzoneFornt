@@ -10,6 +10,10 @@
     display: flex;
 }
 
+.Head-brand h1{
+    cursor: default;
+}
+
 .brand-add-button{
     display: flex;
     justify-content: start;

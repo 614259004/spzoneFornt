@@ -253,6 +253,11 @@ export const getPromotion = () => {
     return axiosMethodGet(path);
 }
 
+export const getPromotionUse = () => {
+    let path = '/promotions/showPromotionbystatus';
+    return axiosMethodGet(path);
+}
+
 export const addPromotion = (params) => {
     let path = '/promotions/addPromotion';
     return axiosMethodPost(path,params);

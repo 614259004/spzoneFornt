@@ -22,7 +22,7 @@
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
 }
-.button{
+/* .button{
     padding: 15px 100px;
     margin:10px 4px;
     color: rgb(3, 3, 3);
@@ -71,7 +71,7 @@
 .btn6:hover{
     border-left:1px solid #6098FF;
     border-right:1px solid #6098FF;
-}
+} */
 
 .body-card h3,
 .body-card p{

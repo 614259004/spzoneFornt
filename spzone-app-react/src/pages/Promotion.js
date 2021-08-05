@@ -8,7 +8,7 @@ function Promotion() {
 
     useEffect(initialValue,[]);
     function initialValue(){
-        axiosData.getPromotion().then(function(data){
+        axiosData.getPromotionUse().then(function(data){
             setDataPromotion(data);
         })
     }
@@ -27,9 +27,9 @@ function Promotion() {
                         <br />
                     <div>
                         
-                        <a href="#" className="button">
+                        {/* <a href="#" className="button">
                             Add to cart
-                        </a>
+                        </a> */}
                     </div>
                 </div>
                )): null }

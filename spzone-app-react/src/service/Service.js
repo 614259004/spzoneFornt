@@ -43,17 +43,6 @@ async function axiosMethodGet(path){
 
 export function sendDataRegister(params){
     let path = '/customer/addCustomer';
-    
-    return axiosMethodPost(path,params);
-};
-
-export function addcustomer(params){
-    let path = '/customers/addcustomer';
-    return axiosMethodPost(path,params);
-};
-
-export function addaddress(params){
-    let path = '/customers/addaddress';
     return axiosMethodPost(path,params);
 };
 
@@ -63,18 +52,12 @@ export function getprofile(params){
 };
 
 export function updateprofile(params){
-    let path = '/customers/updateprofile/CM0001';
-    return axiosMethodPut(path,params);
-};
-
-export function updateaddress(params){
-    let path = '/customers/updateaddress';
+    let path = '/customers/updateprofile';
     return axiosMethodPost(path,params);
 };
 
 export function logIn(params){
-    let path = '/customers/login';
-    
+    let path = '/customers/login';  
     return axiosMethodPost(path,params);
 }
 
@@ -219,8 +202,15 @@ export const addAddress = (params) => {
     return axiosMethodPost(path,params);
 };
 
+export const delAddress = (params) => {
+    let path = '/customers/deleteaddressbyid';
+    return axiosMethodPost(path,params);
+};
 
-
+export const updateAddress = (params) => {
+    let path = '/customers/updateaddress';
+    return axiosMethodPost(path,params);
+};
 
 //-------------------------------------------------------------------------
 //Orders
@@ -261,6 +251,21 @@ export const cancleOrder = (id) => {
 export const getPromotion = () => {
     let path = '/promotions/showPromotion';
     return axiosMethodGet(path);
+}
+
+export const addPromotion = (params) => {
+    let path = '/promotions/addPromotion';
+    return axiosMethodPost(path,params);
+}
+
+export const delPromotion = (params) => {
+    let path = '/promotions/deletebyid';
+    return axiosMethodPost(path,params);
+}
+
+export const updatePromotion = (params) => {
+    let path = '/promotions/updatePromotion';
+    return axiosMethodPost(path,params);
 }
 
 //-------------------------------------------------------------------------

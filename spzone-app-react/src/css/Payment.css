@@ -209,10 +209,15 @@
 }
 
 .payData_03{
-    display: flex;
     font-size: 14px;
     color: silver;
     border-top: 2px solid rgb(165, 165, 165);
+    padding-top: 8px;
+}
+.payData_04{
+    display: flex;
+    font-size: 14px;
+    color: silver;
     padding-top: 8px;
 }
 
@@ -256,6 +261,13 @@
     text-align: right;
     font-weight: bold;
     font-size: 16px;
+    color: rgb(44, 44, 44);
+}
+
+.Total_number_payment_sale{
+    width: 30%;
+    text-align: right;
+    font-size: 14px;
     color: rgb(44, 44, 44);
 }
 

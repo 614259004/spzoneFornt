@@ -331,7 +331,8 @@ const ManagePromotion = () => {
                     'P_productid' : selectProduct.P_productid,
                     'Pr_amountPro' : dataAddPro.Pr_amountPro,
                     'Pr_size' : dataAddPro.Pr_size,
-                    'Pr_status' : infoPro.Pr_status
+                    'Pr_status' : infoPro.Pr_status,
+                    'Pr_promotion_code' : infoPro.Pr_promotion_code
                 }
 
                 editPromotionV2(Promodata);
@@ -349,7 +350,8 @@ const ManagePromotion = () => {
                     'P_productid' : selectProduct.P_productid,
                     'Pr_amountPro' : dataAddPro.Pr_amountPro,
                     'Pr_size' : dataAddPro.Pr_size,
-                    'Pr_status' : infoPro.Pr_status
+                    'Pr_status' : infoPro.Pr_status,
+                    'Pr_promotion_code' : infoPro.Pr_promotion_code
                 }
 
                 editPromotionV2(Promodata);
@@ -370,7 +372,8 @@ const ManagePromotion = () => {
             'P_productid' : selectProduct.P_productid,
             'Pr_amountPro' : dataAddPro.Pr_amountPro,
             'Pr_size' : dataAddPro.Pr_size,
-            'Pr_status' : infoPro.Pr_status
+            'Pr_status' : infoPro.Pr_status,
+            'Pr_promotion_code' : infoPro.Pr_promotion_code
         }
 
         editPromotionV2(Promodata);
@@ -513,7 +516,7 @@ const ManagePromotion = () => {
                             <input  type="checkbox" checked   className="checkboxofInfoPromo" onChange={()=>{handleCheckboxChangeV2(9)}}/>
                             <p>ต้องการเปิดใช้โปโมชันหรือไม่?</p>
                         </div>
-                        :
+                        : 
                         <div className="checkbox_Promo_addPromo">
                             <input  type="checkbox"  className="checkboxofInfoPromo" onChange={()=>{handleCheckboxChangeV2(8)}}/>
                             <p>ต้องการเปิดใช้โปโมชันหรือไม่?</p>

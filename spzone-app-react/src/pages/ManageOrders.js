@@ -188,6 +188,10 @@ const ManageOrders = () => {
                                         <p className="P_OrderDetail_Price_shipping">{orderData.Or_price - 50}.00฿</p>
                                     </div>
                                     <div className="orders_Product_detail">
+                                        <p className="P_OrderDetail_shipping">sale</p>
+                                        <p className="P_OrderDetail_Price_shipping">- {orderData.Pr_sale}.00฿</p>
+                                    </div>
+                                    <div className="orders_Product_detail">
                                         <p className="P_OrderDetail_shipping">shipping</p>
                                         <p className="P_OrderDetail_Price_shipping">50.00฿</p>
                                     </div>

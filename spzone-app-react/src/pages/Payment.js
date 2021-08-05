@@ -10,7 +10,7 @@ import {storage} from "../firebase";
 import {  useHistory } from 'react-router-dom';
 
 
-const Payment = () => {
+const Payment = (prop) => {
     const history = useHistory();
     const initPayment ={
         Or_imgpayment:"",
@@ -38,16 +38,15 @@ const Payment = () => {
     const [selectAdd , setSelectAdd] = useState('');
     const [newAddress, setNewAddress] = useState(initNewAdd);
     const [fnOrdermodal,setFnOrdermodal] = useState('close');
-
-    
-
+    const [promodata,setPromodata] = useState([]);
     
     
-
     const C_id = {C_customerid:localStorage.getItem('UserId')};
 
     useEffect(initialValue,[addressShow]);
     function initialValue(){
+
+        setPromodata(prop.location.state)
         ManageModalFnOrder();
         axiosData.getAddress(C_id).then(function (data){
             setAddressShow(data)
@@ -230,12 +229,25 @@ const Payment = () => {
     }
 
     const addOrders = (url) =>{
-        var Or_data={
-            Or_price:totalShow,
-            Or_order_code:'test',
-            C_customerid:localStorage.getItem('UserId'),
-            A_addressid:selectAdd,
-            Or_imgpayment:url
+        if(promodata.Pr_promotion_code === 'PM0000'){
+            var Or_data={
+                Or_price:totalShow,
+                Or_order_code:'test',
+                C_customerid:localStorage.getItem('UserId'),
+                A_addressid:selectAdd,
+                Or_imgpayment:url,
+                Or_Pr_id:promodata.Pr_promotion_code
+            }
+        }else{
+            var Or_data={
+                Or_price:totalShow-promodata.Pr_sale,
+                Or_order_code:'test',
+                C_customerid:localStorage.getItem('UserId'),
+                A_addressid:selectAdd,
+                Or_imgpayment:url,
+                Or_Pr_id:promodata.Pr_promotion_code,
+                Pr_promotion_code:promodata.Pr_promotion_code
+            }
         }
         setFnOrdermodal('show');
         axiosData.addOrders(Or_data).then((data) =>{
@@ -316,9 +328,29 @@ const Payment = () => {
                                                     <p className="head_payment_amount_02"></p>
                                                     <p className="head_payment_price_02">50.00฿</p>
                                         </div>
-                                        <div className="payData_03">
+                                        <div  className="payData_03">
+                                            {promodata.Pr_promotion_code === 'PM0000'?
+                                                <div className="payData_04">
+                                                        <p className="total_name_payment">sale</p>
+                                                        <p className="Total_number_payment_sale">- 0.00฿</p>
+                                                </div>
+                                                :
+                                                <div className="payData_04">
+                                                        <p className="total_name_payment">sale</p>
+                                                        <p className="Total_number_payment_sale">- {promodata.Pr_sale}.00฿</p>
+                                                </div>
+                                            }       
+                                            {promodata.Pr_promotion_code === 'PM0000'?
+                                            <div className="payData_04">
+                                                    <p className="total_name_payment">Total</p>
+                                                    <p className="Total_number_payment">{totalShow}.00฿</p>
+                                            </div>
+                                            :
+                                            <div className="payData_04">
                                                 <p className="total_name_payment">Total</p>
-                                                <p className="Total_number_payment">{totalShow}.00฿</p>
+                                                <p className="Total_number_payment">{totalShow - promodata.Pr_sale}.00฿</p>
+                                            </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>

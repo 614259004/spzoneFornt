@@ -2,11 +2,13 @@ import React,{useState, useEffect} from 'react'
 import '../css/cart.css';
 import * as axiosData from '../service/Service';
 import * as IoIcons5 from "react-icons/io5";
+import * as FaIcons from "react-icons/fa";
 import Item from 'antd/lib/list/Item';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 
 const Cart = () => {
+    const history = useHistory();
 
 
     const [cartShow,setCartShow] = useState([]);
@@ -16,6 +18,7 @@ const Cart = () => {
     const [backupPro,setBackupPro] = useState([]);
     const [spid,setspid] = useState();
     const [salePrice,setSalePrice] = useState();
+    const [orderCus,setOderCus] = useState([]);
    
     
     const UserId = {C_customerid:localStorage.getItem('UserId')};
@@ -28,14 +31,16 @@ const Cart = () => {
         axiosData.getCart(UserId).then(function (data){
             setCartShow(data)
         })
+        axiosData.getOrdersByCusId(UserId).then(function (data){
+            setOderCus(data)
+        })
         axiosData.getPromotionUse().then(function (data){
             setAllPromotion(data)
         })
         setBackupPro([]);
-        setspid();
+        setspid('PM0000');
+        setSalePrice(0)
      }  
-     
-    
      
 
     const findTotal = () => {
@@ -57,13 +62,18 @@ const Cart = () => {
 
     useEffect(findTotal,[cartShow]);
 
-    
 
     const deleteCart = (id) => {
         var c_id={Ca_cartid:id}
         axiosData.delCart(c_id).then(function (data){
             initialValue();
         })
+    }
+
+    const gotoShopAddcart =() =>{
+        history.push("/Home/Product");
+            
+        window.location.reload();
     }
 
     const BackupPromotion = (prid) => {
@@ -75,6 +85,8 @@ const Cart = () => {
                 if(allPromotion[i].Pr_promotion_code===prid){
                     setspid(allPromotion[i].P_productid)
                     setSalePrice(allPromotion[i].Pr_sale)
+                }else{
+                    setSalePrice(0)
                 }
             }
             }
@@ -90,23 +102,23 @@ const Cart = () => {
                        <p>Product</p>
                     </div>
                     <div className="price_cart">
-                        <p>Price</p>
+                        <p>Price(฿)</p>
                     </div>
                     <div className="total_cart">
-                        <p>Sale</p>
+                        <p>Sale(฿)</p>
                     </div>
                     <div className="amount_cart">
                         <p>Amount</p>
                     </div>
                     <div className="total_cart">
-                        <p>Total</p>
+                        <p>Total(฿)</p>
                     </div>
                     <div className="clear_cart">
 
                     </div>
                 </div>
                 
-                {cartShow !== undefined?cartShow.map((item)=>(
+                {cartShow.length != 0?cartShow.map((item)=>(
                     
                     <div className="Product_tabel_cart">
                         
@@ -119,22 +131,22 @@ const Cart = () => {
                         </div>
 
                         <div className="price_cart">
-                            <h4>{item.P_price}.00 ฿</h4>
+                            <h4>{item.P_price}.00 </h4>
                         </div>
                         <div className="total_cart">
                         {backupPro.length != 0?
                         item.P_productid === spid?
                             allPromotion.filter(P => item.P_productid === P.P_productid).map(allS => (
-                            usePro != null && usePro === allS.Pr_promotion_code && allS.P_productid === item.P_productid ?
+                            usePro != null && usePro === allS.Pr_promotion_code && allS.P_productid === item.P_productid  && item.P_size === allS.Pr_size?
                                 
-                                    <h4>{allS.Pr_sale}.00 ฿</h4>
+                                    <h4>{allS.Pr_sale}.00 </h4>
                                 
-                            :<h4>0.00 ฿</h4>
+                            :<h4>0.00 </h4>
                                 
                             
-                        )):<h4>0.00 ฿</h4>:
+                        )):<h4>0.00 </h4>:
                         
-                        <h4>0.00 ฿</h4>
+                        <h4>0.00 </h4>
                     }
                     </div>
 
@@ -143,14 +155,19 @@ const Cart = () => {
                         </div>
 
                         <div className="total_cart">
-                            <h4>{item.P_price * item.Ca_amount}.00 ฿</h4>
+                            <h4>{item.P_price * item.Ca_amount}.00 </h4>
                         </div>
                         
                         <div className="clear_cart">
                             <button onClick={()=>{deleteCart(item.Ca_cartid)}}><IoIcons5.IoCloseSharp /></button>
                         </div>
                     </div>
-                )):null}
+                )):
+                <div className="AddCartMai">
+                    <h1 onClick={()=>{gotoShopAddcart()}}><FaIcons.FaCartArrowDown /></h1>
+                </div>
+                
+                }
 
                 
             </div>
@@ -173,14 +190,25 @@ const Cart = () => {
                                 <h5 className="info_cart_Center_subtotal_price">50.00 ฿</h5>
                             </div>
                             <div className="info_cart_one">
-                                <select onChange={(e)=>{BackupPromotion(e.target.value)}}>
-                                    <option></option>
-                                    {cartShow.length != 0? cartShow.map((cs)=>(
-                                        (allPromotion.length != 0?
-                                            allPromotion.filter(Item => Item.P_productid === cs.P_productid).map(allS => (
-                                                <option value={allS.Pr_promotion_code}>{allS.Pr_promotion_code}</option>
+                                <select className="select_promotion_cart" onChange={(e)=>{BackupPromotion(e.target.value)}}>
+                                    <option value="PM0000">select Promotion</option>
+                                    {cartShow.length != 0? cartShow.map(cs=>(
+                                        (allPromotion.length != 0? 
+                                            
+                                                allPromotion.filter(Item => Item.P_productid === cs.P_productid && Item.Pr_size === cs.P_size ).map(allS => (
                                                 
-                                        )):null)
+                                                    
+                                                    <option value={allS.Pr_promotion_code}>
+                                                        
+                                                            {allS.Pr_promotion_code} ลด
+                                                            {allS.Pr_sale}.00฿ ของยอดรวมสินค้า {allS.P_name}({allS.Pr_size})
+                                
+                                                    </option>
+
+                                                    
+                                                ))
+                                            
+                                        :null)
                                     )):null}
                                 </select>
                             </div>
@@ -212,14 +240,17 @@ const Cart = () => {
                 </div>
                 <div className="cart_Info_checkout">
                     {cartShow != '' ?
-                    <Link true={{pathname:"/Home/Payment",
-                    state:{
-                        Pr_sale:salePrice
-                    }}}>
-                        <a>Checkout</a>
-                    </Link>
+                        <Link className="LinkInfoCArtCheckout" to={{pathname:"/Home/Payment",
+                        state:{
+                            Pr_promotion_code:usePro,
+                            Pr_sale:salePrice
+                        }}}>
+                            <button>Checkout</button>
+                        </Link>
                     :
-                    <a  href="">Checkout</a>
+                    <Link className="LinkInfoCArtCheckout" to={{pathname:"/Home/Cart",}}>
+                        <button>Checkout</button>
+                    </Link>
                     }
                 </div>
             </div>

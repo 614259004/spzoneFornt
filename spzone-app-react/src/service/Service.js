@@ -229,6 +229,11 @@ export const getOrdersById = (params) => {
     return axiosMethodPost(path,params);
 };
 
+export const getOrdersByCusId = (params) => {
+    let path = '/orders/showOderbyCustomerid';
+    return axiosMethodPost(path,params);
+};
+
 export const comfirmOrder = (id) => {
     let path = '/orders/confirmorder/'+id;
     console.log(path);

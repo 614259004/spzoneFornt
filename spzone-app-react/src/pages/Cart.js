@@ -192,7 +192,9 @@ const Cart = () => {
                             <div className="info_cart_one">
                                 <select className="select_promotion_cart" onChange={(e)=>{BackupPromotion(e.target.value)}}>
                                     <option value="PM0000">select Promotion</option>
+                                    
                                     {cartShow.length != 0? cartShow.map(cs=>(
+
                                         (allPromotion.length != 0? 
                                             
                                                 allPromotion.filter(Item => Item.P_productid === cs.P_productid && Item.Pr_size === cs.P_size ).map(allS => (

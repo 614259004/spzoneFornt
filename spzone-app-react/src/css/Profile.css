@@ -405,6 +405,12 @@
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
     text-align: center;
     border-radius: 24px;
+    overflow: scroll;
+}
+
+.addressScollbar{
+    overflow: scroll;
+    height: 400px;
 }
 
 .Alladdress_group{
@@ -499,4 +505,15 @@
     display: flex;
     width: 100%;
     text-align: center;
+}
+
+.input_Address_Payment_Province select{
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 90%;
+    border: 2px solid rgb(122, 122, 122);
+    font-family: 'Prompt', sans-serif;
+    outline: none;
+    font-size: 16px;
+    border-radius: 24px;
 }

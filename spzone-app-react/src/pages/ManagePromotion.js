@@ -630,11 +630,11 @@ const ManagePromotion = () => {
             {/*Checkclose edit modal*/}
             <div id="Modal_Check_closeEdit_profile" className="Modal_Check_closeEdit_profile"> 
                 <div className="Modal_Check_closeEdit_profile_body">
-                    <h4>Would you like to cancel the edit?</h4>
+                    <h4>ต้องการยกเลิกการแก้ไขหรือไม่?</h4>
                     
                     <div className="buttongroup_checkeditProfile">
-                        <button onClick={()=>{manageCheckEditModalPromotion('close')}} className="NoIwantEdit_button" >No</button>
-                        <button onClick={()=>{callBackData();manageInfoPromotionModal('close');manageCheckEditModalPromotion('close');manageAddPromotionModal('close');}} className="YesIwantcancel_button" >Yes</button>
+                        <button onClick={()=>{manageCheckEditModalPromotion('close')}} className="NoIwantEdit_button" >ไม่ใช่</button>
+                        <button onClick={()=>{clearData();manageInfoPromotionModal('close');manageCheckEditModalPromotion('close');manageAddPromotionModal('close');setPromoMode('add');}} className="YesIwantcancel_button" >ใช่</button>
                     </div>
                     
                 </div>    

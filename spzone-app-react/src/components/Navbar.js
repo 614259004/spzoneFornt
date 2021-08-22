@@ -80,6 +80,11 @@ function Navbar() {
         window.location.reload();
     }
 
+    const GoToHistory = () => {
+        history.push("/History");
+        window.location.reload();
+    }
+
 
 
   return (
@@ -88,7 +93,7 @@ function Navbar() {
     <div id="Modal-Profile-Nuvbar" onClick={()=>{ManageModalProfileLogout('close')}} className="Modal-Profile-Nuvbar">
         <div className="Modal-Profile-Nuvbar-body">
             <h4 onClick={()=>{GoToProfile()}}>Profile</h4>
-            <h4>History</h4>
+            <h4 onClick={()=>{GoToHistory()}}>History</h4>
             <h4 onClick={()=>{LogOut()}}>Log out</h4>     
         </div>    
     </div>

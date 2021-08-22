@@ -3,12 +3,33 @@ import axios from 'axios';
 
 
 let url = "http://localhost/finalspzoneback/public";
+let url2 = "https://trackapi.thailandpost.co.th/post/api/v1/track";
+
+let axiosConfig = {
+    headers:{
+        'Authorization':'Token '+process.env.REACT_APP_AUTHORIZATION,
+         'Content-Type':'application/json'
+    }
+}
 
 //-------------------------------------------------------------------------
 
 async function axiosMethodPost(path,params){
     try {
         const result = await axios.post(url+path,params);
+        return result.data;
+    } 
+    catch (error) {
+        return error.message;
+    }
+
+
+}
+
+async function axiosMethodPostEms(params){
+    
+    try {
+        const result = await axios.post(url2,params,axiosConfig);
         return result.data;
     } 
     catch (error) {
@@ -245,6 +266,11 @@ export const getOrdersDetail = (params) => {
     return axiosMethodPost(path,params);
 };
 
+export const getAllOrdersDetail = () => {
+    let path = '/orders/showOrderdetailAll';
+    return axiosMethodGet(path);
+};
+
 export const cancleOrder = (id) => {
     let path = '/orders/cancleorder/'+id;
     return axiosMethodPut(path);
@@ -279,3 +305,51 @@ export const updatePromotion = (params) => {
 }
 
 //-------------------------------------------------------------------------
+//thailand
+//แสดงจังหวัด
+export const getProvince = () => {
+    let path = '/thailand/getprovince';
+    return axiosMethodGet(path);
+}
+//แสดงอำเภอตามไอดี
+export const getAmphurById = (param) => {
+    let path = '/thailand/getamphurbyid';
+    return axiosMethodPost(path,param);
+}
+
+//แสดงอำเภอ
+export const getAmphur = () => {
+    let path = '/thailand/getamphur';
+    return axiosMethodGet(path);
+}
+
+//แสดงตำบล
+export const getDistrict = () => {
+    let path = '/thailand/getdistrict';
+    return axiosMethodGet(path);
+}
+
+
+
+//-------------------------------------------------------------------------
+//tracking
+//เพิ่มเลขพัสดุ
+export const addTracking = (param) => {
+    let path = '/ems/addTracking';
+    return axiosMethodPost(path,param);
+}
+//โชว์เลขพัสดุ
+export const showTracking = () => {
+    let path = '/ems/showTracking';
+    return axiosMethodGet(path);
+}
+//แก้ไขเลขพัสดุ
+export const updateTracking = (param) => {
+    let path = '/ems/editTracking';
+    return axiosMethodPost(path,param);
+}
+
+//ติดตามเลขพัสดุ
+export const followTracking = (param) => {
+    return axiosMethodPostEms(param);
+}

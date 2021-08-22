@@ -51,8 +51,12 @@ const Profile = () => {
     const [delAddDress , setDelAddDress] = useState();
     const [editAddDress , setEditAddDress] = useState(initNewAdd);
     const [addressMode , setAddressMode] = useState('');
-    
+    const [allProvince, setAllProvince] = useState([]);
+    const [allAmphur, setAllAmphur] = useState([]);
+    const [allDistrict, setAllDistrict] = useState([]);
 
+    const [selectProvince, setSelectProvince] = useState();
+    const [selectAmphur, setSelectAmphur] = useState();
    
 
     useEffect(initialValue,[]);
@@ -70,10 +74,27 @@ const Profile = () => {
             setAllAddDress(data);
          })
 
+        axiosData.getProvince().then(function (data){
+            setAllProvince(data)
+        })
+        
+        axiosData.getAmphur().then(function (data){
+            setAllAmphur(data)
+        })
+
+        axiosData.getDistrict().then(function (data){
+            setAllDistrict(data)
+        })
+
     }   
 
     const triggerClick = () =>{
         document.querySelector('#ImgProFile').click();
+    }
+
+    const clearData = () =>{
+        setSelectProvince('')
+        setSelectAmphur('')
     }
 
     const manageEditModal = (status) => {
@@ -136,7 +157,21 @@ const Profile = () => {
     const AddresshandleChange = (e) => {
         e.persist();
         setEditAddDress({...editAddDress,[e.target.name]: e.target.value});
+
     }
+
+    const ProvincehandleChange = (e) => {
+        e.persist();
+        setEditAddDress({...editAddDress,[e.target.name]: e.target.value});
+        setSelectProvince(e.target.value)
+    }
+
+    const AmphurhandleChange = (e) =>{
+        e.persist();
+        setEditAddDress({...editAddDress,A_district: e.target.value});
+        setSelectAmphur(e.target.value)
+    }
+
 
     const updateProfileUser = () => {
         if(profileEdit.C_image === profileShow.C_image){
@@ -214,6 +249,8 @@ const Profile = () => {
     const addAddressProfile = () =>{
         axiosData.addAddress(editAddDress).then(function (data){
             manageAddAddressModal('close');
+            clearData();
+            setEditAddDress(initNewAdd);
             initialValue();
         })
     }
@@ -252,7 +289,7 @@ const Profile = () => {
                         <h3 className="addressShow_head">Address</h3>
                         {addDressShow != null ?
                         <h3 className="addressShow_Ex01">
-                            {addDressShow.A_homenumber}  Village No.{addDressShow.A_moo} ,{addDressShow.A_canton} Sub-district ,{addDressShow.A_district} District, {addDressShow.A_province}, {addDressShow.A_postal_code} 
+                            {addDressShow.A_homenumber}  Village No.{addDressShow.A_moo} ,{addDressShow.DISTRICT_NAME} Sub-district ,{addDressShow.AMPHUR_NAME} District, {addDressShow.PROVINCE_NAME}, {addDressShow.A_postal_code} 
                         </h3>
                         :null}
                     </div>
@@ -325,22 +362,23 @@ const Profile = () => {
                         <a  onClick={() => {manageAllAddressModal('close')}} className="ProfileColseModaledit"><AiIcons.AiOutlineClose /></a>
                     </div>
                     <h2>Address</h2>
+                    <div className="addressScollbar">
                     {allAddDress.length != 0 ?allAddDress.map((item)=>(
                         <div className="Alladdress_group">
                             <div className="Alladdress_icon_group">
                                 <p>{item.A_receive_name}</p>
                                 <p>{item.A_phone}</p>
                                 <div className="addressInfo">
-                                    <p>{item.A_homenumber} Village No.{item.A_moo} ,{item.A_canton} Sub-district ,{item.A_district} District, {item.A_province},{item.A_postal_code}</p>
+                                    <p>{item.A_homenumber} Village No.{item.A_moo} ,{item.DISTRICT_NAME} Sub-district ,{item.AMPHUR_NAME} District, {item.PROVINCE_NAME},{item.A_postal_code}</p>
                                 </div>
                             </div>
                             <div className="Alladdress_icon_group_Delete_edit">
-                                <p onClick={()=>{setAddressMode('edit');manageAddAddressModal('show');setEditAddDress(item)}}><AiIcons.AiFillEdit /></p>
+                                <p onClick={()=>{setAddressMode('edit');manageAddAddressModal('show');setEditAddDress(item);setSelectAmphur(item.A_district);setSelectProvince(item.A_province)}}><AiIcons.AiFillEdit /></p>
                                 <p onClick={()=>{manageDelAddressModal('show');setDelAddDress(item.A_addressid)}}><IoIcons5.IoCloseSharp /></p>
                             </div>
                             
                         </div>
-                   )) :null}
+                   )) :null}</div>
                    <div>
                        <button className="button_add_address_profile" onClick={()=>{manageAddAddressModal('show')}}><BiIcons5.BiLocationPlus />Add Address</button>
                     </div>  
@@ -351,7 +389,7 @@ const Profile = () => {
 
             {/*All Address modal*/}
 
-
+                        
 
             {/*Del Address modal*/}
 
@@ -373,9 +411,9 @@ const Profile = () => {
                     <div className="Modal_Add_Address_Payment_body">
                         {addressMode === 'edit'?<h2>Edit Address</h2>:<h2>Add Address</h2>}
                         {addressMode === ''?
-                        <h4 onClick={()=>{manageAddAddressModal('close');setAddressMode('');setEditAddDress(initNewAdd)}}><AiIcons.AiOutlineClose className="Close_Modal_Add_Address_Payment"/></h4>
+                        <h4 onClick={()=>{manageAddAddressModal('close');setAddressMode('');setEditAddDress(initNewAdd);clearData()}}><AiIcons.AiOutlineClose className="Close_Modal_Add_Address_Payment"/></h4>
                         :
-                        <h4 onClick={()=>{manageCloseEditModal('show');}}><AiIcons.AiOutlineClose className="Close_Modal_Add_Address_Payment"/></h4>
+                        <h4 onClick={()=>{manageCloseEditModal('show');clearData()}}><AiIcons.AiOutlineClose className="Close_Modal_Add_Address_Payment"/></h4>
                         }
                         <div className="input_Address_Payment_Name" >
                             <input placeholder="Recipient Name" name="A_receive_name" value={editAddDress.A_receive_name}  onChange={(e)=> AddresshandleChange(e)}/>
@@ -387,15 +425,41 @@ const Profile = () => {
                             <input className="input_Address_Payment_No" value={editAddDress.A_homenumber} name="A_homenumber" placeholder="House No." onChange={(e)=> AddresshandleChange(e)}/>
                             <input className="input_Address_Payment_Moo" value={editAddDress.A_moo} name="A_moo"  placeholder="Village No." onChange={(e)=> AddresshandleChange(e)}/>
                         </div>
+                        <div className="input_Address_Payment_Province"  >
+                            <select value={editAddDress.A_province} placeholder="Province" name="A_province"   onChange={(e)=> ProvincehandleChange(e)} >
+                                <option></option>
+                                {allProvince.length != 0 ? allProvince.map(item => (
+                                    <option value={item.PROVINCE_ID}>{item.PROVINCE_NAME}</option>
+                                )):null}
+                            </select>
+                        </div>
                         <div className="input_Address_Payment_canton_district">
-                            <input className="input_Address_Payment_canton" value={editAddDress.A_canton} name="A_canton"  placeholder="Sub-district" onChange={(e)=> AddresshandleChange(e)}/>
-                            <input className="input_Address_Payment_district" value={editAddDress.A_district} name="A_district"  placeholder="District" onChange={(e)=> AddresshandleChange(e)}/>
+                            <select value={editAddDress.A_district} className="input_Address_Payment_district"  name="A_district"  placeholder="District" onChange={(e)=> AmphurhandleChange(e)}>
+                                <option></option>
+                                {selectProvince != '' ?
+                                    allAmphur.filter(data=> selectProvince === data.PROVINCE_ID).map(item => (
+                                        <option value={item.AMPHUR_ID}> {item.AMPHUR_NAME} </option>
+                                    ))
+                                :null}
+                            </select>
+
+                            <select className="input_Address_Payment_canton" value={editAddDress.A_canton} name="A_canton"  placeholder="Sub-district" onChange={(e)=> AddresshandleChange(e)}>
+                                <option></option>
+                                {selectAmphur != '' ?
+                                    allDistrict.filter(data=> selectAmphur === data.AMPHUR_ID).map(item => (
+                                        <option value={item.DISTRICT_ID}>{item.DISTRICT_NAME}</option>
+                                    ))
+                                :null}
+                            </select>
                         </div>
                         <div className="input_Address_Payment_Province"  >
-                            <input placeholder="Province" name="A_province" value={editAddDress.A_province}  onChange={(e)=> AddresshandleChange(e)} />
-                        </div>
-                        <div className="input_Address_Payment_PostCode"  >
-                            <input placeholder="Postal Code" name="A_postal_code" value={editAddDress.A_postal_code}  onChange={(e)=> AddresshandleChange(e)}/>
+                        <select placeholder="Postal Code"  name="A_postal_code" value={editAddDress.A_postal_code}  onChange={(e)=> AddresshandleChange(e)}>
+                            <option></option>
+                            {selectAmphur != undefined? allAmphur.filter(data=> selectAmphur === data.AMPHUR_ID ).map(item => (
+                                        <option value={item.POSTCODE}>{item.POSTCODE}</option>
+                                    ))
+                            :null}
+                        </select>
                         </div>
 
                         <div className="button_Address_Payment_add">

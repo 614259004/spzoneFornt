@@ -14,7 +14,7 @@ const Cart = () => {
     const [cartShow,setCartShow] = useState([]);
     const [totalShow,setTotalShow] = useState(0);
     const [allPromotion,setAllPromotion] = useState([]);
-    const [usePro,setUsePro] = useState();
+    const [usePro,setUsePro] = useState('PM0000');
     const [backupPro,setBackupPro] = useState([]);
     const [spid,setspid] = useState();
     const [salePrice,setSalePrice] = useState();
@@ -40,6 +40,7 @@ const Cart = () => {
         setBackupPro([]);
         setspid('PM0000');
         setSalePrice(0)
+        setUsePro('PM0000');
      }  
      
 
@@ -75,6 +76,8 @@ const Cart = () => {
             
         window.location.reload();
     }
+
+    console.log(usePro);
 
     const BackupPromotion = (prid) => {
         setBackupPro(allPromotion)

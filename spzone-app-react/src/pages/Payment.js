@@ -290,7 +290,7 @@ const Payment = (prop) => {
                                     <div className="address_payment_group " onClick={()=>{selectAddress(index);setSelectAdd(item.A_addressid)}}>
                                         <h4>{item.A_receive_name}  {item.A_phone}</h4>
                                         <h5>
-                                            {item.A_homenumber}  {item.A_moo} {item.A_canton} {item.A_district} {item.	A_province} {item.A_postal_code}
+                                            {item.A_homenumber}  {item.A_moo} {item.DISTRICT_NAME} {item.AMPHUR_NAME} {item.PROVINCE_NAME} {item.A_postal_code}
                                         </h5>
                                 
                                     </div>

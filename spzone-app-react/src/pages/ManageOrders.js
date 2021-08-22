@@ -26,6 +26,11 @@ const ManageOrders = () => {
     const [orderDetailData,setOrderDetailData] = useState([]);
     const [orderCancle,setOrderCancle] = useState();
     const [orderYes,setOrderYes] = useState();
+    const [addTrack,setAddTrack] = useState();
+    const [allTrack,setAllTrack] = useState([]);
+    const [selectOr,setSelectOr] = useState();
+
+    const [trackMode,setTrackMode] = useState('');
     
 
 
@@ -35,9 +40,10 @@ const ManageOrders = () => {
         ManageModalOrdersInfoComfirm('close');
         ManageModalOrdersInfoComfirmYes('close');
         axiosData.getOrders().then(function (data){
-            
-            setOrderShow(data)
-           
+            setOrderShow(data)          
+        })
+        axiosData.showTracking().then(function (data){ 
+            setAllTrack(data)       
         })
          
         
@@ -104,6 +110,48 @@ const ManageOrders = () => {
         }
     }
 
+    const ManageModaladdEmsPageAdmin = (status) =>{
+        var modal = document.getElementsByClassName('ModaladdEmsPageAdmin')[0];
+        if(status === "show"){
+            modal.classList.add("show");
+        } else if(status === "close"){
+            modal.classList.remove("show");
+        }
+    }
+
+    const addTrackEms = () =>{
+       const dataEms ={
+        tracking:addTrack,
+        ems_or_id:selectOr
+       }
+       
+
+       axiosData.addTracking(dataEms).then(function (data){
+           console.log(data);
+           setAddTrack('')
+           initialValue();
+       })
+    }
+
+    const editTrackEms = () =>{
+        const dataEms ={
+            tracking:addTrack,
+            ems_or_id:selectOr
+           }
+           
+    
+           axiosData.updateTracking(dataEms).then(function (data){
+               console.log(data);
+               setAddTrack('')
+               initialValue();
+           })
+    }
+
+    const handelchangeEms = (e) =>{
+        e.persist();
+        setAddTrack(e.target.value);
+    }
+
  
     return (
         <div className="brand-body-page">
@@ -135,8 +183,36 @@ const ManageOrders = () => {
                         <p className="data_order_info_Status CancleMoney">ยกเลิกคำสั่งซื้อ</p>
                         }
                     </div>
-                    
-                    <button className="Go_Info_Orders_button" onClick={()=>{ManageModalOrdersInfo('show');orderDetailById(item.Or_orderid);callOrderDetail(item.Or_orderid)}}>รายละเอียด</button>
+
+                    <div className="order_info_group_card">
+                        <p className="data_order_info_head">เลขพัสดุ :</p>
+                        
+                        {allTrack != ''? 
+                            allTrack.some(tk=> tk.ems_or_id === item.Or_orderid) === true?
+                                allTrack.filter(trac => trac.ems_or_id === item.Or_orderid).map(ems=>(
+                                    <p className="data_order_info">{ems.tracking}</p>
+                                ))
+                                :
+                                <p className="data_order_info">ไม่มีเลขพัสดุ</p>
+                        :<p className="data_order_info">ไม่มีเลขพัสดุ</p>}
+                    </div>
+                    {item.OS_statusid != 6 ?
+                        <button className="Go_Info_Orders_button" onClick={()=>{ManageModalOrdersInfo('show');orderDetailById(item.Or_orderid);callOrderDetail(item.Or_orderid)}}>รายละเอียด</button>
+                    : 
+                    allTrack.some(tk=> tk.ems_or_id === item.Or_orderid) === true?
+                    allTrack.filter(trac => trac.ems_or_id === item.Or_orderid).map(ems=>(
+                        <>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModalOrdersInfo('show');orderDetailById(item.Or_orderid);callOrderDetail(item.Or_orderid)}}>รายละเอียด</button>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModaladdEmsPageAdmin('show');setSelectOr(item.Or_orderid);setTrackMode('edit');setAddTrack(ems.tracking);}} >แก้ไขเลขพัสดุ</button>
+                        </>
+                    ))
+                    :
+                        <>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModalOrdersInfo('show');orderDetailById(item.Or_orderid);callOrderDetail(item.Or_orderid)}}>รายละเอียด</button>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModaladdEmsPageAdmin('show');setSelectOr(item.Or_orderid)}} >เพิ่มเลขพัสดุ</button>
+                        </>
+    
+                    }
                 </div>
            
              )}) }
@@ -169,7 +245,7 @@ const ManageOrders = () => {
                                 </div>
                                 <div className="detailCustomer_adminPage_order">
                                     <h5 className="head_cus_detailOrder">ที่อยู่ :</h5>
-                                    <p className="data_cus_detailOrder">{orderData.A_homenumber} หมู่{orderData.A_moo} ต.{orderData.A_canton} อ.{orderData.A_district} จ.{orderData.A_province} {orderData.A_postal_code}</p>
+                                    <p className="data_cus_detailOrder">{orderData.A_homenumber} หมู่{orderData.A_moo} ต.{orderData.DISTRICT_NAME} อ.{orderData.AMPHUR_NAME} จ.{orderData.PROVINCE_NAME} {orderData.A_postal_code}</p>
                                 </div>
                             </div>
                             <div className="orders_detail_body">
@@ -252,6 +328,27 @@ const ManageOrders = () => {
 
 
             {/* Modal InFo Orders Comfirm yes*/}
+
+
+            {/* Modal ems add */}
+            <div id="ModaladdEmsPageAdmin" className="ModaladdEmsPageAdmin">
+                <div className="ModaladdEmsPageAdmin_body">
+                <h5 onClick={()=>{ManageModaladdEmsPageAdmin('close');setTrackMode('');setAddTrack('')}}><AiIcons.AiOutlineClose className="CloseModelInfoOrder"/></h5>
+                    {trackMode === 'edit'?
+                    <h2>แก้ไขเลขพัสดุ</h2>
+                    :<h2>เพิ่มเลขพัสดุ</h2> }
+                    <div className="trackingAdminAddGroupInput">
+                        <input placeholder="เลขพัสดุ" value={addTrack} name="tracking" onChange={(e)=>{handelchangeEms(e)}}></input>
+                    </div>
+                    {trackMode === 'edit'?
+                    <button onClick={()=>{editTrackEms();ManageModaladdEmsPageAdmin('close');}} className="trackingAdminAddButton">บันทึกเลขพัสดุ</button>   
+                    :
+                    <button onClick={()=>{addTrackEms();ManageModaladdEmsPageAdmin('close');}} className="trackingAdminAddButton">เพิ่มเลขพัสดุ</button>  }     
+                </div>    
+            </div>
+
+
+            {/* Modal ems add */}
                
         </div>
     )

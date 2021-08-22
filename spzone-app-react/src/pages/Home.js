@@ -7,6 +7,8 @@ import Navbar from "../components/Navbar";
 import Cart from './Cart';
 import Payment from './Payment';
 import Promotion from './Promotion';
+import Brand from './Brand';
+import BrandProduct from './BrandProduct';
 
 
 function Home() {
@@ -21,6 +23,8 @@ function Home() {
                     <Route path='/Home/Cart'   component={Cart}/> 
                     <Route path='/Home/Payment'   component={Payment}/>
                     <Route path='/Home/Promotion'  component={Promotion} />
+                    <Route path='/Home/Brand'  component={Brand} />
+                    <Route path='/Home/BrandProduct'  component={BrandProduct} />
                 </Switch>
             </Router>
         </>

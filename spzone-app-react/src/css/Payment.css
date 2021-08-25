@@ -17,6 +17,8 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     overflow: hidden;
     padding-bottom: 60px;
+    z-index: -1;
+    position: fixed
 }
 
 .head_payment_icon{

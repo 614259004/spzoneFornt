@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import '../css/ProductInfo.css';
 import * as axiosData from '../service/Service';
 import * as TiIcons from "react-icons/ti";
-import { Redirect, useHistory } from 'react-router-dom';
+import {  useHistory } from 'react-router-dom';
 
 
 const ProductInfo = (props) => {
@@ -154,7 +154,7 @@ const ProductInfo = (props) => {
     }
     
 
-    console.log(radioSelect);
+    
 
     return (
         <div className="body_Product_Info">

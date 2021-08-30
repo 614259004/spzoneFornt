@@ -34,7 +34,7 @@ const Cart = () => {
         axiosData.getOrdersByCusId(UserId).then(function (data){
             setOderCus(data)
         })
-        axiosData.getPromotionUse().then(function (data){
+        axiosData.checkUsePromotion(UserId).then(function (data){
             setAllPromotion(data)
         })
         setBackupPro([]);

@@ -140,6 +140,16 @@ export const showproduct = () => {
     return axiosMethodGet(path);
 };
 
+export const showproductinstock = () => {
+    let path = '/products/showproductinstock';
+    return axiosMethodGet(path);
+};
+
+export const showproductpre = () => {
+    let path = '/products/showproductpreorder';
+    return axiosMethodGet(path);
+};
+
 export const addproduct = (params) => {
     let path = '/products/addproduct';
     return axiosMethodPost(path,params);
@@ -292,6 +302,11 @@ export const getPromotion = () => {
 export const getPromotionUse = () => {
     let path = '/promotions/showPromotionbystatus';
     return axiosMethodGet(path);
+}
+
+export const checkUsePromotion = (params) => {
+    let path = '/promotions/checkUsePromotion';
+    return axiosMethodPost(path,params);
 }
 
 export const addPromotion = (params) => {

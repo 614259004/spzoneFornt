@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import '../css/ManageBrand.css';
 import * as RiIcons from "react-icons/ri";
+import * as FaIcons from "react-icons/fa";
 import {Form,Input,Tooltip} from 'antd';
 import * as AiIcons from "react-icons/ai";
 import * as IoIcons5 from "react-icons/io5";
@@ -28,7 +29,8 @@ const ManageProduct = () => {
         P_image2:"",
         P_image2File:"",
         P_image3:"",
-        P_image3File:""
+        P_image3File:"",
+        P_status:""
     }
 
     const sizeData = {
@@ -586,10 +588,11 @@ const ManageProduct = () => {
                     Cg_categoryid:productData.Cg_categoryid,
                     P_image1:jsonUrl[0],
                     P_image2:jsonUrl[1],
-                    P_image3:jsonUrl[2]
+                    P_image3:jsonUrl[2],
+                    P_status:productData.P_status
                 }
 
-                console.log(Pdata);
+                
                 if(productMode === "add"){
                 axiosData.addproduct(Pdata).then((data) =>{
                     console.log(data);
@@ -707,6 +710,11 @@ const ManageProduct = () => {
                             <img src={item.P_image1} />
                             <div className="Product-info-admin">
                                 <div className="Product-name-group">
+                                    {item.P_status == 12?
+                                        <p className="greenFontStatus"><FaIcons.FaCircle className="circleIcon" />สินค้าในคลัง</p>
+                                    :
+                                        <p className="yellowFontStatus"><FaIcons.FaCircle className="circleIcon"/>สินค้าสั่งจอง</p>
+                                    }
                                     <h5>{item.P_name}</h5>
                                     <h6>{item.P_productid}</h6>
                                     <div className="Size-layout">
@@ -801,6 +809,18 @@ const ManageProduct = () => {
                         </div>
                         <p className="CheckDuplicateCateName09 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกหมวดหมู่สินค้า</p>
                         <p className="CheckDuplicateCateName10 Hide" ><IoIcons5.IoAlertCircleSharp />กรุณาเลือกแบรนด์สินค้า</p>
+
+                        <div className="CateAndBrand">
+                            
+                                <p>สถานะสินค้า</p>
+                                <select name="P_status" value={productData.P_status} className="statusProductselect"  onChange={(e)=> handleChange(e)}>
+                                        <option  value="12">สินค้าในคลัง</option> 
+                                        <option  value="13">สินค้าต้องจอง</option>
+                                </select>
+                            
+                        </div>
+
+
                         <div className="Image-Product-Group">
                             <div className="Product-Img-Add">
                                 <img src={productData.P_image1} />
@@ -865,6 +885,14 @@ const ManageProduct = () => {
                                <div className="InfoPro-Brand">
                                  <label>แบรนด์ :</label>
                                  <p>{productData.B_name}</p>
+                               </div>
+                               <div className="InfoPro-Brand">
+                                 <label>สถานะสินค้า :</label>
+                                 {productData.P_status ==12?
+                                 <p>สินค้าในคลัง</p>
+                                 :
+                                 <p>สินค้าสั่งจอง</p>
+                                }
                                </div>
                            </div>
                            <label className="Jamnun-ProInfo">จำนวนสินค้า (ตัว) :</label>

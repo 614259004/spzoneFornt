@@ -13,9 +13,8 @@ function Product() {
 
     useEffect(initialValue,[]);
     function initialValue(){
-        axiosData.showproduct().then(function (data){
+        axiosData.showproductinstock().then(function (data){
             setShowProduct(data);
-            console.log(data);
         })
     }
     

@@ -96,6 +96,14 @@ const Cart = () => {
 
     }
 
+    const checkOutDelStock = () =>{
+        const CusId = {C_customerid:localStorage.getItem('UserId')};
+
+        axiosData.checkDelStock(CusId).then(function (data){
+            console.log(data);
+        })
+    }
+
 
     return (
         <div className="cart_Body">
@@ -250,11 +258,11 @@ const Cart = () => {
                             Pr_promotion_code:usePro,
                             Pr_sale:salePrice
                         }}}>
-                            <button>Checkout</button>
+                            <button onClick={()=>{checkOutDelStock()}}>Checkout</button>
                         </Link>
                     :
                     <Link className="LinkInfoCArtCheckout" to={{pathname:"/Home/Cart",}}>
-                        <button>Checkout</button>
+                        <button >Checkout</button>
                     </Link>
                     }
                 </div>

@@ -103,6 +103,8 @@
     display: none;
 }
 
+
+
 .Payment_progress_bar .Payment_step .Payment_check.active{
     display: block;
     color: #fff;
@@ -130,7 +132,7 @@
 
 
 .address_payment_group{
-    width: 45%;
+    width: 98%;
     border-bottom: 2px solid silver;
     padding: 5px;
     margin-bottom: 25px;
@@ -143,6 +145,12 @@
     background: rgb(44, 44, 44);
     color: white;
     border-bottom: 2px solid rgb(44, 44, 44);
+}
+
+.group_ofAddressPayment{
+    width: 45%;
+    height: 245px;
+    overflow: auto;
 }
 
 .black_address{
@@ -630,4 +638,10 @@
 .Button_go_home:hover{
     background-color: rgb(32, 32, 32);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+
+.orderInFoLastPayment{
+    height: 170px;
+    overflow: auto;
 }

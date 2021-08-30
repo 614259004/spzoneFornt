@@ -209,6 +209,11 @@ export const delCart = (params) => {
     return axiosMethodPost(path,params);
 };
 
+export const checkDelStock = (params) => {
+    let path = '/orders/checkoutstock';
+    return axiosMethodPost(path,params);
+};
+
 
 //-------------------------------------------------------------------------
 //Address

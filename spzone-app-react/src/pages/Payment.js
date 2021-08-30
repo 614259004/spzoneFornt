@@ -39,7 +39,12 @@ const Payment = (prop) => {
     const [newAddress, setNewAddress] = useState(initNewAdd);
     const [fnOrdermodal,setFnOrdermodal] = useState('close');
     const [promodata,setPromodata] = useState([]);
-    
+    const [allProvince, setAllProvince] = useState([]);
+    const [allAmphur, setAllAmphur] = useState([]);
+    const [allDistrict, setAllDistrict] = useState([]);
+
+    const [selectProvince, setSelectProvince] = useState();
+    const [selectAmphur, setSelectAmphur] = useState();
     
     const C_id = {C_customerid:localStorage.getItem('UserId')};
 
@@ -56,6 +61,17 @@ const Payment = (prop) => {
             setCartShow(data)
             
         }) 
+        axiosData.getProvince().then(function (data){
+            setAllProvince(data)
+        })
+        
+        axiosData.getAmphur().then(function (data){
+            setAllAmphur(data)
+        })
+
+        axiosData.getDistrict().then(function (data){
+            setAllDistrict(data)
+        })
         
     }
 
@@ -108,9 +124,17 @@ const Payment = (prop) => {
 
     const handleChangeNewAddress = (e) =>{
         e.persist();
+        setNewAddress({...newAddress,[e.target.name]: e.target.value});  
+    }
+    const ProvincehandleChange = (e) => {
+        e.persist();
         setNewAddress({...newAddress,[e.target.name]: e.target.value});
-
-        
+        setSelectProvince(e.target.value)
+    }
+    const AmphurhandleChange = (e) =>{
+        e.persist();
+        setNewAddress({...newAddress,A_district: e.target.value});
+        setSelectAmphur(e.target.value)
     }
 
     const selectAddress = (index,id) => {
@@ -175,11 +199,17 @@ const Payment = (prop) => {
         }
     }
 
+    const clearData = () =>{
+        setSelectProvince('')
+        setSelectAmphur('')
+    }
+
     const addNewAddress = () =>{
         
         axiosData.addAddress(newAddress).then(function (data){
             initialValue();
             manageModalAddAddress("close")
+            clearData();
         })
     }
 
@@ -285,6 +315,7 @@ const Payment = (prop) => {
 
                     <div className="payment_page slidepage">
                         <div className="payment_field">
+                            <div className="group_ofAddressPayment">
                             {Object.keys(addressShow).length !== 0 ?
                                 addressShow.map((item,index) => (
                                     <div className="address_payment_group " onClick={()=>{selectAddress(index);setSelectAdd(item.A_addressid)}}>
@@ -295,6 +326,7 @@ const Payment = (prop) => {
                                 
                                     </div>
                             )):null}
+                            </div>
                             <h5 className="AddNewAddress_Payment" onClick={()=>{manageModalAddAddress("show")}}>+ add new address</h5>
                             {selectAdd != '' ?
                             <button className="Payment_button_next" onClick={()=>{slidePayment(0);setHeadPayment('Payment')}}>next<MdIcons.MdKeyboardArrowRight className="arrow_next_payment"/></button>
@@ -314,19 +346,22 @@ const Payment = (prop) => {
                                             <p className="head_payment_amount">amount</p>
                                             <p className="head_payment_price">price</p>
                                         </div>
-                                        {Object.keys(cartShow).length !== 0 ?
-                                            cartShow.map(item => (
-                                                <div className="payData_02">
-                                                    <p className="head_payment_product_02">{item.P_name}</p>
-                                                    <p className="head_payment_amount_02">{item.Ca_amount}</p>
-                                                    <p className="head_payment_price_02">{item.Ca_amount * item.P_price}.00฿</p>
-                                                </div>
-                                                
-                                        )):null}
-                                        <div className="payData_02">
-                                                    <p className="head_payment_product_02">shipping</p>
-                                                    <p className="head_payment_amount_02"></p>
-                                                    <p className="head_payment_price_02">50.00฿</p>
+                                        <div className="orderInFoLastPayment">
+                                            {Object.keys(cartShow).length !== 0 ?
+                                                cartShow.map(item => (
+                                                    <div className="payData_02">
+                                                        <p className="head_payment_product_02">{item.P_name}</p>
+                                                        <p className="head_payment_amount_02">{item.Ca_amount}</p>
+                                                        <p className="head_payment_price_02">{item.Ca_amount * item.P_price}.00฿</p>
+                                                    </div>
+                                                    
+                                            )):null}
+                                            
+                                            <div className="payData_02">
+                                                        <p className="head_payment_product_02">shipping</p>
+                                                        <p className="head_payment_amount_02"></p>
+                                                        <p className="head_payment_price_02">50.00฿</p>
+                                            </div>
                                         </div>
                                         <div  className="payData_03">
                                             {promodata.Pr_promotion_code === 'PM0000'?
@@ -412,15 +447,41 @@ const Payment = (prop) => {
                             <input className="input_Address_Payment_No" name="A_homenumber" placeholder="House No." value={newAddress.A_homenumber} onChange={(e)=> handleChangeNewAddress(e)}/>
                             <input className="input_Address_Payment_Moo" name="A_moo" value={newAddress.A_moo} placeholder="Village No." onChange={(e)=> handleChangeNewAddress(e)}/>
                         </div>
+                        <div className="input_Address_Payment_Province"  >
+                            <select value={newAddress.A_province} placeholder="Province" name="A_province"   onChange={(e)=> ProvincehandleChange(e)} >
+                                <option></option>
+                                {allProvince.length != 0 ? allProvince.map(item => (
+                                    <option value={item.PROVINCE_ID}>{item.PROVINCE_NAME}</option>
+                                )):null}
+                            </select>
+                        </div>
                         <div className="input_Address_Payment_canton_district">
-                            <input className="input_Address_Payment_canton" name="A_canton" value={newAddress.A_canton} placeholder="Sub-district" onChange={(e)=> handleChangeNewAddress(e)}/>
-                            <input className="input_Address_Payment_district" name="A_district" value={newAddress.A_district} placeholder="District" onChange={(e)=> handleChangeNewAddress(e)}/>
+                            <select value={newAddress.A_district} className="input_Address_Payment_district"  name="A_district"  placeholder="District" onChange={(e)=> AmphurhandleChange(e)}>
+                                <option></option>
+                                {selectProvince != '' ?
+                                    allAmphur.filter(data=> selectProvince === data.PROVINCE_ID).map(item => (
+                                        <option value={item.AMPHUR_ID}> {item.AMPHUR_NAME} </option>
+                                    ))
+                                :null}
+                            </select>
+
+                            <select className="input_Address_Payment_canton" value={newAddress.A_canton} name="A_canton"  placeholder="Sub-district" onChange={(e)=> handleChangeNewAddress(e)}>
+                                <option></option>
+                                {selectAmphur != '' ?
+                                    allDistrict.filter(data=> selectAmphur === data.AMPHUR_ID).map(item => (
+                                        <option value={item.DISTRICT_ID}>{item.DISTRICT_NAME}</option>
+                                    ))
+                                :null}
+                            </select>
                         </div>
                         <div className="input_Address_Payment_Province"  >
-                            <input placeholder="Province" name="A_province" value={newAddress.A_province}  onChange={(e)=> handleChangeNewAddress(e)}/>
-                        </div>
-                        <div className="input_Address_Payment_PostCode"  >
-                            <input placeholder="Postal Code" name="A_postal_code" value={newAddress.A_postal_code} onChange={(e)=> handleChangeNewAddress(e)}/>
+                        <select placeholder="Postal Code"  name="A_postal_code" value={newAddress.A_postal_code}  onChange={(e)=> handleChangeNewAddress(e)}>
+                            <option></option>
+                            {selectAmphur != undefined? allAmphur.filter(data=> selectAmphur === data.AMPHUR_ID ).map(item => (
+                                        <option value={item.POSTCODE}>{item.POSTCODE}</option>
+                                    ))
+                            :null}
+                        </select>
                         </div>
 
                         <div className="button_Address_Payment_add">

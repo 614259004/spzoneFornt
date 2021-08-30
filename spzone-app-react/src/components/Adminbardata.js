@@ -35,8 +35,8 @@ export  const Adminbardata = [
         cName: 'nav-text-admin'
     },
     {
-        title: 'จัดการผู้ใช้',
-        path: '/Admin/ManageUser',
+        title: 'จัดการลูกค้า',
+        path: '/Admin/ManageCustomer',
         icon:<RiIcons.RiUserFill className="Admin-sidebar-icon"/>,
         cName: 'nav-text-admin'
     },

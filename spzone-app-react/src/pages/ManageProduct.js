@@ -30,7 +30,7 @@ const ManageProduct = () => {
         P_image2File:"",
         P_image3:"",
         P_image3File:"",
-        P_status:""
+        P_status:"12"
     }
 
     const sizeData = {

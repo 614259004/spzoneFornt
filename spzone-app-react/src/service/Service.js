@@ -82,6 +82,16 @@ export function logIn(params){
     return axiosMethodPost(path,params);
 }
 
+export function showAllCustomer(){
+    let path = '/customers/getallcustomer';
+    return axiosMethodGet(path);
+}
+
+export function blockCustomer(params){
+    let path = '/customers/blockCustomer';
+    return axiosMethodPost(path,params);
+}
+
 //-------------------------------------------------------------------------
 //Category
 

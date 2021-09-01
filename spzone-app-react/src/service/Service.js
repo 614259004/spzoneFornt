@@ -87,11 +87,20 @@ export function showAllCustomer(){
     return axiosMethodGet(path);
 }
 
-export function blockCustomer(params){
-    let path = '/customers/blockCustomer';
-    return axiosMethodPost(path,params);
+export function showAllBlockCustomer(){
+    let path = '/customers/getblockcustomer';
+    return axiosMethodGet(path);
 }
 
+export function blockCustomer(params){
+    let path = '/customers/blockcustomer/'+params.C_customerid;
+    return axiosMethodPut(path);
+}
+
+export function UnblockCustomer(params){
+    let path = '/customers/unblockcustomer/'+params.C_customerid;
+    return axiosMethodPut(path);
+}
 //-------------------------------------------------------------------------
 //Category
 

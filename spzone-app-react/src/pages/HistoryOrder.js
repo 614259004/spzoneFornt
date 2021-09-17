@@ -2,10 +2,14 @@ import React,{useState, useEffect} from 'react'
 import '../css/HistoryOrders.css';
 import * as axiosData from '../service/Service';
 import * as FaiIcons from "react-icons/fa";
+import * as TiIcons from "react-icons/ti";
 import * as GoiIcons from "react-icons/go";
+import {  useHistory } from 'react-router-dom';
 import Moment from "moment"
 
 const HistoryOrder =()=> {
+
+    const history = useHistory();
     const [allOrder,setAllOrder] = useState([]);
     const [allDetail,setDetail] = useState([]);
     const [allTrack,setAllTrack] = useState([]);
@@ -71,8 +75,15 @@ const HistoryOrder =()=> {
         return str
     }
 
+    const goBackBefore = () =>{
+        history.goBack()
+    }
+
     return (
         <div className="body_HistoryOrder">
+             <div className="ProInfo-back-Pro" onClick={()=>{goBackBefore()}}>
+                    <TiIcons.TiArrowLeft />
+                </div>
             <div className="horderheader">
                 <h1>Purchase History</h1>
             </div>
@@ -93,7 +104,7 @@ const HistoryOrder =()=> {
                             }
                         </div>
                     </div>
-                    <div className="orderDetailBox_history">
+                    {/* <div className="orderDetailBox_history">
                         {allDetail != '' ? allDetail.filter(ad => ad.Or_orderid === item.Or_orderid).map(detail =>(
                             <div className="BoxToOneItemHistory">
                                 <img src={detail.P_image1}/>
@@ -101,7 +112,7 @@ const HistoryOrder =()=> {
                                 <h6 className="BoxToOneItemHistory_amount">x{detail.Od_amount}</h6>
                             </div>
                         )):null}
-                    </div>
+                    </div> */}
                     <div className="TotalHistory_group">
                         <h2 className="TotalHistory_Head">Total</h2>
                         <h2 className="TotalHistory_Price">{item.Or_price}.00 ฿</h2>

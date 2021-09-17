@@ -938,12 +938,20 @@ const ManageProduct = () => {
                     <a className="x-add-product-from" onClick={()=>{manageAddSizeModal("close");setSizeAdd(sizeData);hideError02();}}><RiIcons.RiCloseLine /></a>
                     <h1>เพิ่มไซส์</h1>
                     <div className="Size-From-group">
-                        <div className="size-input-group">
-                            
-                            <Input name="P_size" value={sizeAdd.P_size}   onChange={(e)=> handleChangeSize(e)}/>
-                            
-                            <p id="Size-input">ไซส์</p>
+                        <div className="inputdata-Add-amount-Proinfo">
+                            <p id="select-size-Add-amount-02">เลือกไซส์</p>
+                            <select name="P_size" value={sizeAdd.P_size}  onChange={(e)=> handleChangeSize(e)}>
+                                <option value=""></option>
+                                <option value="XS">XS</option>
+                                <option  value="S">S</option>
+                                <option  value="M">M</option>
+                                <option  value="L">L</option>
+                                <option  value="XL">XL</option>
+                                <option  value="XXL">XXL</option>
+                            </select>
                         </div>
+
+                        
 
                         {loading? 
                             <Preloader

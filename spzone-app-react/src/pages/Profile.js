@@ -427,7 +427,7 @@ const Profile = () => {
                         </div>
                         <div className="input_Address_Payment_Province"  >
                             <select value={editAddDress.A_province} placeholder="Province" name="A_province"   onChange={(e)=> ProvincehandleChange(e)} >
-                                <option></option>
+                                <option>PROVINCE</option>
                                 {allProvince.length != 0 ? allProvince.map(item => (
                                     <option value={item.PROVINCE_ID}>{item.PROVINCE_NAME}</option>
                                 )):null}
@@ -435,7 +435,7 @@ const Profile = () => {
                         </div>
                         <div className="input_Address_Payment_canton_district">
                             <select value={editAddDress.A_district} className="input_Address_Payment_district"  name="A_district"  placeholder="District" onChange={(e)=> AmphurhandleChange(e)}>
-                                <option></option>
+                                <option>DISTRICT</option>
                                 {selectProvince != '' ?
                                     allAmphur.filter(data=> selectProvince === data.PROVINCE_ID).map(item => (
                                         <option value={item.AMPHUR_ID}> {item.AMPHUR_NAME} </option>
@@ -444,7 +444,7 @@ const Profile = () => {
                             </select>
 
                             <select className="input_Address_Payment_canton" value={editAddDress.A_canton} name="A_canton"  placeholder="Sub-district" onChange={(e)=> AddresshandleChange(e)}>
-                                <option></option>
+                                <option>SUB DISTRICT</option>
                                 {selectAmphur != '' ?
                                     allDistrict.filter(data=> selectAmphur === data.AMPHUR_ID).map(item => (
                                         <option value={item.DISTRICT_ID}>{item.DISTRICT_NAME}</option>
@@ -454,7 +454,7 @@ const Profile = () => {
                         </div>
                         <div className="input_Address_Payment_Province"  >
                         <select placeholder="Postal Code"  name="A_postal_code" value={editAddDress.A_postal_code}  onChange={(e)=> AddresshandleChange(e)}>
-                            <option></option>
+                            <option>POSTCODE</option>
                             {selectAmphur != undefined? allAmphur.filter(data=> selectAmphur === data.AMPHUR_ID ).map(item => (
                                         <option value={item.POSTCODE}>{item.POSTCODE}</option>
                                     ))

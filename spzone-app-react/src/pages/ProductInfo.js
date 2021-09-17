@@ -153,6 +153,9 @@ const ProductInfo = (props) => {
         
     }
     
+    const goBackBefore = () =>{
+        history.goBack()
+    }
 
     
 
@@ -160,8 +163,8 @@ const ProductInfo = (props) => {
         <div className="body_Product_Info">
             
             <div className="left_productInfo_page">
-                <div className="ProInfo-back-Pro">
-                    <a href="/Home/Product"><TiIcons.TiArrowLeft /></a>
+                <div className="ProInfo-back-Pro" onClick={()=>{goBackBefore()}}>
+                    <TiIcons.TiArrowLeft />
                 </div>
                 <img src={fristImg} className="fristImg_show" />
                 <div className="group_show_img_font">

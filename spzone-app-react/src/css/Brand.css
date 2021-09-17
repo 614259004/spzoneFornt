@@ -8,6 +8,7 @@
     position: absolute;
     margin-top: 3%;
     margin-left: 10.7%;
+    
     flex-flow: row wrap;
 }
 .cardBrand .bodyBrand{
@@ -63,4 +64,11 @@
 }
 .cardBrand .bodyBrand .imgBrand:hover .bgtext{
     background: rgba(116, 116, 116, 0.644);
+}
+
+
+.bugHello{
+    margin-top: 20px;
+    color: transparent;
+    opacity: 0;
 }

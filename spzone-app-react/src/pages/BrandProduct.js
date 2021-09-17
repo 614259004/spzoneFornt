@@ -52,7 +52,7 @@ function BrandProduct(props) {
                             <h5 className="Product-price-font-h5">{item.P_price}.00฿</h5>
                         </div>
                     </Link>
-                )):null}
+                )):null}<h1 className="bugHello">hello</h1>
             </div>
 
 

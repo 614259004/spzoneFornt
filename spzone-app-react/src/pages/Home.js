@@ -9,6 +9,7 @@ import Payment from './Payment';
 import Promotion from './Promotion';
 import Brand from './Brand';
 import BrandProduct from './BrandProduct';
+import Category from './Category';
 
 
 function Home() {
@@ -25,6 +26,7 @@ function Home() {
                     <Route path='/Home/Promotion'  component={Promotion} />
                     <Route path='/Home/Brand'  component={Brand} />
                     <Route path='/Home/BrandProduct'  component={BrandProduct} />
+                    <Route path='/Home/Category'  component={Category} />
                 </Switch>
             </Router>
         </>

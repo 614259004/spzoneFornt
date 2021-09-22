@@ -170,6 +170,41 @@
     transition: .4s;
 }
 
+.dropDown-cat:hover {
+    color: #f1f1f1;
+}
+
+.dropDown-cat{
+    cursor: pointer;
+}
+
+.dropDown-cat-body {
+    display: none;
+    color: rgb(133, 133, 133);
+    padding-left: 8px;
+}
+
+.dropDown-cat-body p{
+    transition: .6s;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+    font-size: 25px;
+    font-weight: 300;
+    padding-left: 18px;
+}
+
+.dropDown-cat-body p:hover{
+    color: #fff;
+}
+
+.catList-g{
+    display:contents;
+}
+
+.showcat{
+    display: block;
+}
+
 .item-nuvbar-box a:hover{
     color: #f0f0f0;
 }

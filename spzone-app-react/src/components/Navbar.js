@@ -9,6 +9,7 @@ import {SidebarData} from './Sidebardata';
 import * as axiosData from '../service/Service';
 import { Sling as Hamburger } from 'hamburger-react'
 import { Redirect, useHistory } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 
 
@@ -33,6 +34,8 @@ function Navbar() {
     const [useNavbar, setUseNavbar] = useState(false)
     const [cartData, setCartData] = useState([])
     const [profileModal, setProfileModal] = useState('close')
+    const [ocCat, setocCat] = useState('open')
+    const [dataCate, setDataCate] = useState([]);
 
     const userId = {C_customerid:localStorage.getItem('UserId')};
     
@@ -41,6 +44,9 @@ function Navbar() {
         
         axiosData.getCart(userId).then(function (data){
             setCartData(data)
+        })
+        axiosData.showcate().then(function (data){
+            setDataCate(data.sp_category)
         })
         
         if(userId.C_customerid != null){
@@ -84,7 +90,19 @@ function Navbar() {
         history.push("/History");
         window.location.reload();
     }
-
+    const showDropdownCat = (status) => {
+        var dc = document.getElementsByClassName('dropDown-cat-body')[0];
+        if(status === 'open'){
+            dc.classList.add("showcat")
+            setocCat('close')
+        }else{
+            dc.classList.remove("showcat")
+            setocCat('open')
+        }
+    }
+    const rePage = () => {
+        window.location.reload();
+    }
 
 
   return (
@@ -184,9 +202,32 @@ function Navbar() {
             {SidebarData.map((item, index)=>{
                         return(
                             <div className="item-nuvbar-box">
+                                {item.cStatus==2?
+                                <>
+                                <a key={index} className={item.cName} onClick={()=>{
+                                    ocCat==='open'?showDropdownCat('open'):showDropdownCat('close')}}>
+
+                                    <span className="dropDown-cat">{item.title}</span>
+                                    
+                                </a>
+                                    <div className="dropDown-cat-body">
+                                        {dataCate!=''? dataCate.map(cd=>(
+                                            <Link to={{pathname:"/Home/Category",
+                                                state:{
+                                                    Cg_categoryid:cd.Cg_categoryid
+                                                }
+                                            }}>
+                                                <p onClick={()=>{rePage()}}>{cd.Cg_name}</p>
+                                            </Link>
+                                            ))
+                                        :null}
+                                    </div>
+                                </>
+                                :
                                 <a key={index} className={item.cName} href={item.path}>
                                         <span>{item.title}</span>
                                 </a>
+                                }
                             </div>
                         )
             })} 

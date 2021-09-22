@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 
 
 
+
 function Navbar() {
     const history = useHistory();
 
@@ -100,7 +101,10 @@ function Navbar() {
             setocCat('open')
         }
     }
-    const rePage = () => {
+    const rePage = (cgId) => {
+        localStorage.setItem('Cg_id',cgId);
+
+        history.push("/Home/Category");
         window.location.reload();
     }
 
@@ -212,13 +216,9 @@ function Navbar() {
                                 </a>
                                     <div className="dropDown-cat-body">
                                         {dataCate!=''? dataCate.map(cd=>(
-                                            <Link to={{pathname:"/Home/Category",
-                                                state:{
-                                                    Cg_categoryid:cd.Cg_categoryid
-                                                }
-                                            }}>
-                                                <p onClick={()=>{rePage()}}>{cd.Cg_name}</p>
-                                            </Link>
+                                            
+                                                <p onClick={()=>{rePage(cd.Cg_categoryid)}}>{cd.Cg_name}</p>
+                                            
                                             ))
                                         :null}
                                     </div>

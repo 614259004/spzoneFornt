@@ -4,17 +4,18 @@ import * as axiosData from '../service/Service';
 import * as FaiIcons from "react-icons/fa";
 import * as TiIcons from "react-icons/ti";
 import * as GoiIcons from "react-icons/go";
+import * as RiIcons from "react-icons/ri";
 import {  useHistory } from 'react-router-dom';
 import Moment from "moment"
 
 const HistoryOrder =()=> {
-
     const history = useHistory();
     const [allOrder,setAllOrder] = useState([]);
     const [allDetail,setDetail] = useState([]);
     const [allTrack,setAllTrack] = useState([]);
     const [openTrack,setOpenTrack] = useState([]);
     const [selectTrack,setSelectTrack] = useState();
+    const [selectOrder , setSelectOrder] = useState();
     
 
     const UserId = {C_customerid:localStorage.getItem('UserId')};
@@ -43,6 +44,15 @@ const HistoryOrder =()=> {
 
     const manageTrackingModal = (status) => {
         var modal = document.getElementsByClassName('Modal_Tracking_History')[0];
+        if(status === "show"){
+            modal.classList.add("show");
+        } else if(status === "close"){
+            modal.classList.remove("show");
+        }
+    }
+
+    const manageInfoHistoryModal = (status) => {
+        var modal = document.getElementsByClassName('Modal_Info_History')[0];
         if(status === "show"){
             modal.classList.add("show");
         } else if(status === "close"){
@@ -118,8 +128,8 @@ const HistoryOrder =()=> {
                         <h2 className="TotalHistory_Price">{item.Or_price}.00 ฿</h2>
                     </div>
                     <div className="ToolOfHistoryGroup">
-                        <p>something...</p>
-                        <button className="ToolOfHistory_info"><GoiIcons.GoInfo className="GoInfoIcon"/> info</button>
+                        <p>about this order</p>
+                        <button onClick={()=>{manageInfoHistoryModal('show');setSelectOrder(item)}} className="ToolOfHistory_info"><GoiIcons.GoInfo className="GoInfoIcon"/> info</button>
                         {allTrack != ''?
                             allTrack.some(tk=> tk.ems_or_id === item.Or_orderid) === true?
                             allTrack.filter(trac => trac.ems_or_id === item.Or_orderid).map(ems=>(
@@ -151,9 +161,9 @@ const HistoryOrder =()=> {
 
             <div id="Modal_Tracking_History" className="Modal_Tracking_History"> 
                 <div className="Modal_Tracking_History_body">
-                    <h2>Tracking</h2>
-                    <div>
-                        <h4>{selectTrack}</h4>
+                    <div className="tracking_number_group">
+                        <h2>Tracking : </h2>
+                        <h3>{selectTrack}</h3>
                     </div>
                     <div className="Box_follow_tracking">
                         <div className="timeOftimelineTrackGroup">
@@ -183,12 +193,68 @@ const HistoryOrder =()=> {
                             </ul>
                         </div>
                     </div>
-                    <div className="Button_Yep">
-                        <button onClick={()=>{manageTrackingModal('close')}}>Yep!!</button>
+                    <div className="Button_Yep_1">
+                        <button className="closetrackingYepp" onClick={()=>{manageTrackingModal('close')}}>Yep!!</button>
                     </div>
                 </div>    
             </div>
 
+            {/*Tracking_History modal*/}
+
+            {/*Tracking_History modal*/}
+            
+
+            <div id="Modal_Info_History" className="Modal_Info_History">
+                {selectOrder != null ?
+                    <div className="Modal_Info_History_body">
+                        <RiIcons.RiCloseLine className="closeMadalInfoHis" onClick={()=>{manageInfoHistoryModal('close')}}/>
+                        <h2 className="header_orderinfo_his">Order Info : {selectOrder.Or_orderid}</h2>
+                        <div className="orderinfo_his_namegroup">
+                            <div className="odi_h_data_g">
+                                <h5 className="odi_h_data_h">customer :</h5>
+                                <h5>{selectOrder.C_name} {selectOrder.C_lastname}</h5>
+                            </div>
+                            <div className="odi_h_data_g">
+                                <h5 className="odi_h_data_h">receive name :</h5>
+                                <h5>{selectOrder.A_receive_name}</h5>
+                            </div>
+                            <div className="odi_h_data_g">
+                                <h5 className="odi_h_data_h">address :</h5>
+                                <h5>{selectOrder.A_homenumber} หมู่{selectOrder.A_moo} ต.{selectOrder.DISTRICT_NAME} อ.{selectOrder.AMPHUR_NAME} 
+                                จ.{selectOrder.PROVINCE_NAME}  {selectOrder.A_postal_code}</h5>
+                            </div>
+                        </div>
+                        <div className="detail_orderinfo_h_group">
+                            {allDetail != null? allDetail.filter(dt => dt.Or_orderid === selectOrder.Or_orderid).map(odt=>(
+                                    <div className='detailOrderList_h'>
+                                        <img src={odt.P_image1}/>
+                                        <div className="dthg_name">
+                                            <h5>{odt.P_name}</h5>
+                                            <h6>size : {odt.P_size}</h6>
+                                        </div>
+                                        <h5 className="dthg_amount">{odt.Od_amount}</h5>
+                                        <h5 className="dthg_price">{odt.Od_amount * odt.P_price}.00฿</h5>
+                                    </div>
+                                ))
+                            :null}
+                        </div>
+                        <div className='sum_odi_h_g'>
+                            <div className="sum_head_h_g">
+                                <h5 className="sum_name_h_g">sale</h5>
+                                <h5 className="sum_num_h_g thin">{selectOrder.Pr_sale}.00฿</h5>
+                            </div>
+                            <div className="sum_head_h_g">
+                                <h5 className="sum_name_h_g">shipping</h5>
+                                <h5 className="sum_num_h_g thin">50.00฿</h5>
+                            </div>
+                            <div className="sum_head_h_g">
+                                <h3 className="sum_name_h_g">Total</h3>
+                                <h3 className="sum_num_h_g ">{selectOrder.Or_price}.00฿</h3>
+                            </div>
+                        </div>
+                    </div>
+                :null}     
+            </div>                 
             {/*Tracking_History modal*/}
 
 

@@ -276,6 +276,69 @@ const ManageProduct = () => {
         }
     };
 
+    // const [test1,setTest1] = useState(['database']);
+    // const [datap,setdataP] = useState([]);
+    // let datapoint =[
+    //     {
+    //       "x": 1483228800000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1485907200000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1488326400000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1491004800000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1493596800000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1496275200000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1498867200000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1501545600000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1504224000000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1506816000000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1509494400000,
+    //       "y": 0
+    //     },
+    //     {
+    //       "x": 1512086400000,
+    //       "y": 0
+    //     }
+    //   ]
+    // const test = ()=>{
+    //     for(let i = 0 ;i<test1.length;i++){
+    //         if(test1[i]){
+                
+    //             datapoint[forInt(test1[i].month)-1].y=test1[i].price
+    //         }
+    //     }
+
+    //     setdataP(datapoint);
+    // }
+
     const handleChangeSize = (e)=>{
         e.persist();
         setSizeAdd({...sizeAdd,[e.target.name]: e.target.value});

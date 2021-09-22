@@ -122,7 +122,7 @@ const ProductInfo = (props) => {
                 Ca_amount:amountOfPro
             }
             axiosData.addCart(prodetail).then(function (data){
-                history.push("/Home/Payment");
+                history.push("/Home/cart");
                 window.location.reload();
             })
 

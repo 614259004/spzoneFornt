@@ -392,3 +392,45 @@ export const updateTracking = (param) => {
 export const followTracking = (param) => {
     return axiosMethodPostEms(param);
 }
+//-------------------------------------------------------------------------
+//dashborad
+//โชว์ยอดขายของวันปัจจุบัน
+export const showTotalToDay = (param) => {
+    let path = '/orders/showtotaltoday';
+    return axiosMethodPost(path,param);
+}
+//โชว์ยอดขายของเดือนปัจจุบัน
+export const showTotalInMonth = (param) => {
+    let path = '/orders/showtotalthismonth';
+    return axiosMethodPost(path,param);
+}
+
+//โชว์ยอดขายของปีปัจจุบัน
+export const showTotalInYear = (param) => {
+    let path = '/orders/showtotalthisyear';
+    return axiosMethodPost(path,param);
+}
+
+//ดูยอดขายของสินค้าแต่ละไซส์
+export const showSellProBySize = (param) => {
+    let path = '/orders/showsellprobysize';
+    return axiosMethodPost(path,param);
+}
+
+//ดูยอดขายของสินค้าแต่แบรนด์
+export const showSellProByBrand = () => {
+    let path = '/brands/showsellprobybrand';
+    return axiosMethodGet(path);
+}
+
+//ดูยอดขายของสินค้าแต่ละปี
+export const showSellProByYear = (param) => {
+    let path = '/orders/showsellprobyyear';
+    return axiosMethodPost(path,param);
+}
+
+//โชว์ปีที่มีในตารางออเดอร์
+export const selectYearOrder = () => {
+    let path = '/orders/selectyearfromorder';
+    return axiosMethodGet(path,);
+}

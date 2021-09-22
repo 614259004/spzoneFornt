@@ -269,6 +269,7 @@
     position: relative;
     height: 170px;
     overflow: auto;
+    margin-top: 10px;
 }
 
 .timelineGroup ul{
@@ -323,14 +324,14 @@
     font-weight: 300;
 } 
 
-.timelineGroup::before{
+/* .timelineGroup::before{
     content: '';
     position: absolute;
     height: 100%;
     width: 2px;
     background:silver;
     transform: translateX(-50%);
-}
+} */
 
 .timeOftimelineTrackGroup{
     width: 49%;
@@ -339,4 +340,168 @@
 
 .timeOfEms{
     width: 87%;
+}
+
+
+
+
+.Modal_Info_History{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(82, 82, 82, 0.75);
+    display: none;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.Modal_Info_History.show{
+    display: block;
+    opacity: 1;
+    transition: .5s;
+}
+
+.Modal_Info_History_body{
+    position: absolute;
+    top: 45%;
+    left: 51%;
+    transform: translate(-50% , -50%);
+    width: 30%;
+    background: rgb(247, 247, 247);
+    padding: 20px 20px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.123) 0px 2px 16px 0px;
+    text-align: left;
+    /*border-radius: 24px;
+     height: 50%;
+    overflow: auto; */
+}
+
+.header_orderinfo_his{
+    width: 100%;
+    border-bottom: 1.5px solid black;
+    padding-bottom: 6px;
+}
+
+.orderinfo_his_namegroup{
+    width: 100%;
+    margin-top: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid black;
+}
+
+.odi_h_data_g{
+    display: flex;
+    margin-top: 3px;
+}
+
+.odi_h_data_h{
+    width: 24%;
+}
+
+.detail_orderinfo_h_group{
+    margin-top: 10px;
+    height: 180px;
+    overflow: auto;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid black;
+}
+
+.detailOrderList_h{
+    width: 100%;
+    display: flex;
+    margin-top: 8px;
+    
+}
+
+.detailOrderList_h img{
+    width: 10%;
+}
+
+.dthg_name{
+    margin-left: 2%;
+    width: 58%;
+    padding-top: 4px;
+    color: rgb(95, 95, 95);
+}
+
+.dthg_amount{
+    width: 10%;
+    padding-top: 10px;
+}
+
+.dthg_price{
+    width: 20%;
+    text-align: right;
+    padding-top: 10px;
+}
+
+.sum_odi_h_g{
+    width: 100%;
+    margin-top: 10px;
+}
+
+.sum_head_h_g{
+    width: 100%;
+    display: flex;
+    margin-top: 5px;
+}
+
+.sum_name_h_g{
+    text-align: right;
+    width: 70%;
+}
+
+.sum_num_h_g{
+    text-align: right;
+    width: 30%;
+}
+
+.thin{
+    font-weight: 400;
+}
+
+.closeMadalInfoHis{
+    position: absolute;
+    width: 180%;
+    text-align: right;
+    font-size: 18px;
+    color:silver;
+    transition: .4s;
+}
+
+.closeMadalInfoHis:hover{
+    color: black;
+}
+
+.tracking_number_group{
+    display: flex;
+    text-align: center;
+    width: 100%;
+    border-bottom: 1.5px solid black;
+    padding-bottom: 5px;
+}
+
+.tracking_number_group h3{
+    padding-top: 6px;
+    margin-left: 4px;
+}
+
+.closetrackingYepp{
+    width: 100%;
+    height: 38px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+    background: rgb(44,44,44);
+    color: white;
+    margin-top: 10px;
+    transition: .5s;
+}
+
+.closetrackingYepp:hover{
+    background: rgb(26, 26, 26);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }

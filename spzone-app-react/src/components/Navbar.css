@@ -170,70 +170,20 @@
     transition: .4s;
 }
 
-/* .item-nuvbar-box li a span {
-    margin-right: 20px;
-    color: #fff;
-}
-
-.item-nuvbar-box li a{
-    background-color: #47494b;
-    padding: 20px 25px;
-    display: block;
-    text-decoration: none;
-    color: #fff;
-}
-
-.item-nuvbar-box li a:hover  {
-    background-color: #47494b;
-    padding: 20px 25px;
-    display: block;
-    text-decoration: none;
-    
-}
-li.dropDown-cat{
-    padding: 0px;
-} 
-
-li.dropDown-cat li a {
-    background-color: #47494b;
-    padding-left: 62px;
-} 
-
-li.dropDown-cat li a:hover {
-    color: #fff;
-    background-color: #595b5f;
-    padding-left: 62px;
-} 
-
-li.dropDown-cat, li {
-    position: relative;
-}
-
-.dropDown-cat span::after {
-    position: absolute;
-    right: 30px;
-    content: "\f054";
-    color: rgb(252, 252, 252);
-    transition: all .5s;
-}
-
-li.active.dropDown-cat span::after {
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-} */
 .dropDown-cat:hover {
     color: #f1f1f1;
 }
+
 .dropDown-cat{
     cursor: pointer;
 }
+
 .dropDown-cat-body {
     display: none;
     color: rgb(133, 133, 133);
     padding-left: 8px;
 }
+
 .dropDown-cat-body p{
     transition: .6s;
     cursor: pointer;
@@ -242,9 +192,11 @@ li.active.dropDown-cat span::after {
     font-weight: 300;
     padding-left: 18px;
 }
+
 .dropDown-cat-body p:hover{
     color: #fff;
 }
+
 .catList-g{
     display:contents;
 }

@@ -18,12 +18,13 @@ function Promotion() {
             <div className="body">
                 {dataPromotion != null ? dataPromotion.map((proItem)=>(
                 <div className="body-card">
-                        <img src={proItem.P_image1} />
+                        <img src={proItem.Pr_image} />
                             <br/>
                         <h3> {proItem.P_name} </h3>
+                        <h4> size {proItem.Pr_size}</h4>
                         <br />
-                            <p> เหลือ {proItem.P_price-proItem.Pr_sale}.00 ฿</p>
-                            <p> หมดอายุ {proItem.Pr_time_out} </p>
+                            <p> Sale {proItem.Pr_sale}.00 ฿ / 1 User</p>
+                            <p> Timeout {proItem.Pr_time_out} </p>
                         <br />
                     <div>
                         

@@ -59,6 +59,9 @@ const ManageProduct = () => {
 
     const [productMode, setProductMode] = useState();
     const [addAmountSize , setAddAmountSize] = useState(sizeData);
+
+    const [productModeDetail,setProductModeDetail] = useState('')
+    const [productModeText,setProductModeText] = useState('ทั้งหมด')
     
     var clothSize = ["XS","S","M","L","XL","XXL"];
     var shoeSize = [4,5,6,7,8,9,10,11,12,13,14,15];
@@ -759,6 +762,14 @@ const ManageProduct = () => {
         <div className="brand-body-page">
             <div className="Head-brand">
                 <h1>สินค้า</h1>
+                <details className="detailsAdminProduct">
+                    <summary className="AdminProductsummary">{productModeText}</summary>
+                    <ul>
+                        <li onClick={()=>{setProductModeText('ทั้งหมด');setProductModeDetail('')}}>ทั้งหมด</li>
+                        <li onClick={()=>{setProductModeText('ในคลัง');setProductModeDetail(12)}}>ในคลัง</li>
+                        <li onClick={()=>{setProductModeText('สินค้าจอง');setProductModeDetail(13)}}>สินค้าจอง</li>
+                    </ul>
+                </details>
                 <div className="Product-add-button">
                     
                     <a onClick={()=>{manageAddModal("show");setProductMode("add")}}><AiIcons.AiOutlinePlusCircle />เพิ่มสินค้า</a>
@@ -766,7 +777,7 @@ const ManageProduct = () => {
             </div>
 
             <div className="Product-card-layout">
-            {showProduct.map((item, index)=>{
+            {productModeDetail === '' ? showProduct.map((item, index)=>{
                 return(
                     
                         <div className="Product-card" key={index}>
@@ -799,7 +810,44 @@ const ManageProduct = () => {
                             </div>
                         </div>
              )
-            })}
+            })
+            :
+            showProduct.filter(pd=>pd.P_status == productModeDetail).map((item, index)=>{
+                return(
+                    
+                        <div className="Product-card" key={index}>
+                            <img src={item.P_image1} />
+                            <div className="Product-info-admin">
+                                <div className="Product-name-group">
+                                    {item.P_status == 12?
+                                        <p className="greenFontStatus"><FaIcons.FaCircle className="circleIcon" />สินค้าในคลัง</p>
+                                    :
+                                        <p className="yellowFontStatus"><FaIcons.FaCircle className="circleIcon"/>สินค้าสั่งจอง</p>
+                                    }
+                                    <h5>{item.P_name}</h5>
+                                    <h6>{item.P_productid}</h6>
+                                    <div className="Size-layout">
+                                        {Object.keys(allSize).length !== 0 ?
+                                        allSize.filter(aSize => aSize.P_productid === item.P_productid).map(allS => (
+                                            
+                                                <div className="size-product" key={allS.P_size}>
+                                                    <h6 >{allS.P_size}</h6>
+                                                    <h6>{allS.P_size_amount}</h6>
+                                               </div>
+                                            
+                                        )):null}
+                                    </div>
+                                </div>
+                                <div className="button-brand-group-product">
+                                    <a  className="Brand-pen-product" onClick={() => {setProductData(item);manageInfoModal("show");setFirstImg(item.P_image1);callSize(item)}}><RiIcons.RiPencilFill/>จัดการสินค้า</a>
+                                    <a  className="Brand-pen-product Add-size-amount" onClick={()=>{manageAddAmountModal("show");setProductData(item)}}><AiIcons.AiOutlinePlusCircle />เพิ่มจำนวน</a>
+                                </div>
+                            </div>
+                        </div>
+             )
+            })
+            
+            }
             </div> 
 
             {/*Add modal*/}

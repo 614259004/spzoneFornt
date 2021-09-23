@@ -31,6 +31,8 @@ const ManageOrders = () => {
     const [selectOr,setSelectOr] = useState();
 
     const [trackMode,setTrackMode] = useState('');
+    const [orModeText,setOrModeText] = useState('ทั้งหมด');
+    const [orMode,setOrMode] = useState('');
     
 
 
@@ -157,9 +159,18 @@ const ManageOrders = () => {
         <div className="brand-body-page">
             <div className="Head-brand">
                 <h1>รายการสั่งซื้อ</h1>
+                <details className="detailsAdminOrder">
+                    <summary className="AdminOrdersummary">{orModeText}</summary>
+                    <ul>
+                        <li onClick={()=>{setOrModeText('ทั้งหมด');setOrMode('')}}>ทั้งหมด</li>
+                        <li onClick={()=>{setOrModeText('ชำระแล้ว');setOrMode(6)}}>ชำระแล้ว</li>
+                        <li onClick={()=>{setOrModeText('รอยืนยัน');setOrMode(5)}}>รอยืนยัน</li>
+                        <li onClick={()=>{setOrModeText('ยกเลิก');setOrMode(7)}}>ยกเลิก</li>
+                    </ul>
+                </details>
             </div>
             <div className="Orders_card_layout">
-            {
+            {orMode === '' ?
             orderShow.map((item)=>{
                 return(
                 <div className="Orders_card">
@@ -215,7 +226,62 @@ const ManageOrders = () => {
                     }
                 </div>
            
-             )}) }
+             )}): orderShow.filter(ao => ao.OS_statusid == orMode).map((item)=>{
+                return(
+                <div className="Orders_card">
+                    <h5 className="h5_Orders_Id">{item.Or_orderid}</h5>
+                    <h3 className="h3_Orders_Name">{item.C_name} {item.C_lastname}</h3>
+                    <div className="order_info_group_card">
+                        <p className="data_order_info_head">วันที่และเวลา :</p>
+                        <p className="data_order_info">{item.Or_date}</p>
+                    </div>
+                    <div className="order_info_group_card">
+                        <p className="data_order_info_head">ยอดรวม :</p>
+                        <p className="data_order_info">{item.Or_price}.00 ฿</p>
+                    </div>
+                    <div className="order_info_group_card">
+                        <p className="data_order_info_head">สถานะ :</p>
+                        {item.OS_statusid == 5 ?
+                        <p className="data_order_info_Status WaitMoney">รอการยืนยันชำระเงิน</p>
+                        : item.OS_statusid == 6 ?
+                        <p className="data_order_info_Status YesMoney">ชำระเงินเสร็จสิ้น</p>
+                        :
+                        <p className="data_order_info_Status CancleMoney">ยกเลิกคำสั่งซื้อ</p>
+                        }
+                    </div>
+
+                    <div className="order_info_group_card">
+                        <p className="data_order_info_head">เลขพัสดุ :</p>
+                        
+                        {allTrack != ''? 
+                            allTrack.some(tk=> tk.ems_or_id === item.Or_orderid) === true?
+                                allTrack.filter(trac => trac.ems_or_id === item.Or_orderid).map(ems=>(
+                                    <p className="data_order_info">{ems.tracking}</p>
+                                ))
+                                :
+                                <p className="data_order_info">ไม่มีเลขพัสดุ</p>
+                        :<p className="data_order_info">ไม่มีเลขพัสดุ</p>}
+                    </div>
+                    {item.OS_statusid != 6 ?
+                        <button className="Go_Info_Orders_button" onClick={()=>{ManageModalOrdersInfo('show');orderDetailById(item.Or_orderid);callOrderDetail(item.Or_orderid)}}>รายละเอียด</button>
+                    : 
+                    allTrack.some(tk=> tk.ems_or_id === item.Or_orderid) === true?
+                    allTrack.filter(trac => trac.ems_or_id === item.Or_orderid).map(ems=>(
+                        <>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModalOrdersInfo('show');orderDetailById(item.Or_orderid);callOrderDetail(item.Or_orderid)}}>รายละเอียด</button>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModaladdEmsPageAdmin('show');setSelectOr(item.Or_orderid);setTrackMode('edit');setAddTrack(ems.tracking);}} >แก้ไขเลขพัสดุ</button>
+                        </>
+                    ))
+                    :
+                        <>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModalOrdersInfo('show');orderDetailById(item.Or_orderid);callOrderDetail(item.Or_orderid)}}>รายละเอียด</button>
+                            <button className="Go_Info_Orders_button" onClick={()=>{ManageModaladdEmsPageAdmin('show');setSelectOr(item.Or_orderid)}} >เพิ่มเลขพัสดุ</button>
+                        </>
+    
+                    }
+                </div>
+           
+             )})}
             </div>
 
 

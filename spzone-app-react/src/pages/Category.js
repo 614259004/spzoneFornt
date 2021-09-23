@@ -10,7 +10,7 @@ function Category(props) {
 
     const [showProduct , setShowProduct] = useState([]);
    
-    const Cid = localStorage.getItem('Cg_id');
+    const Cid = props.location.state.Cg_categoryid;
 
 
     useEffect(initialValue,[]);

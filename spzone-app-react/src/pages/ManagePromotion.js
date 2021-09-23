@@ -38,6 +38,9 @@ const ManagePromotion = () => {
     const [infoPro, setInfoPro] = useState([]);
     const [promoMode, setPromoMode] = useState('add');
 
+    const [promoText,setPromoText]=useState('ทั้งหมด')
+    const [promodetailData,setPromoDetailData]=useState('')
+
 
     var clothSize = ["XS","S","M","L","XL","XXL"];
 
@@ -396,13 +399,21 @@ const ManagePromotion = () => {
         <div className="brand-body-page">
             <div className="Head-brand">
                 <h1>โปรโมชัน</h1>
+                <details className="detailsAdminProduct">
+                    <summary className="AdminProductsummary">{promoText}</summary>
+                    <ul>
+                        <li onClick={()=>{setPromoText('ทั้งหมด');setPromoDetailData('')}}>ทั้งหมด</li>
+                        <li onClick={()=>{setPromoText('กำลังใช้งาน');setPromoDetailData(8)}}>กำลังใช้งาน</li>
+                        <li onClick={()=>{setPromoText('หมดเขต');setPromoDetailData(9)}}>หมดเขต</li>
+                    </ul>
+                </details>
                 <div className="Add_Promotion_admin_button_head">
                     <button onClick={()=>{manageAddPromotionModal('show')}}><AiIcons.AiOutlinePlusCircle />เพิ่มโปรโมชัน</button>
                 </div>
             </div>
 
             <div className="Promotion_admin_body">
-                {allPromotion.length != 0 ? allPromotion.map((item)=>(
+                {allPromotion.length != 0 ? promodetailData === ''? allPromotion.map((item)=>(
                     <div className="promotion_card_admin">
                         <img src={item.Pr_image}/>
                         <div className="promotion_data_ex_group">
@@ -426,7 +437,32 @@ const ManagePromotion = () => {
                                 <h3 onClick={()=>{setDeletePro(item);manageDelPromotionModal('show')}}><RiIcons.RiDeleteBinFill/></h3>
                         </div>
                     </div>
-                )):null}
+                )):allPromotion.filter(apm=>apm.Pr_status == promodetailData).map((item)=>(
+                    <div className="promotion_card_admin">
+                        <img src={item.Pr_image}/>
+                        <div className="promotion_data_ex_group">
+                            <h4>{item.P_name}</h4>
+                            <h5 >ลดราคา {item.Pr_sale}.00 ฿</h5>
+                            <h5>เริ่ม {item.Pr_time_begin} ถึง {item.Pr_time_out}</h5>
+                            {item.Pr_status == 8?
+                                <div className="status_Promotion_admin_group">
+                                    <h5>สถานะ : </h5>
+                                    <p className="status_promotion_on">กำลังใช้งาน</p>
+                                </div>
+                            :
+                                <div className="status_Promotion_admin_group">
+                                    <h5>สถานะ : </h5>
+                                    <p className="status_promotion_off">หมดเขต</p>
+                                </div>
+                            }
+                        </div>
+                        <div className="menu_promo_admin_group">
+                                <h3 onClick={()=>{manageInfoPromotionModal('show');setInfoPro(item)}}><AiIcons.AiFillInfoCircle/></h3>
+                                <h3 onClick={()=>{setDeletePro(item);manageDelPromotionModal('show')}}><RiIcons.RiDeleteBinFill/></h3>
+                        </div>
+                    </div>
+                ))
+                :null}
 
             </div>
 

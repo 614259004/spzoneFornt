@@ -1,12 +1,12 @@
 import './App.css'; 
-import { BrowserRouter as Router,  Switch, Route } from 'react-router-dom'; 
+import { BrowserRouter as Router,  Switch, Route,Redirect } from 'react-router-dom'; 
 import Home from './pages/Home'; 
 import Login from './pages/Login';    
 import NewRegister from './pages/NewRegister';  
 import Admin from './pages/Admin'; 
 import Profile from './pages/Profile'; 
 import HistoryOrder from './pages/HistoryOrder';
-import Home2 from './pages/Home2';
+
 
 
 

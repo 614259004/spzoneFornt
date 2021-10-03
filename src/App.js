@@ -21,7 +21,8 @@ function App() {
         <Route path='/NewRegister' exact component={NewRegister}/> 
         <Route path='/Admin' exact  component={Admin}/>
         <Route path='/Profile' exact  component={Profile}/> 
-        <Route path='/History'  component={HistoryOrder}/>      
+        <Route path='/History'  component={HistoryOrder}/>  
+        <Redirect from='/' to='/Home' />   
       </Switch>     
     </Router>       
     </>   

@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/spzoneFornt/static/css/main.9b14599f.chunk.css",
-    "main.js": "/spzoneFornt/static/js/main.cfb42a1a.chunk.js",
-    "main.js.map": "/spzoneFornt/static/js/main.cfb42a1a.chunk.js.map",
+    "main.js": "/spzoneFornt/static/js/main.8201249e.chunk.js",
+    "main.js.map": "/spzoneFornt/static/js/main.8201249e.chunk.js.map",
     "runtime-main.js": "/spzoneFornt/static/js/runtime-main.72dbd74b.js",
     "runtime-main.js.map": "/spzoneFornt/static/js/runtime-main.72dbd74b.js.map",
-    "static/js/2.de88c56f.chunk.js": "/spzoneFornt/static/js/2.de88c56f.chunk.js",
-    "static/js/2.de88c56f.chunk.js.map": "/spzoneFornt/static/js/2.de88c56f.chunk.js.map",
+    "static/js/2.b099bba3.chunk.js": "/spzoneFornt/static/js/2.b099bba3.chunk.js",
+    "static/js/2.b099bba3.chunk.js.map": "/spzoneFornt/static/js/2.b099bba3.chunk.js.map",
     "index.html": "/spzoneFornt/index.html",
     "static/css/main.9b14599f.chunk.css.map": "/spzoneFornt/static/css/main.9b14599f.chunk.css.map",
-    "static/js/2.de88c56f.chunk.js.LICENSE.txt": "/spzoneFornt/static/js/2.de88c56f.chunk.js.LICENSE.txt"
+    "static/js/2.b099bba3.chunk.js.LICENSE.txt": "/spzoneFornt/static/js/2.b099bba3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.72dbd74b.js",
-    "static/js/2.de88c56f.chunk.js",
+    "static/js/2.b099bba3.chunk.js",
     "static/css/main.9b14599f.chunk.css",
-    "static/js/main.cfb42a1a.chunk.js"
+    "static/js/main.8201249e.chunk.js"
   ]
 }

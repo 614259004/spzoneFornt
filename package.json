@@ -2,7 +2,7 @@
   "name": "spzone-app-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://614259004.github.io/spzoneFornt",
+  "homepage": "http://614259004.github.io/spzoneFornt/",
   "dependencies": {
     "@progress/kendo-drawing": "^1.14.0",
     "@progress/kendo-licensing": "^1.2.0",
